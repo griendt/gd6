@@ -1,0 +1,37 @@
+site_name: Global Domination VI
+site_url: http://localhost
+theme:
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.expand
+  palette:
+#    primary: custom
+    - scheme: default
+      primary: deep purple
+      accent: pink
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: pink
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  name: material
+  font:
+    text: Noticia Text
+    code: Victor Mono
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.extra
+  - smarty:
+      smart_quotes: true
+      smart_dashes: true
+plugins: 
+  search:
+    min_search_length: 2
+    lang: en

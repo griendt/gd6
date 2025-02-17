@@ -16,6 +16,15 @@ public class Turn(World world)
 
     private void ProcessPhase(Phase phase)
     {
-        throw new NotImplementedException();
+        if (phase == Phase.Natural) {
+            ProcessNaturalPhase();
+        }
+    }
+
+    private void ProcessNaturalPhase()
+    {
+        foreach (var territory in world.Territories.Values) {
+            territory.ApplyWastelandPenalty();
+        }
     }
 }

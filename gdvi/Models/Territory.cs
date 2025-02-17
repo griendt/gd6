@@ -6,8 +6,18 @@ public class Territory(World world)
     public Player? Owner = null;
     public Player? HqSettler = null;
     public bool IsWasteland = false;
-    public Dictionary<Unit, int> Units = [];
+    public readonly UnitCollection Units = new();
 
     private IEnumerable<Territory> Neighbours() => world.TerritoryBorders.GetValueOrDefault(Id, []).Select(id => world.Territories[id]);
     public bool IsNeighbour(Territory other) => Neighbours().Contains(other);
+
+    public void ApplyWastelandPenalty()
+    {
+        if (!IsWasteland) {
+            return;
+        }
+
+        Units.Pop();
+    }
+
 }

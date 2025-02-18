@@ -17,16 +17,19 @@ public class Turn(World world)
 
     private void ProcessPhase(Phase phase)
     {
+        // TODO: use method attributes!
+        Action<List<Command>> callback = phase switch
+        {
+            Phase.Natural => ProcessNaturalPhase,
+            Phase.Construction => ProcessConstructionPhase,
+            _ => throw new ArgumentOutOfRangeException(nameof(phase), "Unknown phase"),
+        };
+
         var commands = Commands
             .Where(command => command.Phase() == phase)
             .ToList();
-        
-        if (phase == Phase.Natural) {
-            ProcessNaturalPhase(commands);
-        }
-        else if (phase == Phase.Construction) {
-            ProcessConstructionPhase(commands);
-        }
+
+        callback(commands);
     }
 
     private void ProcessConstructionPhase(List<Command> commands)

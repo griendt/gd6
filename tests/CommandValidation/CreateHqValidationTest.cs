@@ -1,6 +1,6 @@
 using gdvi.Engine.Commands;
 
-namespace tests;
+namespace tests.CommandValidation;
 
 public class CreateHqValidationTest : BaseTest
 {

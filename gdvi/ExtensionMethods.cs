@@ -10,4 +10,11 @@ public static class ExtensionMethods
 
         collection[key].Add(value);
     }
+
+    public static void Each<T>(this IEnumerable<T> collection, Action<T> callback)
+    {
+        foreach (var item in collection) {
+            callback(item);
+        }
+    }
 }

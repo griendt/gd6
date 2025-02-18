@@ -2,8 +2,8 @@ namespace gdvi.Models;
 
 public class Player
 {
-    public int Id;
-    public required Territory Hq;
-    public required string Color;
+    public required int Id;
+    public Territory? Hq = null;
+    public string Color = "#000";
     public List<Item> Inventory = [];
 }

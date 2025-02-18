@@ -14,6 +14,7 @@ public class CreateHqExecutionTest : BaseTest
         Assert.Multiple(() =>
         {
             Assert.That(World.Territories[1].HqSettler, Is.EqualTo(Players.Player1));
+            Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
             Assert.That(World.Territories[1].Units.IsEmpty, Is.True);
         });
     }

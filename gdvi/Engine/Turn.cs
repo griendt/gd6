@@ -6,7 +6,7 @@ namespace gdvi.Engine;
 public class Turn(World world)
 {
     private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction];
-    public List<Command> Commands = [];
+    public readonly List<Command> Commands = [];
 
     public void Process()
     {

@@ -1,6 +1,6 @@
 namespace gdvi.Engine.Commands;
 
-public enum CommandRejection
+public enum RejectReason
 {
     BuildingHqTooCloseToAnotherPlayerBuildingHq,
     BuildingHqTooCloseToExistingHq,

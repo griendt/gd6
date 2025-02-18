@@ -31,8 +31,8 @@ public class CreateHqTest : BaseTest
         
         Assert.Multiple(() =>
         {
-            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToAnotherPlayerBuildingHq));
-            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToAnotherPlayerBuildingHq));
+            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
+            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
         });
     }
     
@@ -53,8 +53,8 @@ public class CreateHqTest : BaseTest
         
         Assert.Multiple(() =>
         {
-            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToAnotherPlayerBuildingHq));
-            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToAnotherPlayerBuildingHq));
+            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
+            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
         });
     }
     
@@ -70,7 +70,7 @@ public class CreateHqTest : BaseTest
         CreateHq.Validate(commands, World);
         
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToExistingHq));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
     }
     
     [Test]
@@ -85,7 +85,7 @@ public class CreateHqTest : BaseTest
         CreateHq.Validate(commands, World);
         
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToExistingHq));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
     }
     
     [Test]
@@ -100,7 +100,7 @@ public class CreateHqTest : BaseTest
         CreateHq.Validate(commands, World);
         
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqTooCloseToExistingHq));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
     }
     
     [Test]
@@ -129,7 +129,7 @@ public class CreateHqTest : BaseTest
         CreateHq.Validate(commands, World);
 
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqOnOccupiedTerritory));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqOnOccupiedTerritory));
     }
     
     [Test]
@@ -150,8 +150,8 @@ public class CreateHqTest : BaseTest
         
         Assert.Multiple(() =>
         {
-            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingMultipleHqs));
-            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingMultipleHqs));
+            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingMultipleHqs));
+            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingMultipleHqs));
         });
     }
     
@@ -167,6 +167,6 @@ public class CreateHqTest : BaseTest
         CreateHq.Validate(commands, World);
 
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqWhenPlayerAlreadyHasHq));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqWhenPlayerAlreadyHasHq));
     }
 }

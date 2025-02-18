@@ -16,7 +16,7 @@ public class WastelandTest : BaseTest
     }
     
     [Test]
-    public void ItDoesNotMakeTerritoryNeutralIfLastUnitIsRemovedByWasteland()
+    public void ItMakesTerritoryNeutralIfLastUnitIsRemovedByWasteland()
     {
         World.Territories[3].Owner = new Player
         {
@@ -34,7 +34,7 @@ public class WastelandTest : BaseTest
         Assert.Multiple(() =>
         {
             Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(0));
-            Assert.That(World.Territories[3].Owner, Is.Not.Null);
+            Assert.That(World.Territories[3].Owner, Is.Null);
         });
     }
 }

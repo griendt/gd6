@@ -21,6 +21,8 @@ public class UnitCollection
         _units[unitType] = current + quantity;
     }
 
+    public bool IsEmpty => _units.Values.Sum() <= 0;
+
     // Convenience methods
     public void AddArmy() => Add(Unit.Army);
     public void AddArmies(int quantity) => Add(Unit.Army, quantity);

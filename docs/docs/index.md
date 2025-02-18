@@ -1,6 +1,6 @@
 # Introduction
 
-It is the sixth installment of a game of strategy, clever planning and cunning. Starting out as a forum game heavily inspired by -- and --- "Foo", [Risk](https://en.wikipedia.org/wiki/Risk_(game)) and [Diplomacy](https://en.wikipedia.org/wiki/Diplomacy_(game)), it quickly became something larger, each new edition adding new elements and learning from the previous.
+It is the sixth installment of a game of strategy, clever planning and cunning. Starting out as a forum game heavily inspired by [Risk](https://en.wikipedia.org/wiki/Risk_(game)) and [Diplomacy](https://en.wikipedia.org/wiki/Diplomacy_(game)), it quickly became something larger, each new edition adding new elements and learning from the previous.
 
 This edition aims to be several things, just like previous games:
 

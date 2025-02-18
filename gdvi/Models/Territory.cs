@@ -10,6 +10,7 @@ public class Territory(World world)
 
     private IEnumerable<Territory> Neighbours() => world.TerritoryBorders.GetValueOrDefault(Id, []).Select(id => world.Territories[id]);
     public bool IsNeighbour(Territory other) => Neighbours().Contains(other);
+    private void Neutralize() => Owner = null;
 
     public void ApplyWastelandPenalty()
     {
@@ -18,6 +19,9 @@ public class Territory(World world)
         }
 
         Units.Pop();
-    }
 
+        if (Units.IsEmpty) {
+            Neutralize();
+        }
+    }
 }

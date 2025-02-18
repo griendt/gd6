@@ -21,6 +21,8 @@ public class CreateHq : LocalizedCommand
         ValidateBuildingHqTooCloseToAnotherPlayerBuildingHq(createHqCommands, world);
         ValidateBuildingHqTooCloseToExistingHq(createHqCommands, world);
         ValidateBuildingHqInOccupiedTerritory(createHqCommands, world);
+        ValidateBuildingMultipleHqs(createHqCommands, world);
+        ValidateBuildingHqWhenPlayerAlreadyHasHq(createHqCommands, world);
     }
 
     private static void ValidateBuildingHqTooCloseToAnotherPlayerBuildingHq(List<CreateHq> commands, World world)
@@ -32,7 +34,6 @@ public class CreateHq : LocalizedCommand
             var conflicts = commands
                 .Where(other => 
                     other != command && 
-                    
                     world.TerritoryBorders[other.Origin.Id].ToHashSet().Intersect(borders).Any())
                 .ToList();
 
@@ -71,5 +72,25 @@ public class CreateHq : LocalizedCommand
         commands
             .Where(command => world.Territories[command.Origin.Id].Owner != null)
             .Each(command => command.Reject(CommandRejection.BuildingHqOnOccupiedTerritory));
+    }
+
+    private static void ValidateBuildingMultipleHqs(List<CreateHq> commands, World world)
+    {
+        foreach (var command in commands) {
+            var conflicts = commands
+                .Where(other => other != command && other.Issuer == command.Issuer)
+                .ToList();
+
+            if (conflicts.Count > 0) {
+                command.Reject(CommandRejection.BuildingMultipleHqs, conflicts);
+            }
+        }
+    }
+    
+    private static void ValidateBuildingHqWhenPlayerAlreadyHasHq(List<CreateHq> commands, World world)
+    {
+        commands
+            .Where(command => world.Territories.Values.Any(territory => territory.HqSettler == command.Issuer))
+            .Each(command => command.Reject(CommandRejection.BuildingHqWhenPlayerAlreadyHasHq));
     }
 }

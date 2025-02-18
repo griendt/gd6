@@ -5,7 +5,7 @@ namespace gdvi.Engine;
 
 public class Turn(World world)
 {
-    private static readonly Phase[] Phases = [Phase.Natural, Phase.Inventory, Phase.Construction, Phase.Movement, Phase.Final];
+    private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction];
     public List<Command> Commands = [];
 
     public void Process()
@@ -17,7 +17,6 @@ public class Turn(World world)
 
     private void ProcessPhase(Phase phase)
     {
-        // TODO: use method attributes!
         Action<List<Command>> callback = phase switch
         {
             Phase.Natural => ProcessNaturalPhase,
@@ -37,7 +36,7 @@ public class Turn(World world)
         var createHqs = commands.Where(command => command is CreateHq).ToList();
 
         CreateHq.Validate(createHqs, world);
-        var x = 3;
+        // TODO: execute valid commands
     }
 
     private void ProcessNaturalPhase(List<Command> commands)

@@ -131,4 +131,42 @@ public class CreateHqTest : BaseTest
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqOnOccupiedTerritory));
     }
+    
+    [Test]
+    public void ItRejectsBuildingMultipleHqs()
+    {
+        List<CreateHq> commands = [
+            new() { Issuer = Players.Player1, Origin = World.Territories[1] },
+            new() { Issuer = Players.Player1, Origin = World.Territories[4] },
+        ];
+
+        CreateHq.Validate(commands, World);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
+            Assert.That(commands[1].Rejections, Has.Count.EqualTo(1));
+        });
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingMultipleHqs));
+            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingMultipleHqs));
+        });
+    }
+    
+    [Test]
+    public void ItRejectsBuildingHqIfPlayerAlreadyHasHq()
+    {
+        World.Territories[1].HqSettler = Players.Player1;
+        
+        List<CreateHq> commands = [
+            new() { Issuer = Players.Player1, Origin = World.Territories[4] },
+        ];
+
+        CreateHq.Validate(commands, World);
+
+        Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqWhenPlayerAlreadyHasHq));
+    }
 }

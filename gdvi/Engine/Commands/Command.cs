@@ -16,8 +16,8 @@ public abstract class Command
     {
     }
 
-    protected void Reject(CommandRejection reason, IEnumerable<Command> conflictingCommands)
+    protected void Reject(CommandRejection reason, IEnumerable<Command>? conflictingCommands = null)
     {
-        Rejections.Add((reason, conflictingCommands));
+        Rejections.Add((reason, conflictingCommands ?? []));
     }
 }

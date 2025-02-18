@@ -1,6 +1,4 @@
-using gdvi.Engine;
 using gdvi.Engine.Commands;
-using gdvi.Models;
 
 namespace tests;
 
@@ -117,5 +115,20 @@ public class CreateHqTest : BaseTest
         CreateHq.Validate(commands, World);
 
         Assert.That(commands[0].IsRejected, Is.False);
+    }
+    
+    [Test]
+    public void ItRejectsBuildingHqOnOccupiedTerritory()
+    {
+        World.Territories[1].Owner = Players.Player1;
+        
+        List<CreateHq> commands = [
+            new() { Issuer = Players.Player2, Origin = World.Territories[1] },
+        ];
+
+        CreateHq.Validate(commands, World);
+
+        Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
+        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(CommandRejection.BuildingHqOnOccupiedTerritory));
     }
 }

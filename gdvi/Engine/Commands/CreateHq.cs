@@ -20,6 +20,7 @@ public class CreateHq : LocalizedCommand
         
         ValidateBuildingHqTooCloseToAnotherPlayerBuildingHq(createHqCommands, world);
         ValidateBuildingHqTooCloseToExistingHq(createHqCommands, world);
+        ValidateBuildingHqInOccupiedTerritory(createHqCommands, world);
     }
 
     private static void ValidateBuildingHqTooCloseToAnotherPlayerBuildingHq(List<CreateHq> commands, World world)
@@ -62,6 +63,13 @@ public class CreateHq : LocalizedCommand
         
         commands
             .Where(command => blacklistedTerritoryIds.Contains(command.Origin.Id))
-            .Each(command => command.Reject(CommandRejection.BuildingHqTooCloseToExistingHq, []));
+            .Each(command => command.Reject(CommandRejection.BuildingHqTooCloseToExistingHq));
+    }
+    
+    private static void ValidateBuildingHqInOccupiedTerritory(List<CreateHq> commands, World world)
+    {
+        commands
+            .Where(command => world.Territories[command.Origin.Id].Owner != null)
+            .Each(command => command.Reject(CommandRejection.BuildingHqOnOccupiedTerritory));
     }
 }

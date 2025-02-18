@@ -4,4 +4,5 @@ public enum CommandRejection
 {
     BuildingHqTooCloseToAnotherPlayerBuildingHq,
     BuildingHqTooCloseToExistingHq,
+    BuildingHqOnOccupiedTerritory,
 }

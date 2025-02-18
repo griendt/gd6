@@ -2,7 +2,7 @@ using gdvi.Engine.Commands;
 
 namespace tests;
 
-public class CreateHqTest : BaseTest
+public class CreateHqValidationTest : BaseTest
 {
     [Test]
     public void CreatingASingleHqIsValid()

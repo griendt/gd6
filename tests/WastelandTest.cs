@@ -3,7 +3,7 @@ using gdvi.Models;
 
 namespace tests;
 
-public class EngineTest : BaseTest
+public class WastelandTest : BaseTest
 {
     [Test]
     public void ItRemovesArmyFromWasteland()

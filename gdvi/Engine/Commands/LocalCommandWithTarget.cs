@@ -2,7 +2,7 @@ using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
 
-public abstract class LocalizedCommandWithTarget: LocalizedCommand
+public abstract class LocalCommandWithTarget: LocalCommand
 {
     public required Territory Target;
 }

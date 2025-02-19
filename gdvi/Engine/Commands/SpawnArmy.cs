@@ -2,7 +2,7 @@ using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
 
-public class SpawnArmy : LocalizedCommand
+public class SpawnArmy : LocalCommand
 {
     public override Phase Phase() => Engine.Phase.Construction;
     

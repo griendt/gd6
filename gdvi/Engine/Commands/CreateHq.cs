@@ -2,7 +2,7 @@ using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
 
-public class CreateHq : LocalizedCommand
+public class CreateHq : LocalCommand
 {
     public override Phase Phase() => Engine.Phase.Construction;
 

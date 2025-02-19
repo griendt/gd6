@@ -89,6 +89,24 @@ public class CreateHqValidationTest : BaseTest
     }
     
     [Test]
+    public void ItAllowsBuildingHqNextToExistingHqIfForced()
+    {
+        World.Territories[1].HqSettler = Players.Player1;
+        
+        List<CreateHq> commands = [
+            new() { Issuer = Players.Player2, Origin = World.Territories[2], Force = true },
+        ];
+
+        CommandValidator.Validate(commands, World);
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(commands[0].IsRejected, Is.False);
+            Assert.That(commands[0].Rejections.Count, Is.EqualTo(0));
+        });
+    }
+
+    [Test]
     public void ItRejectsBuildingHqWithBorderAdjacentToExistingHq()
     {
         World.Territories[1].HqSettler = Players.Player1;

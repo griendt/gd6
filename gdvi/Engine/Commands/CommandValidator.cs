@@ -19,7 +19,7 @@ public static class CommandValidator
                 var constructorInfo = genericType.GetConstructor([])!;
                 var collection = constructorInfo.Invoke(null);
                 var adder = genericType.GetMethod("Add")!;
-                foreach (var command in commandsByType) {
+                foreach (var command in commandsByType.Where(command => !command.Force)) {
                     adder.Invoke(collection, [command]);
                 }
                 

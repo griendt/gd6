@@ -35,7 +35,7 @@ public class CreateHq : LocalCommand
     public static void ValidateBuildingHqTooCloseToExistingHq(List<CreateHq> commands, World world)
     {
         var existingHqIds = world.Territories
-            .Where(kv => kv.Value.HqSettler != null)
+            .Where(kv => kv.Value.ContainsHq)
             .Select(kv => kv.Key)
             .ToList();
 

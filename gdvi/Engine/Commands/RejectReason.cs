@@ -7,4 +7,7 @@ public enum RejectReason
     BuildingHqOnOccupiedTerritory,
     BuildingMultipleHqs,
     BuildingHqWhenPlayerAlreadyHasHq,
+    SpawningOnInvalidTerritory,
+    SpawningTooManyArmies,
+    SpawningNegativeArmies,
 }

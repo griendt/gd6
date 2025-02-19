@@ -8,8 +8,15 @@ public class Territory(World world)
     public bool IsWasteland = false;
     public readonly UnitCollection Units = new();
 
-    public IEnumerable<Territory> Neighbours() => world.TerritoryBorders.GetValueOrDefault(Id, []).Select(id => world.Territories[id]);
+    public IEnumerable<Territory> Neighbours() => world.TerritoryBorders
+        .GetValueOrDefault(Id, [])
+        .Select(id => world.Territories[id]);
+    
     public bool IsNeighbour(Territory other) => Neighbours().Contains(other);
+
+    public bool ContainsHq => HqSettler != null;
+    public bool IsNeutral => Owner == null;
+    
     private void Neutralize() => Owner = null;
 
     public void ApplyWastelandPenalty()

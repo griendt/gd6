@@ -35,7 +35,7 @@ public class Turn(World world)
     {
         var createHqs = commands.Where(command => command is CreateHq).ToList();
 
-        CreateHq.Validate(createHqs, world);
+        CommandValidator.Validate(createHqs, world);
         // TODO: execute valid commands
     }
 

@@ -9,7 +9,7 @@ public class CreateHqValidationTest : BaseTest
     {
         List<CreateHq> commands = [ new() { Issuer = Players.Player1, Origin = World.Territories[1] }];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
 
         Assert.That(commands[0].IsRejected, Is.False);
     }
@@ -22,7 +22,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[1] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
         Assert.Multiple(() =>
         {
             Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
@@ -44,7 +44,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[2] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
         Assert.Multiple(() =>
         {
             Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
@@ -67,7 +67,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[1] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
         
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
@@ -82,7 +82,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[2] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
         
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
@@ -97,7 +97,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[3] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
         
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
@@ -112,7 +112,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[4] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
 
         Assert.That(commands[0].IsRejected, Is.False);
     }
@@ -126,7 +126,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player2, Origin = World.Territories[1] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
 
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqOnOccupiedTerritory));
@@ -140,7 +140,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player1, Origin = World.Territories[4] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
 
         Assert.Multiple(() =>
         {
@@ -164,7 +164,7 @@ public class CreateHqValidationTest : BaseTest
             new() { Issuer = Players.Player1, Origin = World.Territories[4] },
         ];
 
-        CreateHq.Validate(commands, World);
+        CommandValidator.Validate(commands, World);
 
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqWhenPlayerAlreadyHasHq));

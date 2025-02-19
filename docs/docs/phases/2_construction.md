@@ -26,7 +26,7 @@ An *HQ* may be built on any land territory, so long as:
     * After all *HQ*s are built, the rest of the *Turn* proceeds normally.
 
 ## Spawning units
-Each *Turn*, each player may spawn a certain amount of *Army* or *Archer* units. These units may be spawned across one or more land territories that:
+Each *Turn*, each player may spawn a certain amount of *Army* units. These units may be spawned across one or more land territories that:
 
 * contain an *HQ* that is under your control; **OR**
 * are adjacent to an *HQ* that is under your control, and are not controlled by anyone **else**.

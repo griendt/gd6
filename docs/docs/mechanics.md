@@ -5,7 +5,7 @@
 2. Orders are **only** valid if they are sent privately to me. Orders may (also) be posted elsewhere, including in public, but they will be ignored in processing. You might want this to inform others, or to deceive them. Bluffing and lying is allowed. It's all part of the game. Playing dirty is encouraged!
 3. Each *Turn* consists of a number of *Phases* that are processed sequentially. This is required to have a deterministic outcome. See below.
 
-### The Phases
+## The Phases
 1. [Natural Phase](phases/1_natural.md): Anything that happens to the map independently of any orders. Tides, disasters, aliens... who knows? These events will always be announced in the *Turn* before.
 2. [Inventory Phase](phases/3_inventory.md): Players may use one or more of their available items.
 3. [Construction Phase](phases/2_construction.md): Players may spawn units, build *Constructs* or otherwise change the landscape.
@@ -24,4 +24,3 @@
     6. If a player does not send any moves before the *Turn* deadline, with no notification, I may end the *Turn* anyway. This will effectively mean that the player will do **absolutely nothing** that *Turn*. This is highly discouraged and might severely impact the game for all players. Please don't do this.
     7. Whenever the rulebook says a territory "loses one unit", units of different types are lost in a specific order. This order is:
         * Armies
-        * Archers

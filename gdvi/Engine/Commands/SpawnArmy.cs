@@ -56,13 +56,20 @@ public class SpawnArmy : LocalCommand
         }
 
         foreach (var command in commands) {
-            if (!validSpawnLocationsByPlayer.TryGetValue(command.Issuer, out var validSpawnIds)) {
-                // What if you do not own any HQ anymore? Right now we reject, but this makes people die super fast.
-                command.Reject(RejectReason.SpawningOnInvalidTerritory);
-            }
+            var validSpawnIds = validSpawnLocationsByPlayer.GetValueOrDefault(command.Issuer, []);
 
+            if (validSpawnIds.Count == 0) {
+                var fallbackSpawnIds = world.GetLongestConcurrentlyOccupyingTerritories(command.Issuer);
+
+                if (fallbackSpawnIds.Count == 0) {
+                    command.Reject(RejectReason.NoValidSpawnLocations);
+                }
+                else if (!fallbackSpawnIds.Contains(command.Origin.Id)) {
+                    command.Reject(RejectReason.SpawningNotInLongestConcurrentlyOccupyingTerritory);
+                }
+            }
             else if (!validSpawnIds.Contains(command.Origin.Id)) {
-                command.Reject(RejectReason.SpawningOnInvalidTerritory);
+                command.Reject(RejectReason.SpawningTooFarFromOwnHq);
             }
         }
     }

@@ -16,4 +16,23 @@ public class World
         TerritoryBorders.SetOrAppend(second.Id, first.Id);
     }
 
+    public List<int> GetLongestConcurrentlyOccupyingTerritories(Player commandIssuer)
+    {
+        var territories = Territories.Values
+            .Where(territory => territory.Owner == commandIssuer)
+            .ToList();
+
+        if (territories.Count == 0) {
+            return [];
+        }
+        
+        var longestInterval = territories
+            .Select(territory => territory.NumTurnsOccupied)
+            .Max();
+
+        return territories
+            .Where(territory => territory.NumTurnsOccupied >= longestInterval)
+            .Select(territory => territory.Id)
+            .ToList();
+    }
 }

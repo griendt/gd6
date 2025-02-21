@@ -7,7 +7,9 @@ public enum RejectReason
     BuildingHqOnOccupiedTerritory,
     BuildingMultipleHqs,
     BuildingHqWhenPlayerAlreadyHasHq,
-    SpawningOnInvalidTerritory,
+    SpawningTooFarFromOwnHq,
+    SpawningNotInLongestConcurrentlyOccupyingTerritory,
     SpawningTooManyArmies,
     SpawningNegativeArmies,
+    NoValidSpawnLocations,
 }

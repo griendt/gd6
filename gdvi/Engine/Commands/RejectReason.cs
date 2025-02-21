@@ -12,4 +12,6 @@ public enum RejectReason
     SpawningTooManyArmies,
     SpawningNegativeArmies,
     NoValidSpawnLocations,
+    InsufficientAmountOfItems,
+    PlayerMustOwnOneTerritoryToUseItem,
 }

@@ -1,3 +1,4 @@
+using System.Reflection;
 using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
@@ -10,7 +11,7 @@ public static class CommandValidator
             var commandType = commandsByType.Key;
             
             var validators = commandType
-                .GetMethods()
+                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(method => method.GetCustomAttributes(typeof(Validator), false).Length > 0);
 
             foreach (var validator in validators) {

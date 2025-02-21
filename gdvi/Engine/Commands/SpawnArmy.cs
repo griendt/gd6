@@ -8,6 +8,8 @@ public class SpawnArmy : LocalCommand
 
     public required int Quantity;
 
+    public static int MaxArmiesAllowedToSpawn(Player player, World world) => 2 + world.NumberOfTerritories(player) / 3; 
+
     public override void Process(World world)
     {
         world.Territories[Origin.Id].Units.AddArmies(Quantity);
@@ -17,7 +19,7 @@ public class SpawnArmy : LocalCommand
     public static void ValidateSpawningTooManyArmies(List<SpawnArmy> commands, World world)
     {
         foreach (var commandsByPlayer in commands.GroupBy(command => command.Issuer)) {
-            var maxSpawns = 2 + world.NumberOfTerritories(commandsByPlayer.Key) / 3;
+            var maxSpawns = MaxArmiesAllowedToSpawn(commandsByPlayer.Key, world);
 
             if (commandsByPlayer.Select(command => command.Quantity).Sum() <= maxSpawns) {
                 continue;

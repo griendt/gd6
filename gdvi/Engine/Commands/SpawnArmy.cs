@@ -2,14 +2,16 @@ using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
 
-public class SpawnArmy : LocalCommand
+public class SpawnArmy : Command, IHasOrigin
 {
     public override Phase Phase() => Engine.Phase.Construction;
 
     public required int Quantity;
 
-    public static int MaxArmiesAllowedToSpawn(Player player, World world) => 2 + world.NumberOfTerritories(player) / 3; 
+    public static int MaxArmiesAllowedToSpawn(Player player, World world) => 2 + world.NumberOfTerritories(player) / 3;
 
+    public required Territory Origin { get; set; }
+    
     public override void Process(World world)
     {
         world.Territories[Origin.Id].Units.AddArmies(Quantity);
@@ -75,4 +77,6 @@ public class SpawnArmy : LocalCommand
             }
         }
     }
+
+
 }

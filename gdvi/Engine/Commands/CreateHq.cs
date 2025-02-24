@@ -2,10 +2,10 @@ using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
 
-public class CreateHq : LocalCommand
+public class CreateHq : Command, IHasOrigin
 {
+    public required Territory Origin { get; set; }
     public override Phase Phase() => Engine.Phase.Construction;
-
     public override void Process(World world)
     {
         world.Territories[Origin.Id].HqSettler = Issuer;

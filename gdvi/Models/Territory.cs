@@ -19,9 +19,9 @@ public class Territory(World world)
     public readonly UnitCollection Units = new();
     public bool ContainsHq => HqSettler != null;
     public bool IsNeutral => Owner == null;
+    public readonly HashSet<Construct> Constructs = [];
 
     private Player? _owner;
-    private HashSet<Construct> _constructs = [];
 
     /// <summary>
     /// Whenever a territory changes owner, set the occupation turn number.
@@ -39,7 +39,7 @@ public class Territory(World world)
 
     private void Neutralize() => Owner = null;
 
-    public void Build(Construct construct) => _constructs.Add(construct);
+    public void Build(Construct construct) => Constructs.Add(construct);
 
     public void ApplyWastelandPenalty()
     {
@@ -47,7 +47,7 @@ public class Territory(World world)
             return;
         }
 
-        Units.Pop();
+        Units.TryPop();
 
         if (Units.IsEmpty) {
             Neutralize();
@@ -56,9 +56,15 @@ public class Territory(World world)
 
     public void ApplyDynamitePenalty()
     {
-        _constructs.Remove(Construct.Bivouac);
-        if (_constructs.Remove(Construct.Fortress)) {
-            _constructs.Add(Construct.Ruin);
+        Units.TryPop();
+
+        if (Units.IsEmpty) {
+            Neutralize();
+        }
+        
+        Constructs.Remove(Construct.Bivouac);
+        if (Constructs.Remove(Construct.Fortress)) {
+            Constructs.Add(Construct.Ruin);
         }
     }
 }

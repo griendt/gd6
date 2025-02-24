@@ -1,3 +1,5 @@
+using gdvi.Engine.Exceptions;
+
 namespace gdvi.Models;
 
 public class UnitCollection
@@ -12,7 +14,17 @@ public class UnitCollection
             return Pop(Unit.Army);
         }
 
-        throw new Exception("Cannot pop");
+        throw new NoUnitToPop();
+    }
+
+    public Unit? TryPop()
+    {
+        try {
+            return Pop();
+        }
+        catch (NoUnitToPop) {
+            return null;
+        }
     }
 
     public void Add(Unit unitType, int quantity = 1)

@@ -5,36 +5,27 @@ namespace tests;
 
 public class WastelandTest : BaseTest
 {
-    [Test]
-    public void ItRemovesArmyFromWasteland()
+    [SetUp]
+    public void SetUpOwners()
     {
-        World.Territories[3].Units.AddArmies(4);
+        World.Territories[3].Owner = Players.Player3;
         World.Territories[3].IsWasteland = true;
-        new Turn(World).Process();
-        
-        Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(3));
     }
     
-    [Test]
-    public void ItMakesTerritoryNeutralIfLastUnitIsRemovedByWasteland()
+    [TestCase(1, 0, true)]
+    [TestCase(3, 2, false)]
+    [TestCase(47, 46, false)]
+    [TestCase(0, 0, true)]
+    public void ItRemovesArmyFromWasteland(int numBefore, int numAfter, bool shouldBeNeutralized)
     {
-        World.Territories[3].Owner = new Player
-        {
-            Id = 1,
-            Inventory = [],
-            Hq = World.Territories[3],
-            Color = "#f00",
-        };
-        
-        World.Territories[3].Units.AddArmy();
-        World.Territories[3].IsWasteland = true;
+        World.Territories[3].Units.AddArmies(numBefore);
         
         new Turn(World).Process();
         
         Assert.Multiple(() =>
         {
-            Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(0));
-            Assert.That(World.Territories[3].Owner, Is.Null);
+            Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(numAfter));
+            Assert.That(World.Territories[3].Owner, shouldBeNeutralized ? Is.Null : Is.EqualTo(Players.Player3));
         });
     }
 }

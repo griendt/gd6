@@ -3,7 +3,7 @@ using gdvi.Models;
 
 namespace tests.CommandValidation;
 
-public class CropSupplyValidationTest : BaseTest
+public class UseCropSupplyValidationTest : BaseTest
 {
     [SetUp]
     public void SetUpOwners()

@@ -2,7 +2,7 @@ using gdvi.Engine.Commands;
 
 namespace tests.CommandExecution;
 
-public class UseCropSupplyValidationTest : BaseTest
+public class UseCropSupplyExecutionTest : BaseTest
 {
     [SetUp]
     public void SetUpOwners()

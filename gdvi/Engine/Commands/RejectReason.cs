@@ -14,4 +14,6 @@ public enum RejectReason
     NoValidSpawnLocations,
     InsufficientAmountOfItems,
     PlayerMustOwnOneTerritoryToUseItem,
+    PlayerDoesNotOwnOriginTerritory,
+    TargetNotAdjacentToOrigin,
 }

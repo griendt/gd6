@@ -13,6 +13,7 @@ public class Territory(World world)
             Loyalty = 0;
         }
     }
+
     public Player? HqSettler = null;
     public bool IsWasteland = false;
     public readonly UnitCollection Units = new();
@@ -20,6 +21,7 @@ public class Territory(World world)
     public bool IsNeutral => Owner == null;
 
     private Player? _owner;
+    private HashSet<Construct> _constructs = [];
 
     /// <summary>
     /// Whenever a territory changes owner, set the occupation turn number.
@@ -32,10 +34,12 @@ public class Territory(World world)
     public IEnumerable<Territory> Neighbours() => world.TerritoryBorders
         .GetValueOrDefault(Id, [])
         .Select(id => world.Territories[id]);
-    
+
     public bool IsNeighbour(Territory other) => Neighbours().Contains(other);
 
     private void Neutralize() => Owner = null;
+
+    public void Build(Construct construct) => _constructs.Add(construct);
 
     public void ApplyWastelandPenalty()
     {
@@ -47,6 +51,14 @@ public class Territory(World world)
 
         if (Units.IsEmpty) {
             Neutralize();
+        }
+    }
+
+    public void ApplyDynamitePenalty()
+    {
+        _constructs.Remove(Construct.Bivouac);
+        if (_constructs.Remove(Construct.Fortress)) {
+            _constructs.Add(Construct.Ruin);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace gdvi.Engine.Commands;
 
 public abstract class InventoryCommand : Command
 {
-    protected abstract Type ItemType();
+    protected abstract Item ItemType();
 
     public sealed override Phase Phase() => Engine.Phase.Inventory;
     
@@ -19,7 +19,7 @@ public abstract class InventoryCommand : Command
                 var issuer = group.Key.Issuer;
                 var numberAvailable = issuer
                     .Inventory
-                    .Count(item => item.GetType() == group.Key.Item1);
+                    .Count(item => item == group.Key.Item1);
 
                 if (numberAvailable >= group.Count()) {
                     return;

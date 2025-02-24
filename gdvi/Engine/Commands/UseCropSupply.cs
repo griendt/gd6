@@ -4,7 +4,7 @@ namespace gdvi.Engine.Commands;
 
 public class UseCropSupply : InventoryCommand
 {
-    protected override Type ItemType() => typeof(CropSupply);
+    protected override Item ItemType() => Item.CropSupply;
 
     public required IDictionary<int, int> Quantities;
 

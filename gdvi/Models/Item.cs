@@ -1,5 +1,7 @@
 namespace gdvi.Models;
 
-public class Item
+public enum Item
 {
+    CropSupply,
+    Dynamite,
 }

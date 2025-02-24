@@ -20,7 +20,7 @@ public class CropSupplyValidationTest : BaseTest
             Issuer = Players.Player1,
             Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 5 } },
         };
-        Players.Player1.Inventory = [new CropSupply()];
+        Players.Player1.Inventory = [Item.CropSupply];
 
         CommandValidator.Validate([command], World);
 
@@ -42,7 +42,7 @@ public class CropSupplyValidationTest : BaseTest
             })
             .ToList();
 
-        Players.Player1.Inventory = Enumerable.Range(1, numCrops).Select(Item (i) => new CropSupply()).ToList();
+        Players.Player1.Inventory = Enumerable.Range(1, numCrops).Select(Item (i) => Item.CropSupply).ToList();
 
         CommandValidator.Validate(commands, World);
 
@@ -59,7 +59,7 @@ public class CropSupplyValidationTest : BaseTest
             Issuer = Players.Player1,
             Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 6 } },
         };
-        Players.Player1.Inventory = [new CropSupply()];
+        Players.Player1.Inventory = [Item.CropSupply];
 
         CommandValidator.Validate([command], World);
 
@@ -80,7 +80,7 @@ public class CropSupplyValidationTest : BaseTest
             Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 5 } },
         }).ToList();
 
-        Players.Player1.Inventory = Enumerable.Range(1, numCropsInInventory).Select(Item (i) => new CropSupply()).ToList();
+        Players.Player1.Inventory = Enumerable.Range(1, numCropsInInventory).Select(Item (i) => Item.CropSupply).ToList();
 
         CommandValidator.Validate(commands, World);
 
@@ -101,7 +101,7 @@ public class CropSupplyValidationTest : BaseTest
         foreach (var i in Enumerable.Range(1, numOwnedTerritories)) {
             World.Territories[i].Owner = Players.Player1;
         }
-        Players.Player1.Inventory = [new CropSupply()];
+        Players.Player1.Inventory = [Item.CropSupply];
 
         var command = new UseCropSupply
         {

@@ -12,10 +12,10 @@ public abstract class BaseTest
     {
         World = new World();
 
-        foreach (var id in Enumerable.Range(1, 5)) {
+        foreach (var id in Enumerable.Range(1, 20)) {
             World.Territories.Add(id, new Territory(World) { Id = id });
 
-            if (id is <= 1 or > 5) {
+            if (id is <= 1 or > 20) {
                 continue;
             }
 

@@ -36,6 +36,7 @@ public class Turn(World world)
         var createHqs = commands.Where(command => command is CreateHq).ToList();
 
         CommandValidator.Validate(createHqs, world);
+        // TODO: ensure CropSupply is performed before Dynamite (while being in the same phase).
         // TODO: execute valid commands
     }
 

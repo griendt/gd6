@@ -22,6 +22,18 @@ public class UseDynamiteExecutionTest : BaseTest
         
         Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(numAfter));
     }
+    
+    [TestCase(0)]
+    [TestCase(1)]
+    public void ItRendersTerritoryNeutralIfNoUnitsLeft(int numBefore)
+    {
+        World.Territories[2].Owner = Players.Player2;
+        World.Territories[2].Units.AddArmies(numBefore);
+        
+        new UseDynamite { Issuer = Players.Player1, Origin = World.Territories[1], Target = World.Territories[2] }.Process(World);
+        
+        Assert.That(World.Territories[2].Owner, Is.Null);
+    }
 
     [Test]
     public void ItDestroysABivouac()

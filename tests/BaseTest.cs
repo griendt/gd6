@@ -4,7 +4,7 @@ namespace tests;
 
 public abstract class BaseTest
 {
-    protected (Player Player1, Player Player2, Player Player3) Players;
+    protected (Player Player1, Player Player2, Player Player3, Player Player4, Player Player5) Players;
     protected World World;
 
     [SetUp]
@@ -29,7 +29,9 @@ public abstract class BaseTest
         Players = (
             new Player { Id = 1 },
             new Player { Id = 2 },
-            new Player { Id = 3 }
+            new Player { Id = 3 },
+            new Player { Id = 4 },
+            new Player { Id = 5 }
         );
     }
 }

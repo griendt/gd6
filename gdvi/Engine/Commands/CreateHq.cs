@@ -21,7 +21,7 @@ public class CreateHq : LocalCommand
 
             var conflicts = commands
                 .Where(other => 
-                    other != command && 
+                    other.Issuer != command.Issuer &&
                     world.TerritoryBorders[other.Origin.Id].ToHashSet().Intersect(borders).Any())
                 .ToList();
 

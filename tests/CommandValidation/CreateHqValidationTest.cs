@@ -1,4 +1,5 @@
 using gdvi.Engine.Commands;
+using gdvi.Models;
 
 namespace tests.CommandValidation;
 
@@ -7,39 +8,43 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void CreatingASingleHqIsValid()
     {
-        List<CreateHq> commands = [ new() { Issuer = Players.Player1, Origin = World.Territories[1] }];
+        List<CreateHq> commands = [new() { Issuer = Players.Player1, Origin = World.Territories[1] }];
 
         CommandValidator.Validate(commands, World);
 
         Assert.That(commands[0].IsRejected, Is.False);
     }
-    
-    [Test]
-    public void ItRejectsTwoPlayersBuildingHqsInSameTerritory()
+
+    [TestCase(2)]
+    [TestCase(3)]
+    [TestCase(4)]
+    [TestCase(5)]
+    public void ItRejectsMultiplePlayersBuildingHqsInSameTerritory(int numPlayers)
     {
-        List<CreateHq> commands = [
-            new() { Issuer = Players.Player1, Origin = World.Territories[1] },
-            new() { Issuer = Players.Player2, Origin = World.Territories[1] },
-        ];
+        List<Player> players = [Players.Player1, Players.Player2, Players.Player3, Players.Player4, Players.Player5];
+
+        var commands = Enumerable.Range(0, numPlayers)
+            .Select(i => new CreateHq { Issuer = players[i], Origin = World.Territories[1] })
+            .ToList();
 
         CommandValidator.Validate(commands, World);
-        Assert.Multiple(() =>
-        {
-            Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-            Assert.That(commands[1].Rejections, Has.Count.EqualTo(1));
-        });
-        
-        Assert.Multiple(() =>
-        {
-            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
-            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
-        });
+
+        foreach (var command in commands) {
+            Assert.Multiple(() =>
+            {
+                Assert.That(command.IsRejected, Is.True);
+                Assert.That(command.Rejections, Has.Count.EqualTo(1));
+            });
+
+            Assert.That(command.Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
+        }
     }
-    
+
     [Test]
     public void ItRejectsTwoPlayersBuildingHqsInAdjacentTerritories()
     {
-        List<CreateHq> commands = [
+        List<CreateHq> commands =
+        [
             new() { Issuer = Players.Player1, Origin = World.Territories[1] },
             new() { Issuer = Players.Player2, Origin = World.Territories[2] },
         ];
@@ -50,59 +55,62 @@ public class CreateHqValidationTest : BaseTest
             Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
             Assert.That(commands[1].Rejections, Has.Count.EqualTo(1));
         });
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
             Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToAnotherPlayerBuildingHq));
         });
     }
-    
+
     [Test]
     public void ItRejectsBuildingHqOnTopOfExistingHq()
     {
         World.Territories[1].HqSettler = Players.Player1;
-        
-        List<CreateHq> commands = [
+
+        List<CreateHq> commands =
+        [
             new() { Issuer = Players.Player2, Origin = World.Territories[1] },
         ];
 
         CommandValidator.Validate(commands, World);
-        
+
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
     }
-    
+
     [Test]
     public void ItRejectsBuildingHqNextToExistingHq()
     {
         World.Territories[1].HqSettler = Players.Player1;
-        
-        List<CreateHq> commands = [
+
+        List<CreateHq> commands =
+        [
             new() { Issuer = Players.Player2, Origin = World.Territories[2] },
         ];
 
         CommandValidator.Validate(commands, World);
-        
+
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
     }
-    
+
     [Test]
     public void ItAllowsBuildingHqNextToExistingHqIfForced()
     {
         World.Territories[1].HqSettler = Players.Player1;
-        
-        List<CreateHq> commands = [
+
+        List<CreateHq> commands =
+        [
             new() { Issuer = Players.Player2, Origin = World.Territories[2], Force = true },
         ];
 
         CommandValidator.Validate(commands, World);
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(commands[0].IsRejected, Is.False);
-            Assert.That(commands[0].Rejections.Count, Is.EqualTo(0));
+            Assert.That(commands[0].Rejections, Is.Empty);
         });
     }
 
@@ -110,81 +118,71 @@ public class CreateHqValidationTest : BaseTest
     public void ItRejectsBuildingHqWithBorderAdjacentToExistingHq()
     {
         World.Territories[1].HqSettler = Players.Player1;
-        
-        List<CreateHq> commands = [
+
+        List<CreateHq> commands =
+        [
             new() { Issuer = Players.Player2, Origin = World.Territories[3] },
         ];
 
         CommandValidator.Validate(commands, World);
-        
+
         Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqTooCloseToExistingHq));
     }
-    
+
     [Test]
     public void ItAllowsBuildingHqAtDistance3OfExistingHq()
     {
         World.Territories[1].HqSettler = Players.Player1;
-        
-        List<CreateHq> commands = [
-            new() { Issuer = Players.Player2, Origin = World.Territories[4] },
-        ];
 
-        CommandValidator.Validate(commands, World);
+        var command = new CreateHq { Issuer = Players.Player2, Origin = World.Territories[4] };
 
-        Assert.That(commands[0].IsRejected, Is.False);
+        CommandValidator.Validate([command], World);
+
+        Assert.That(command.IsRejected, Is.False);
     }
-    
+
     [Test]
     public void ItRejectsBuildingHqOnOccupiedTerritory()
     {
         World.Territories[1].Owner = Players.Player1;
-        
-        List<CreateHq> commands = [
-            new() { Issuer = Players.Player2, Origin = World.Territories[1] },
-        ];
 
-        CommandValidator.Validate(commands, World);
+        var command = new CreateHq { Issuer = Players.Player2, Origin = World.Territories[1] };
 
-        Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqOnOccupiedTerritory));
+        CommandValidator.Validate([command], World);
+
+        Assert.That(command.Rejections, Has.Count.EqualTo(1));
+        Assert.That(command.Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqOnOccupiedTerritory));
     }
     
-    [Test]
-    public void ItRejectsBuildingMultipleHqs()
+    [TestCase(2)]
+    [TestCase(3)]
+    [TestCase(47)]
+    public void ItRejectsBuildingMultipleHqs(int numHqs)
     {
-        List<CreateHq> commands = [
-            new() { Issuer = Players.Player1, Origin = World.Territories[1] },
-            new() { Issuer = Players.Player1, Origin = World.Territories[4] },
-        ];
+        var commands = Enumerable
+            .Range(1, numHqs)
+            .Select(i => new CreateHq { Issuer = Players.Player1, Origin = World.Territories[1] })
+            .ToList();
 
         CommandValidator.Validate(commands, World);
 
-        Assert.Multiple(() =>
-        {
-            Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-            Assert.That(commands[1].Rejections, Has.Count.EqualTo(1));
-        });
-        
-        Assert.Multiple(() =>
-        {
+        foreach (var command in commands) {
+            Assert.That(command.Rejections, Has.Count.EqualTo(1));
             Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingMultipleHqs));
-            Assert.That(commands[1].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingMultipleHqs));
-        });
+        }
     }
-    
+
     [Test]
     public void ItRejectsBuildingHqIfPlayerAlreadyHasHq()
     {
         World.Territories[1].HqSettler = Players.Player1;
-        
-        List<CreateHq> commands = [
-            new() { Issuer = Players.Player1, Origin = World.Territories[4] },
-        ];
 
-        CommandValidator.Validate(commands, World);
+        var command = new CreateHq { Issuer = Players.Player1, Origin = World.Territories[4] };
 
-        Assert.That(commands[0].Rejections, Has.Count.EqualTo(1));
-        Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqWhenPlayerAlreadyHasHq));
+        CommandValidator.Validate([command], World);
+
+        Assert.That(command.Rejections, Has.Count.EqualTo(1));
+        Assert.That(command.Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqWhenPlayerAlreadyHasHq));
     }
 }

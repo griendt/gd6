@@ -115,9 +115,9 @@ public class SpawnArmyValidationTest : BaseTest
     public void ItAcceptsSpawningInLongestConcurrentlyOccupyingTerritoryIfNotOwningHq()
     {
         World.Territories[2].Owner = Players.Player2;
-        World.Territories[2].NumTurnsOccupied = 3;
+        World.Territories[2].Loyalty = 3;
         World.Territories[3].Owner = Players.Player2;
-        World.Territories[3].NumTurnsOccupied = 4;
+        World.Territories[3].Loyalty = 4;
 
         List<SpawnArmy> commands = [ new() { Issuer = Players.Player2, Origin = World.Territories[3], Quantity = 1}];
 
@@ -145,8 +145,8 @@ public class SpawnArmyValidationTest : BaseTest
     public void ItRejectsSpawningInFarAwayLongestConcurrentlyOccupyingTerritoryIfOwnsHq()
     {
         World.Territories[4].Owner = Players.Player1;
-        World.Territories[1].NumTurnsOccupied = 1;
-        World.Territories[4].NumTurnsOccupied = 3;
+        World.Territories[1].Loyalty = 1;
+        World.Territories[4].Loyalty = 3;
         var command = new SpawnArmy { Issuer = Players.Player1, Origin = World.Territories[4], Quantity = 1 };
 
         CommandValidator.Validate([command], World);

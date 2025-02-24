@@ -10,7 +10,7 @@ public class Territory(World world)
         set
         {
             _owner = value;
-            NumTurnsOccupied = 0;
+            Loyalty = 0;
         }
     }
     public Player? HqSettler = null;
@@ -27,7 +27,7 @@ public class Territory(World world)
     /// longest consecutive amount of time. This is needed for when players
     /// no longer own a HQ and still want to spawn units.
     /// </summary>
-    public int NumTurnsOccupied = 0;
+    public int Loyalty = 0;
 
     public IEnumerable<Territory> Neighbours() => world.TerritoryBorders
         .GetValueOrDefault(Id, [])

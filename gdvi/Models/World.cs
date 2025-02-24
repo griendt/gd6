@@ -27,11 +27,11 @@ public class World
         }
         
         var longestInterval = territories
-            .Select(territory => territory.NumTurnsOccupied)
+            .Select(territory => territory.Loyalty)
             .Max();
 
         return territories
-            .Where(territory => territory.NumTurnsOccupied >= longestInterval)
+            .Where(territory => territory.Loyalty >= longestInterval)
             .Select(territory => territory.Id)
             .ToList();
     }

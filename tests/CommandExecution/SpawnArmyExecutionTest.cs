@@ -10,14 +10,16 @@ public class SpawnArmyExecutionTest : BaseTest
         World.Territories[1].Owner = Players.Player1;
     }
     
-    [Test]
-    public void ItSpawnsAnArmy()
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(47)]
+    public void ItSpawnsArmies(int numArmies)
     {
         var command = new SpawnArmy
         {
             Issuer = Players.Player1,
             Origin = World.Territories[1],
-            Quantity = 1,
+            Quantity = numArmies,
         };
         
         command.Process(World);
@@ -26,19 +28,24 @@ public class SpawnArmyExecutionTest : BaseTest
         {
             Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
             Assert.That(World.Territories[1].Units.IsEmpty, Is.False);
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(1));
+            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(numArmies));
         });
     }
     
-    [Test]
-    public void ItSpawnsMultipleArmies()
+    [TestCase(0, 1, 1)]
+    [TestCase(0, 3, 3)]
+    [TestCase(1, 1, 2)]
+    [TestCase(1, 3, 4)]
+    [TestCase(12, 34, 46)]
+    public void ItAddsArmiesToExistingOnes(int numExisting, int numAdded, int numTotal)
     {
         var command = new SpawnArmy
         {
             Issuer = Players.Player1,
             Origin = World.Territories[1],
-            Quantity = 3,
+            Quantity = numAdded,
         };
+        World.Territories[1].Units.AddArmies(numExisting);
         
         command.Process(World);
         
@@ -46,28 +53,7 @@ public class SpawnArmyExecutionTest : BaseTest
         {
             Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
             Assert.That(World.Territories[1].Units.IsEmpty, Is.False);
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(3));
-        });
-    }
-    
-    [Test]
-    public void ItAddsArmiesToExistingOnes()
-    {
-        var command = new SpawnArmy
-        {
-            Issuer = Players.Player1,
-            Origin = World.Territories[1],
-            Quantity = 3,
-        };
-        World.Territories[1].Units.AddArmies(6);
-        
-        command.Process(World);
-        
-        Assert.Multiple(() =>
-        {
-            Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
-            Assert.That(World.Territories[1].Units.IsEmpty, Is.False);
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(9));
+            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(numTotal));
         });
     }
 }

@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\gdvi\gdvi.csproj" />
+      <ProjectReference Include="..\engine\engine.csproj" />
     </ItemGroup>
 
 </Project>

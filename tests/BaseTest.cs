@@ -1,4 +1,4 @@
-using gdvi.Models;
+using gd6.Models;
 
 namespace tests;
 

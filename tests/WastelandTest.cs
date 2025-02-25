@@ -1,5 +1,5 @@
-using gdvi.Engine;
-using gdvi.Models;
+using gd6.Engine;
+using gd6.Models;
 
 namespace tests;
 

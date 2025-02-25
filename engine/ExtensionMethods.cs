@@ -1,4 +1,4 @@
-namespace gdvi;
+namespace gd6;
 
 public static class ExtensionMethods
 {

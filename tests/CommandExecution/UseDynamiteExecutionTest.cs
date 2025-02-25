@@ -1,5 +1,5 @@
-using gdvi.Engine.Commands;
-using gdvi.Models;
+using gd6.Engine.Commands;
+using gd6.Models;
 
 namespace tests.CommandExecution;
 

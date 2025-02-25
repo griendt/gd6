@@ -1,4 +1,4 @@
-namespace gdvi.Models;
+namespace gd6.Models;
 
 public class Territory(World world)
 {

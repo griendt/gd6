@@ -1,7 +1,7 @@
-using gdvi.Engine.Commands;
-using gdvi.Models;
+using gd6.Engine.Commands;
+using gd6.Models;
 
-namespace gdvi.Engine;
+namespace gd6.Engine;
 
 public class Turn(World world)
 {

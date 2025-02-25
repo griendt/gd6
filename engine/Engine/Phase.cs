@@ -1,4 +1,4 @@
-namespace gdvi.Engine;
+namespace gd6.Engine;
 
 public enum Phase
 {

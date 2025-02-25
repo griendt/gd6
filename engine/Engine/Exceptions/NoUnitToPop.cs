@@ -1,4 +1,4 @@
-namespace gdvi.Engine.Exceptions;
+namespace gd6.Engine.Exceptions;
 
 public class NoUnitToPop : Exception
 {

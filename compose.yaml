@@ -1,8 +1,8 @@
 ﻿services:
-  app:
-    build:
-      context: .
-      dockerfile: gdvi/app.Dockerfile
+#  app:
+#    build:
+#      context: .
+#      dockerfile: gd6/app.Dockerfile
   docs:
     build:
       context: docs
@@ -10,4 +10,13 @@
       - "./docs:/build"
     ports:
       - "8000:8000"
-    command: "mkdocs serve --dev-addr 0.0.0.0:8000 --config-file /build/mkdocs.yml"
+    entrypoint: 
+      - "mkdocs"
+    command: "serve --dev-addr 0.0.0.0:8000 --config-file /build/mkdocs.yml"
+  frontend:
+    image: frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "8080:8080"

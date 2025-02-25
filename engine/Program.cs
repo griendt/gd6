@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using gdvi.Models;
+using gd6.Models;
 
 var world = new World();
 

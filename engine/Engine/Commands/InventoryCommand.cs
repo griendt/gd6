@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
-using gdvi.Models;
+using gd6.Models;
 
-namespace gdvi.Engine.Commands;
+namespace gd6.Engine.Commands;
 
 public abstract class InventoryCommand : Command
 {

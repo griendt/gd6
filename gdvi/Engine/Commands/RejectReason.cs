@@ -16,4 +16,6 @@ public enum RejectReason
     PlayerMustOwnOneTerritoryToUseItem,
     PlayerDoesNotOwnOriginTerritory,
     TargetNotAdjacentToOrigin,
+    PathNotConnected,
+    PathTooLong,
 }

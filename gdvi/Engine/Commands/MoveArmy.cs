@@ -2,36 +2,41 @@ using gdvi.Models;
 
 namespace gdvi.Engine.Commands;
 
-public class MoveArmy : Command, IHasOrigin, IHasTarget
+public class MoveArmy : Command, IHasOrigin, IHasPath
 {
     public required Territory Origin { get; set; }
-    public required Territory Target { get; set; }
+    public required List<Territory> Path { get; set; }
     public override Phase Phase() => Engine.Phase.Movement;
 
     public override void Process(World world)
     {
-        world.Territories[Origin.Id].Units.Pop();
-        world.Territories[Target.Id].Units.AddArmy();
-        world.Territories[Target.Id].Owner = Issuer;
     }
 
     [Validator]
-    public static void ValidatePlayerOwnsOriginTerritoryAndHasUnit(IEnumerable<MoveArmy> commands, World world)
+    public static void ValidateOwnerOwnsOrigin(IEnumerable<MoveArmy> commands, World world)
     {
-        // TODO: for units that can move multiple spaces, this validator is inaccurate for second and subsequent moves!
-
         commands
-            .Where(command => false
-                || world.Territories[command.Origin.Id].Owner != command.Issuer
-                || world.Territories[command.Origin.Id].Units.Armies <= 0)
+            .Where(command => command.Origin.Owner != command.Issuer)
             .Each(command => command.Reject(RejectReason.PlayerDoesNotOwnOriginTerritory));
     }
-
+    
     [Validator]
-    public static void ValidateOriginAdjacentToTarget(IEnumerable<MoveArmy> commands, World world)
+    public static void ValidatePathIsConnected(IEnumerable<MoveArmy> commands, World world)
     {
         commands
-            .Where(command => !world.TerritoryBorders[command.Origin.Id].Contains(command.Target.Id))
-            .Each(command => command.Reject(RejectReason.TargetNotAdjacentToOrigin));
+            .Where(command =>
+                !world.TerritoryBorders[command.Origin.Id].Contains(command.Path.First().Id) ||
+                Enumerable
+                    .Range(0, command.Path.Count - 1)
+                    .Any(index => !world.TerritoryBorders[command.Path[index].Id].Contains(command.Path[index + 1].Id)))
+            .Each(command => command.Reject(RejectReason.PathNotConnected));
+    }
+
+    [Validator]
+    public static void ValidatePathLength(IEnumerable<MoveArmy> commands, World world)
+    {
+        commands
+            .Where(command => command.Path.Count > 2)
+            .Each(command => command.Reject(RejectReason.PathTooLong));
     }
 }

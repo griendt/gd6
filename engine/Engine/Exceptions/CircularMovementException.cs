@@ -1,4 +1,4 @@
-namespace gd6.Engine.Exceptions;
+namespace engine.Engine.Exceptions;
 
 public class CircularMovementException : Exception
 {

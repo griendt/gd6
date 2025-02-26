@@ -1,6 +1,6 @@
-using gd6.Models;
+using engine.Models;
 
-namespace gd6.Engine.Commands;
+namespace engine.Engine.Commands;
 
 public interface IHasTarget
 {

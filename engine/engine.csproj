@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>gd6</RootNamespace>
+        <RootNamespace>engine</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

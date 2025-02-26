@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docs", "docs\docs.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{344E6843-B6B1-46EF-B7D3-04F16194D34A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "frontend", "frontend\frontend.csproj", "{473061BB-F229-4262-893F-02AA7856D878}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web", "web\web.csproj", "{473061BB-F229-4262-893F-02AA7856D878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

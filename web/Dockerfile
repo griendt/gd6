@@ -11,7 +11,7 @@ COPY ["frontend/frontend.csproj", "frontend/"]
 RUN dotnet restore "frontend/frontend.csproj"
 COPY . .
 WORKDIR "/src/frontend"
-RUN dotnet build "frontend.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release

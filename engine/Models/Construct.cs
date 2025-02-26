@@ -1,4 +1,4 @@
-namespace gd6.Models;
+namespace engine.Models;
 
 public enum Construct
 {

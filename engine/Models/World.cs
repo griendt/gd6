@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace gd6.Models;
+namespace engine.Models;
 
 public class World
 {

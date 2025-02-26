@@ -1,6 +1,6 @@
-using gd6.Engine.Exceptions;
+using engine.Engine.Exceptions;
 
-namespace gd6.Models;
+namespace engine.Models;
 
 public class UnitCollection
 {

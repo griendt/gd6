@@ -1,7 +1,10 @@
-namespace gd6.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace engine.Models;
 
 public class Territory(World world)
 {
+    [Key]
     public required int Id;
 
     public Player? Owner

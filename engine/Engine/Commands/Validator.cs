@@ -1,4 +1,4 @@
-namespace gd6.Engine.Commands;
+namespace engine.Engine.Commands;
 using JetBrains.Annotations;
 
 [MeansImplicitUse]

@@ -1,5 +1,48 @@
-<h3>GlobalDominationMap</h3>
+@using System.Text
+@using Microsoft.EntityFrameworkCore
+
+
+<div class="container">
+    <h3>Map</h3>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" opacity="0.9">
+        <rect x="0" y="0" width="1920" height="1080" fill="@_backgroundColor"/>
+        
+        @foreach (var territory in _territories) {
+            <path
+                d="@GetSvgPathForTerritory(territory)"
+                stroke-width="2"
+                stroke="#200f"
+                effect="{'stroke-width': 12, 'opacity': 0.2}"
+                fill="#f80"/>
+        }
+    </svg>
+</div>
 
 @code {
+    private string _backgroundColor = "#aef";
+    private List<Territory> _territories = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Yield();
+        await LoadTerritories();
+    }
+
+    private async Task LoadTerritories() => _territories = await new Gd6DbContext().Territories.ToListAsync();
+
+    private string GetSvgPathForTerritory(Territory territory)
+    {
+        var marker = 'M';
+        var path = new StringBuilder();
+
+        foreach (var xy in territory.Coordinates) {
+            path.Append($"{marker}{xy.X},{xy.Y}");
+            marker = 'L';
+        }
+
+        path.Append(" Z");
+
+        return path.ToString();
+    }
 
 }

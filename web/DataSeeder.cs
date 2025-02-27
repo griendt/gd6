@@ -1,0 +1,44 @@
+using engine;
+using JetBrains.Annotations;
+using Microsoft.EntityFrameworkCore;
+
+namespace web;
+
+[MeansImplicitUse]
+[AttributeUsage(AttributeTargets.Method)]
+public class SeedAttribute : Attribute;
+
+public class DataSeeder(Gd6DbContext db)
+{
+    public void Seed(DbContext context, bool seed)
+    {
+        GetType()
+            .GetMethods()
+            .Where(method => method.GetCustomAttributes(typeof(SeedAttribute), false).Length > 0)
+            .Each(method => method.Invoke(this, []));
+    }
+
+    [Seed]
+    public void SeedTerritories()
+    {
+        if (db.Territories.Any()) {
+            return;
+        }
+
+        Enumerable
+            .Range(1, 50)
+            .Each(index => db.Territories.Add(new Territory
+            {
+                Identifier = index.ToString(),
+                Coordinates =
+                [
+                    new Coordinate { X = index * 50, Y = 50 },
+                    new Coordinate { X = index * 50, Y = 100 },
+                    new Coordinate { X = index * 100, Y = 100 },
+                    new Coordinate { X = index * 100, Y = 50 },
+                ],
+            }));
+
+        db.SaveChanges();
+    }
+}

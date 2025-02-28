@@ -14,6 +14,8 @@
         <rect x="0" y="0" width="@_width" height="@_height" fill="@_backgroundColor"/>
 
         @foreach (var territory in _territories.Where(territory => territory != _activeTerritory)) {
+            var centroid = Centroid(territory);
+
             <path
                 id="@GetElementId(territory)"
                 d="@GetSvgPathForTerritory(territory)"
@@ -22,10 +24,25 @@
                 stroke-width="@StrokeWidth(territory)"
                 stroke="@TerritoryStrokeColour(territory)"
                 fill="#f80"/>
+            
+            <text>
+                <text
+                    x="@centroid.X"
+                    y="@centroid.Y"
+                    text-anchor="middle"
+                    font-family="Noticia Text"
+                    font-size="32"
+                    dominant-baseline="central"
+                >
+                    @territory.Identifier
+                </text>
+            </text>
         }
 
         @* Put the active territory in the back, to make it stand out on top of the rest *@
         @if (_activeTerritory != null) {
+            var centroid = Centroid(_activeTerritory);
+            
             <path
                 id="@GetElementId(_activeTerritory)"
                 d="@GetSvgPathForTerritory(_activeTerritory)"
@@ -34,12 +51,26 @@
                 stroke-width="@StrokeWidth(_activeTerritory)"
                 stroke="@TerritoryStrokeColour(_activeTerritory)"
                 fill="#f80"/>
+            <text>
+                <text
+                    x="@centroid.X"
+                    y="@centroid.Y"
+                    text-anchor="middle"
+                    font-family="Noticia Text"
+                    font-size="32"
+                    dominant-baseline="central"
+                    >
+                    @_activeTerritory.Identifier
+                </text>
+            </text>
         }
     </svg>
 
     @if (_activeTerritory != null) {
         <span>The currently selected territory ID is @_activeTerritory.Id</span>
         <span>My stickiness is currently @_isActiveTerritorySticky</span>
+        <span>The area is @SignedArea(_activeTerritory)</span>
+        <span>The centroid is @Centroid(_activeTerritory)</span>
     }
 </div>
 
@@ -103,4 +134,28 @@
     private string GetElementId(Territory territory) => $"map-territory-{territory.Id}";
 
     private void UnSticky() => _isActiveTerritorySticky = false;
+
+    private (int X, int Y) Centroid(Territory territory)
+    {
+        var centroidX = Enumerable
+            .Range(0, territory.Coordinates.Count - 1)
+            .Select(i => 
+                (territory.Coordinates[i].X + territory.Coordinates[i + 1].X) * 
+                (territory.Coordinates[i].X * territory.Coordinates[i + 1].Y - territory.Coordinates[i + 1].X * territory.Coordinates[i].Y))
+            .Sum() / (6 * SignedArea(territory));
+        
+        var centroidY = Enumerable
+            .Range(0, territory.Coordinates.Count - 1)
+            .Select(i => 
+                (territory.Coordinates[i].Y + territory.Coordinates[i + 1].Y) * 
+                (territory.Coordinates[i].X * territory.Coordinates[i + 1].Y - territory.Coordinates[i + 1].X * territory.Coordinates[i].Y))
+            .Sum() / (6 * SignedArea(territory));
+
+        return (centroidX, centroidY);
+    }
+    
+    private int SignedArea(Territory territory) => Enumerable
+        .Range(0, territory.Coordinates.Count - 1)
+        .Select(i => territory.Coordinates[i].X * territory.Coordinates[i + 1].Y - territory.Coordinates[i + 1].X * territory.Coordinates[i].Y)
+        .Sum() / 2;
 }

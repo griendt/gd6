@@ -25,19 +25,19 @@ public class DataSeeder(Gd6DbContext db)
             return;
         }
 
-        Enumerable
-            .Range(1, 50)
-            .Each(index => db.Territories.Add(new Territory
-            {
-                Identifier = index.ToString(),
-                Coordinates =
-                [
-                    new Coordinate { X = index * 50, Y = 50 },
-                    new Coordinate { X = index * 50, Y = 100 },
-                    new Coordinate { X = index * 50 + 50, Y = 100 },
-                    new Coordinate { X = index * 50 + 50, Y = 50 },
-                ],
-            }));
+        db.Territories.Add(new Territory
+        {
+            Identifier = "1",
+            Coordinates = [
+                new Coordinate { X = 50, Y = 50 }, 
+                new Coordinate { X = 80, Y = 140 }, 
+                new Coordinate { X = 100, Y = 170 }, 
+                new Coordinate { X = 140, Y = 160 },
+                new Coordinate { X = 160, Y = 150 },
+                new Coordinate { X = 200, Y = 40 },
+                new Coordinate { X = 150, Y = 50 },
+            ],
+        });
 
         db.SaveChanges();
     }

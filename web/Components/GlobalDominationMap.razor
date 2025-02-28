@@ -10,6 +10,18 @@
         opacity="@_opacity"
         style="border: @_borderThickness solid var(--md-footer-bg-color)"
         @onmouseleave="UnSticky">
+
+        <defs>
+            <filter id="whiteOutlineEffect" color-interpolation-filters="sRGB">
+                <feMorphology in="SourceAlpha" result="MORPH" operator="dilate" radius="2" />
+                <feColorMatrix in="MORPH" result="WHITENED" type="matrix" values="-1 0 0 0 1, 0 -1 0 0 1, 0 0 -1 0 1, 0 0 0 1 0"/>
+                <feMerge>
+                    <feMergeNode in="WHITENED"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>
+        
         <rect x="0" y="0" width="@_width" height="@_height" fill="@_backgroundColor"/>
 
         @foreach (var territory in TerritoriesSorted) {

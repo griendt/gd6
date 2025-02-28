@@ -1,0 +1,23 @@
+<text
+    x="@Territory.Centroid.X"
+    y="@Territory.Centroid.Y"
+    text-anchor="middle"
+    font-family="Noticia"
+    font-size="32"
+    dominant-baseline="central"
+    fill="@Fill"
+    stroke="@Stroke"
+    stroke-width="@StrokeWidth"
+    
+    style="user-select: none; pointer-events: none"
+>
+    @Territory.Identifier
+</text>
+
+@code {
+    [Parameter] public required Territory Territory { get; set; }
+    
+    [Parameter] public string Fill { get; set; } = "var(--md-primary-fg-color--dark)";
+    [Parameter] public string Stroke { get; set; } = "#0000";
+    [Parameter] public string StrokeWidth { get; set; } = "0";
+}

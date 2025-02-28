@@ -53,6 +53,27 @@ public class DataSeeder(Gd6DbContext db)
                 new Coordinate { X = 160, Y = 150 }, 
             ],
         });
+        
+        db.Territories.Add(new Territory
+        {
+            Identifier = "3",
+            Coordinates = [
+                new Coordinate { X = 160, Y = 150 },
+                new Coordinate { X = 200, Y = 40 },
+                new Coordinate { X = 220, Y = 20 },
+                new Coordinate { X = 250, Y = 30 },
+                new Coordinate { X = 260, Y = 40 },
+                new Coordinate { X = 280, Y = 10 },
+                new Coordinate { X = 290, Y = 60 },
+                new Coordinate { X = 330, Y = 50 },
+                new Coordinate { X = 360, Y = 40 },
+                new Coordinate { X = 370, Y = 70 },
+                new Coordinate { X = 360, Y = 100 },
+                new Coordinate { X = 350, Y = 150 },
+                new Coordinate { X = 340, Y = 180 },
+                new Coordinate { X = 250, Y = 150 },
+            ],
+        });
 
         db.SaveChanges();
     }

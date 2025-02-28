@@ -10,16 +10,9 @@
     @onclick="@OnClick"
     @onmouseenter="@OnMouseEnter"
 />
-<text
-    x="@Territory.Centroid.X"
-    y="@Territory.Centroid.Y"
-    text-anchor="middle"
-    font-family="Verdana"
-    font-size="32"
-    dominant-baseline="central"
->
-    @Territory.Identifier
-</text>
+
+<TerritoryIdentifierText Territory="Territory" Fill="#000" Stroke="#000" StrokeWidth="2px" />
+<TerritoryIdentifierText Territory="Territory" />
 
 @code {
     [Parameter] public required Territory Territory { get; set; }

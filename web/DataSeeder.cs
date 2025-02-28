@@ -38,6 +38,21 @@ public class DataSeeder(Gd6DbContext db)
                 new Coordinate { X = 150, Y = 50 },
             ],
         });
+        
+        db.Territories.Add(new Territory
+        {
+            Identifier = "2",
+            Coordinates = [
+                new Coordinate { X = 100, Y = 170 }, 
+                new Coordinate { X = 90, Y = 220 }, 
+                new Coordinate { X = 140, Y = 230 }, 
+                new Coordinate { X = 200, Y = 220 }, 
+                new Coordinate { X = 210, Y = 300 }, 
+                new Coordinate { X = 239, Y = 190 }, 
+                new Coordinate { X = 250, Y = 150 }, 
+                new Coordinate { X = 160, Y = 150 }, 
+            ],
+        });
 
         db.SaveChanges();
     }

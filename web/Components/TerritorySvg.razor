@@ -1,0 +1,52 @@
+@using System.Text
+<path
+    id="@GetElementId()"
+    d="@SvgPath()"
+
+    stroke-width="@StrokeWidth"
+    stroke="@StrokeColour"
+    fill="@FillColour"
+
+    @onclick="@OnClick"
+    @onmouseenter="@OnMouseEnter"
+/>
+<text
+    x="@Territory.Centroid.X"
+    y="@Territory.Centroid.Y"
+    text-anchor="middle"
+    font-family="Verdana"
+    font-size="32"
+    dominant-baseline="central"
+>
+    @Territory.Identifier
+</text>
+
+@code {
+    [Parameter] public required Territory Territory { get; set; }
+
+    [Parameter] public Action OnClick { get; set; } = () => { };
+    [Parameter] public Action OnMouseEnter { get; set; } = () => { };
+
+    [Parameter] public int StrokeWidth { get; set; } = 2;
+    [Parameter] public string StrokeColour { get; set; } = "#222";
+    [Parameter] public string FillColour { get; set; } = "#ddf";
+
+    private string GetElementId() => $"map-territory-{Territory.Id}";
+
+    private string SvgPath()
+    {
+        var marker = 'M';
+        var path = new StringBuilder();
+
+        foreach (var xy in Territory.Coordinates) {
+            path.Append($"{marker}{xy.X},{xy.Y}");
+            marker = 'L';
+        }
+
+        path.Append(" Z");
+
+        return path.ToString();
+    }
+
+
+}

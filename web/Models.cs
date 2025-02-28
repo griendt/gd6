@@ -23,7 +23,7 @@ public class Gd6DbContext : DbContext
             territory => territory.Coordinates,
             ownedNavigationBuilder => ownedNavigationBuilder.ToJson());
     }
-    
+
     public override int SaveChanges()
     {
         var changedEntities = ChangeTracker
@@ -31,24 +31,23 @@ public class Gd6DbContext : DbContext
             .Where(entry => entry.State is EntityState.Added or EntityState.Modified);
 
         var errors = new List<ValidationResult>();
-        
-        foreach (var entry in changedEntities)
-        {
+
+        foreach (var entry in changedEntities) {
             var validationContext = new ValidationContext(entry.Entity, null, null);
             Validator.TryValidateObject(
-                entry.Entity, 
-                validationContext, 
-                errors, 
+                entry.Entity,
+                validationContext,
+                errors,
                 validateAllProperties: true);
         }
 
         if (errors.Count == 0) {
             return base.SaveChanges();
         }
-        
+
         var errorMessages = new StringBuilder();
         errors.Each(error => errorMessages.AppendLine(error.ErrorMessage));
-            
+
         throw new ValidationException(errorMessages.ToString());
     }
 }
@@ -59,12 +58,38 @@ public class Territory
 
     public required string Identifier { get; set; }
 
-    [MinLength(3)]
-    public List<Coordinate> Coordinates { get; init; } = [];
+    [MinLength(3)] public List<Coordinate> Coordinates { get; init; } = [];
+
+    public (int X, int Y) Centroid
+    {
+        get
+        {
+            var centroidX = Enumerable
+                .Range(0, Coordinates.Count)
+                .Select(i =>
+                    (Coordinates[i].X + Coordinates[(i + 1) % Coordinates.Count].X) *
+                    (Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y))
+                .Sum() / (6 * SignedArea);
+
+            var centroidY = Enumerable
+                .Range(0, Coordinates.Count)
+                .Select(i =>
+                    (Coordinates[i].Y + Coordinates[(i + 1) % Coordinates.Count].Y) *
+                    (Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y))
+                .Sum() / (6 * SignedArea);
+
+            return (centroidX, centroidY);
+        }
+    }
+
+    public int SignedArea => Enumerable
+        .Range(0, Coordinates.Count)
+        .Select(i => Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y)
+        .Sum() / 2;
 }
 
 public class Coordinate
 {
-    public int X { get; set; }
-    public int Y { get; set; }
+    public int X { get; init; }
+    public int Y { get; init; }
 }

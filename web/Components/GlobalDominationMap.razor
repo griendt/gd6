@@ -1,4 +1,3 @@
-@using System.Text
 @using Microsoft.EntityFrameworkCore
 @inject IJSRuntime JsInterop
 
@@ -13,69 +12,18 @@
         @onmouseleave="UnSticky">
         <rect x="0" y="0" width="@_width" height="@_height" fill="@_backgroundColor"/>
 
-        @foreach (var territory in _territories.Where(territory => territory != _activeTerritory)) {
-            var centroid = Centroid(territory);
-
-            <path
-                id="@GetElementId(territory)"
-                d="@GetSvgPathForTerritory(territory)"
-                @onclick="() => SetActive(territory,true)"
-                @onmouseenter="() => SetActive(territory, false)"
-                stroke-width="@StrokeWidth(territory)"
-                stroke="@TerritoryStrokeColour(territory)"
-                fill="#f80"/>
-            
-            <text>
-                <text
-                    x="@centroid.X"
-                    y="@centroid.Y"
-                    text-anchor="middle"
-                    font-family="Noticia Text"
-                    font-size="32"
-                    dominant-baseline="central"
-                >
-                    @territory.Identifier
-                </text>
-            </text>
-        }
-
-        @* Put the active territory in the back, to make it stand out on top of the rest *@
-        @if (_activeTerritory != null) {
-            var centroid = Centroid(_activeTerritory);
-            
-            <path
-                id="@GetElementId(_activeTerritory)"
-                d="@GetSvgPathForTerritory(_activeTerritory)"
-                @onclick="() => SetActive(_activeTerritory,true)"
-                @onmouseenter="() => SetActive(_activeTerritory, false)"
-                stroke-width="@StrokeWidth(_activeTerritory)"
-                stroke="@TerritoryStrokeColour(_activeTerritory)"
-                fill="#f80"/>
-            <text>
-                <text
-                    x="@centroid.X"
-                    y="@centroid.Y"
-                    text-anchor="middle"
-                    font-family="Noticia Text"
-                    font-size="32"
-                    dominant-baseline="central"
-                    >
-                    @_activeTerritory.Identifier
-                </text>
-            </text>
+        @foreach (var territory in TerritoriesSorted) {
+            <TerritorySvg
+                Territory="territory"
+                OnClick="() => SetActive(territory, true)"
+                OnMouseEnter="() => SetActive(territory, false)"
+                StrokeWidth="@StrokeWidth(territory)"
+                StrokeColour="@TerritoryStrokeColour(territory)"/>
         }
     </svg>
-
-    @if (_activeTerritory != null) {
-        <span>The currently selected territory ID is @_activeTerritory.Id</span>
-        <span>My stickiness is currently @_isActiveTerritorySticky</span>
-        <span>The area is @SignedArea(_activeTerritory)</span>
-        <span>The centroid is @Centroid(_activeTerritory)</span>
-    }
 </div>
 
 @code {
-
     #region styling
 
     private int _width = 1920;
@@ -107,20 +55,11 @@
 
     private async Task LoadTerritories() => _territories = await new Gd6DbContext().Territories.ToListAsync();
 
-    private string GetSvgPathForTerritory(Territory territory)
-    {
-        var marker = 'M';
-        var path = new StringBuilder();
-
-        foreach (var xy in territory.Coordinates) {
-            path.Append($"{marker}{xy.X},{xy.Y}");
-            marker = 'L';
-        }
-
-        path.Append(" Z");
-
-        return path.ToString();
-    }
+    @* Put the active territory in the back, to make it stand out on top of the rest *@
+    private List<Territory> TerritoriesSorted => _territories
+        .Where(t => t != _activeTerritory)
+        .Concat(_activeTerritory == null ? [] : [_activeTerritory])
+        .ToList(); 
 
     private void SetActive(Territory territory, bool sticky)
     {
@@ -129,33 +68,9 @@
         }
 
         _isActiveTerritorySticky |= sticky;
+        
+        StateHasChanged();
     }
-
-    private string GetElementId(Territory territory) => $"map-territory-{territory.Id}";
 
     private void UnSticky() => _isActiveTerritorySticky = false;
-
-    private (int X, int Y) Centroid(Territory territory)
-    {
-        var centroidX = Enumerable
-            .Range(0, territory.Coordinates.Count - 1)
-            .Select(i => 
-                (territory.Coordinates[i].X + territory.Coordinates[i + 1].X) * 
-                (territory.Coordinates[i].X * territory.Coordinates[i + 1].Y - territory.Coordinates[i + 1].X * territory.Coordinates[i].Y))
-            .Sum() / (6 * SignedArea(territory));
-        
-        var centroidY = Enumerable
-            .Range(0, territory.Coordinates.Count - 1)
-            .Select(i => 
-                (territory.Coordinates[i].Y + territory.Coordinates[i + 1].Y) * 
-                (territory.Coordinates[i].X * territory.Coordinates[i + 1].Y - territory.Coordinates[i + 1].X * territory.Coordinates[i].Y))
-            .Sum() / (6 * SignedArea(territory));
-
-        return (centroidX, centroidY);
-    }
-    
-    private int SignedArea(Territory territory) => Enumerable
-        .Range(0, territory.Coordinates.Count - 1)
-        .Select(i => territory.Coordinates[i].X * territory.Coordinates[i + 1].Y - territory.Coordinates[i + 1].X * territory.Coordinates[i].Y)
-        .Sum() / 2;
 }

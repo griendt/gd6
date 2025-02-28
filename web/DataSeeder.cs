@@ -34,8 +34,8 @@ public class DataSeeder(Gd6DbContext db)
                 [
                     new Coordinate { X = index * 50, Y = 50 },
                     new Coordinate { X = index * 50, Y = 100 },
-                    new Coordinate { X = index * 100, Y = 100 },
-                    new Coordinate { X = index * 100, Y = 50 },
+                    new Coordinate { X = index * 50 + 50, Y = 100 },
+                    new Coordinate { X = index * 50 + 50, Y = 50 },
                 ],
             }));
 

@@ -18,7 +18,9 @@
                 OnClick="() => SetActive(territory, true)"
                 OnMouseEnter="() => SetActive(territory, false)"
                 StrokeWidth="@StrokeWidth(territory)"
-                StrokeColour="@TerritoryStrokeColour(territory)"/>
+                StrokeColour="@TerritoryStrokeColour(territory)"
+                FillColour="@TerritoryFillColour(territory)"
+                />
         }
     </svg>
 </div>
@@ -39,7 +41,8 @@
 
     private int StrokeWidth(Territory territory) => territory == _activeTerritory ? _territoryStrokeWidthActive : _territoryStrokeWidth;
     private string TerritoryStrokeColour(Territory territory) => territory == _activeTerritory ? _territoryStrokeColourActive : _territoryStrokeColour;
-
+    private string TerritoryFillColour(Territory territory) => territory.CurrentOwner()?.Colour ?? "#fdd";
+    
     #endregion
 
     private List<Territory> _territories = [];

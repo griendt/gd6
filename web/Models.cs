@@ -63,6 +63,20 @@ public class Territory
     public required string Identifier { get; set; }
 
     [MinLength(3)] public List<Coordinate> Coordinates { get; init; } = [];
+    public List<TerritoryTurn> TerritoryTurns { get; init; }
+    
+    public Player? CurrentOwner()
+    {
+        if (TerritoryTurns == null || TerritoryTurns.Count == 0) {
+            return null;
+        }
+        
+        return TerritoryTurns
+            .OrderBy(territoryTurn => territoryTurn.Turn.Id)
+            .Reverse()
+            .FirstOrDefault()
+            ?.Owner;
+    }
 
     public (int X, int Y) Centroid
     {

@@ -8,6 +8,10 @@ namespace web;
 public class Gd6DbContext : DbContext
 {
     public DbSet<Territory> Territories { get; set; }
+    public DbSet<Player> Players { get; set; }
+    public DbSet<Turn> Turns { get; set; }
+    public DbSet<TerritoryTurn> TerritoryTurns { get; set; }
+    public DbSet<HeadQuarter> HeadQuarters { get; set; }
 
     private static string DbPath => "/home/alex/projects/gd6/gd6.db";
 
@@ -92,4 +96,39 @@ public class Coordinate
 {
     public int X { get; init; }
     public int Y { get; init; }
+}
+
+public class HeadQuarter
+{
+    [Key] public int Id { get; init; }
+    public required string Name { get; set; }
+    
+    public Player Settler { get; init; }
+}
+
+public class Player
+{
+    [Key] public int Id { get; init; }
+    public required string Name { get; init; }
+
+    [RegularExpression(@"^#[0-9a-f]{3,6}$")]
+    public required string Colour { get; init; }
+}
+
+public class Turn
+{
+    [Key] public int Id { get; init; }
+
+    public Turn? PreviousTurn { get; init; }
+}
+
+public class TerritoryTurn
+{
+    [Key] public int Id { get; init; }
+
+    public required Turn Turn { get; init; }
+    public required Territory Territory { get; init; }
+    
+    public HeadQuarter? HeadQuarter { get; init; }
+    public Player? Owner { get; init; }
 }

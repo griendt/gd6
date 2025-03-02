@@ -19,6 +19,17 @@ public class DataSeeder(Gd6DbContext db)
     }
 
     [Seed]
+    public void SeedPlayers()
+    {
+        if (db.Players.Any()) {
+            return;
+        }
+
+        db.Players.Add(new Player { Id = 1, Name = "Aluce", Colour = "#f00" });
+        db.Players.Add(new Player { Id = 2, Name = "Psycho17", Colour = "#0f0" });
+    }
+
+    [Seed]
     public void SeedTerritories()
     {
         if (db.Territories.Any()) {

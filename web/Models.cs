@@ -19,6 +19,7 @@ public class Gd6DbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>
         options
+            .UseLazyLoadingProxies()
             .UseSqlite($"Data Source={DbPath}")
             .UseSeeding(new DataSeeder(this).Seed);
 
@@ -60,26 +61,22 @@ public class Gd6DbContext : DbContext
 
 public class Territory
 {
-    [Key] public int Id { get; init; }
+    [Key] public Guid Id { get; init; }
     public required string Identifier { get; set; }
 
-    public required Game Game { get; init; }
+    public Guid GameId { get; init; }
+    public virtual Game Game { get; set; }
 
-    [MinLength(3)] public List<Coordinate> Coordinates { get; init; } = [];
-    public List<TerritoryTurn> TerritoryTurns { get; init; }
+    [MinLength(3)] public List<Coordinate> Coordinates { get; init; }
 
-    public Player? CurrentOwner()
-    {
-        if (TerritoryTurns == null || TerritoryTurns.Count == 0) {
-            return null;
-        }
+    public virtual List<TerritoryTurn> TerritoryTurns { get; set; }
 
-        return TerritoryTurns
+    public Player? CurrentOwner() =>
+        TerritoryTurns
             .OrderBy(territoryTurn => territoryTurn.Turn.Id)
             .Reverse()
             .FirstOrDefault()
             ?.Owner;
-    }
 
     public (int X, int Y) Centroid
     {
@@ -117,15 +114,16 @@ public class Coordinate
 
 public class HeadQuarter
 {
-    [Key] public int Id { get; init; }
+    [Key] public Guid Id { get; init; }
     public required string Name { get; set; }
 
-    public Player Settler { get; init; }
+    public Guid SettlerId { get; init; }
+    public virtual Player Settler { get; set; }
 }
 
 public class Player
 {
-    [Key] public int Id { get; init; }
+    [Key] public Guid Id { get; init; }
     public required string Name { get; init; }
 
     [RegularExpression(@"^#[0-9a-f]{3,6}$")]
@@ -136,13 +134,19 @@ public class Game
 {
     [Key] public Guid Id { get; init; }
     public required string Name { get; init; }
+
+    public virtual List<GamePlayer> GamePlayers { get; set; }
 }
 
 public class GamePlayer
 {
     [Key] public Guid Id { get; init; }
-    public required Game Game { get; init; }
-    public required Player Player { get; init; }
+    
+    public Guid GameId { get; init; }
+    public virtual Game Game { get; set; }
+    
+    public Guid PlayerId { get; init; }
+    public virtual Player Player { get; set; }
 }
 
 public class Turn
@@ -150,16 +154,25 @@ public class Turn
     [Key] public Guid Id { get; init; }
     public int TurnNumber { get; init; }
 
-    public required Game Game { get; init; }
+    public Guid GameId { get; init; }
+    public virtual Game Game { get; set; }
+
+    public virtual List<TerritoryTurn> TerritoryTurns { get; set; } = [];
 }
 
 public class TerritoryTurn
 {
-    [Key] public int Id { get; init; }
+    [Key] public Guid Id { get; init; }
 
-    public required Turn Turn { get; init; }
-    public required Territory Territory { get; init; }
+    public Guid TurnId { get; init; }
+    public virtual Turn Turn { get; set; }
+    
+    public Guid TerritoryId { get; init; }
+    public virtual Territory Territory { get; set; }
 
-    public HeadQuarter? HeadQuarter { get; init; }
-    public Player? Owner { get; init; }
+    public Guid? HeadQuarterId { get; init; }
+    public virtual HeadQuarter? HeadQuarter { get; set; }
+    
+    public Guid? OwnerId { get; init; }
+    public virtual Player? Owner { get; set; }
 }

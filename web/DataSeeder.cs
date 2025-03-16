@@ -11,10 +11,30 @@ public class SeedAttribute : Attribute;
 public class DataSeeder(Gd6DbContext db)
 {
     private readonly Game _game = new() { Name = "Global Domination VI" };
+    private readonly Player _aluce = new() { Name = "Aluce", Colour = "#f00" };
+    private Territory _territory;
     
     public void Seed(DbContext context, bool seed)
     {
+        _territory = new Territory
+        {
+                Game = _game,
+                Identifier = "1",
+                Coordinates =
+                [
+                    new Coordinate { X = 50, Y = 50 },
+                    new Coordinate { X = 80, Y = 140 },
+                    new Coordinate { X = 100, Y = 170 },
+                    new Coordinate { X = 140, Y = 160 },
+                    new Coordinate { X = 160, Y = 150 },
+                    new Coordinate { X = 200, Y = 40 },
+                    new Coordinate { X = 150, Y = 50 },
+                ],
+        };
+        
         db.Games.Add(_game);
+        db.Players.Add(_aluce);
+        db.Territories.Add(_territory);
         
         GetType()
             .GetMethods()
@@ -29,8 +49,7 @@ public class DataSeeder(Gd6DbContext db)
             return;
         }
 
-        db.Players.Add(new Player { Id = 1, Name = "Aluce", Colour = "#f00" });
-        db.Players.Add(new Player { Id = 2, Name = "Psycho17", Colour = "#0f0" });
+        db.Players.Add(new Player { Name = "Psycho17", Colour = "#0f0" });
     }
 
     [Seed]
@@ -39,21 +58,6 @@ public class DataSeeder(Gd6DbContext db)
         if (db.Territories.Any()) {
             return;
         }
-
-        db.Territories.Add(new Territory
-        {
-            Game = _game,
-            Identifier = "1",
-            Coordinates = [
-                new Coordinate { X = 50, Y = 50 }, 
-                new Coordinate { X = 80, Y = 140 }, 
-                new Coordinate { X = 100, Y = 170 }, 
-                new Coordinate { X = 140, Y = 160 },
-                new Coordinate { X = 160, Y = 150 },
-                new Coordinate { X = 200, Y = 40 },
-                new Coordinate { X = 150, Y = 50 },
-            ],
-        });
         
         db.Territories.Add(new Territory
         {
@@ -91,6 +95,27 @@ public class DataSeeder(Gd6DbContext db)
                 new Coordinate { X = 340, Y = 180 },
                 new Coordinate { X = 250, Y = 150 },
             ],
+        });
+
+        db.SaveChanges();
+    }
+
+    [Seed]
+    public void SeedFirstTurn()
+    {
+        var turn = new Turn
+        {
+            Game = _game,
+            TurnNumber = 1,
+        };
+
+        db.Turns.Add(turn);
+        
+        db.TerritoryTurns.Add(new TerritoryTurn
+        {
+            Owner = _aluce,
+            Territory = _territory,
+            Turn = turn,
         });
 
         db.SaveChanges();

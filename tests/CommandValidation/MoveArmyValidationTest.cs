@@ -51,8 +51,6 @@ public class MoveArmyValidationTest : BaseTest
     [TestCase(3, true, RejectReason.PathTooLong)]
     public void ItChecksThatArmyCanMoveAtMostTwoTimes(int numMoves, bool expectedRejected, RejectReason? reason)
     {
-        // todo: use paths.
-        
         World.Territories[1].Owner = Players.Player1;
         World.Territories[1].Units.AddArmies(5);
 

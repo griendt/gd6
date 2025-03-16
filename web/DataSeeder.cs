@@ -10,8 +10,12 @@ public class SeedAttribute : Attribute;
 
 public class DataSeeder(Gd6DbContext db)
 {
+    private readonly Game _game = new() { Name = "Global Domination VI" };
+    
     public void Seed(DbContext context, bool seed)
     {
+        db.Games.Add(_game);
+        
         GetType()
             .GetMethods()
             .Where(method => method.GetCustomAttributes(typeof(SeedAttribute), false).Length > 0)
@@ -38,6 +42,7 @@ public class DataSeeder(Gd6DbContext db)
 
         db.Territories.Add(new Territory
         {
+            Game = _game,
             Identifier = "1",
             Coordinates = [
                 new Coordinate { X = 50, Y = 50 }, 
@@ -52,6 +57,7 @@ public class DataSeeder(Gd6DbContext db)
         
         db.Territories.Add(new Territory
         {
+            Game = _game,
             Identifier = "2",
             Coordinates = [
                 new Coordinate { X = 100, Y = 170 }, 
@@ -67,6 +73,7 @@ public class DataSeeder(Gd6DbContext db)
         
         db.Territories.Add(new Territory
         {
+            Game = _game,
             Identifier = "3",
             Coordinates = [
                 new Coordinate { X = 160, Y = 150 },

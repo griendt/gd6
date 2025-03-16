@@ -7,8 +7,10 @@ namespace web;
 
 public class Gd6DbContext : DbContext
 {
-    public DbSet<Territory> Territories { get; set; }
+    public DbSet<Game> Games { get; set; }
     public DbSet<Player> Players { get; set; }
+    public DbSet<GamePlayer> GamePlayers { get; set; }
+    public DbSet<Territory> Territories { get; set; }
     public DbSet<Turn> Turns { get; set; }
     public DbSet<TerritoryTurn> TerritoryTurns { get; set; }
     public DbSet<HeadQuarter> HeadQuarters { get; set; }
@@ -59,18 +61,19 @@ public class Gd6DbContext : DbContext
 public class Territory
 {
     [Key] public int Id { get; init; }
-
     public required string Identifier { get; set; }
+
+    public required Game Game { get; init; }
 
     [MinLength(3)] public List<Coordinate> Coordinates { get; init; } = [];
     public List<TerritoryTurn> TerritoryTurns { get; init; }
-    
+
     public Player? CurrentOwner()
     {
         if (TerritoryTurns == null || TerritoryTurns.Count == 0) {
             return null;
         }
-        
+
         return TerritoryTurns
             .OrderBy(territoryTurn => territoryTurn.Turn.Id)
             .Reverse()
@@ -116,7 +119,7 @@ public class HeadQuarter
 {
     [Key] public int Id { get; init; }
     public required string Name { get; set; }
-    
+
     public Player Settler { get; init; }
 }
 
@@ -129,11 +132,25 @@ public class Player
     public required string Colour { get; init; }
 }
 
+public class Game
+{
+    [Key] public Guid Id { get; init; }
+    public required string Name { get; init; }
+}
+
+public class GamePlayer
+{
+    [Key] public Guid Id { get; init; }
+    public required Game Game { get; init; }
+    public required Player Player { get; init; }
+}
+
 public class Turn
 {
-    [Key] public int Id { get; init; }
+    [Key] public Guid Id { get; init; }
+    public int TurnNumber { get; init; }
 
-    public Turn? PreviousTurn { get; init; }
+    public required Game Game { get; init; }
 }
 
 public class TerritoryTurn
@@ -142,7 +159,7 @@ public class TerritoryTurn
 
     public required Turn Turn { get; init; }
     public required Territory Territory { get; init; }
-    
+
     public HeadQuarter? HeadQuarter { get; init; }
     public Player? Owner { get; init; }
 }

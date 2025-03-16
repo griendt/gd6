@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Contracts;
 
 namespace engine.Models;
 
@@ -34,10 +35,12 @@ public class Territory(World world)
     /// </summary>
     public int Loyalty = 0;
 
+    [Pure]
     public IEnumerable<Territory> Neighbours() => world.TerritoryBorders
         .GetValueOrDefault(Id, [])
         .Select(id => world.Territories[id]);
 
+    [Pure]
     public bool IsNeighbour(Territory other) => Neighbours().Contains(other);
 
     private void Neutralize() => Owner = null;

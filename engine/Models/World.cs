@@ -1,4 +1,4 @@
-using JetBrains.Annotations;
+using System.Diagnostics.Contracts;
 
 namespace engine.Models;
 
@@ -16,6 +16,7 @@ public class World
         TerritoryBorders.SetOrAppend(second.Id, first.Id);
     }
 
+    [Pure]
     public List<int> GetLongestConcurrentlyOccupyingTerritories(Player commandIssuer)
     {
         var territories = Territories.Values

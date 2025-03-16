@@ -10,6 +10,8 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
 
     public override void Process(World world)
     {
+        // TODO: Implement. Note: we need to also keep into account conflicting moves
+        //  (skirmishes, invasions...)
     }
 
     [Validator]

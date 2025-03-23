@@ -29,23 +29,20 @@ public class MoveArmyExecutionTest : BaseTest
         //  Extend the command with a "conflicting commands" property and fill it
         //  e.g. during validation. Then each command in a command group must be
         //  executed at once, so that when one command is executed, all of them are.
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(World.Territories[2].Owner, Is.EqualTo(Players.Player1));
             Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
-            
+
             // One unit is moved, and it is not moved to any intermediate territories,
             // only to the final one.
             Assert.That(command.Path.Sum(territory => territory.Units.Armies), Is.EqualTo(1));
             Assert.That(command.Path.Last().Units.Armies, Is.EqualTo(1));
-            
+
             // All intermediate territories (if any) now belong to the issuer,
             // even though they are empty.
-            command.Path.Each(territory =>
-            {
-                Assert.That(territory.Owner, Is.EqualTo(command.Issuer));
-            });
+            command.Path.Each(territory => { Assert.That(territory.Owner, Is.EqualTo(command.Issuer)); });
         });
     }
 }

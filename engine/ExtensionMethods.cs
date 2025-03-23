@@ -17,7 +17,16 @@ public static class ExtensionMethods
             callback(item);
         }
     }
-    
+
+    public static IEnumerable<(int, T)> Enumerate<T>(this IEnumerable<T> collection)
+    {
+        var index = 0;
+        foreach (var item in collection) {
+            yield return (index, item);
+            index++;
+        }
+    }
+
     public static T Tap<T>(this T item, Action<T> callback)
     {
         callback(item);

@@ -88,9 +88,27 @@ public class Turn(World world)
 
     private void ProcessMovementPhase(List<Command> commands)
     {
-        commands
-            .Where(command => command is MoveArmy)
+        var validMoves = commands
+            .OfType<MoveArmy>()
             .ToList()
-            .Tap(moveArmies => ValidateAndProcess(moveArmies));
+            .Tap(moveArmies => CommandValidator.Validate(moveArmies, world))
+            .Where(moveArmy => !moveArmy.IsRejected);
+
+        List<MoveArmy> filteredMoves = [];
+
+        // Standard skirmish
+        foreach (var validMove in validMoves) {
+            var skirmishingMoves = validMoves
+                .Where(move => move != validMove)
+                .Where(move => move.Path.Count > 0)
+                .Where(move => move.Path.First() == validMove.Path.First());
+
+            filteredMoves
+                .AddRange(MoveArmy
+                    .ProcessSkirmish(skirmishingMoves.Concat([validMove]).ToList())
+                );
+        }
+
+        filteredMoves.Each(move => move.Process(world));
     }
 }

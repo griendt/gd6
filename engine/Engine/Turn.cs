@@ -5,13 +5,19 @@ namespace engine.Engine;
 
 public class Turn(World world)
 {
-    private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction];
+    private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction, Phase.Inventory, Phase.Movement];
     public readonly List<Command> Commands = [];
+
+    private bool _abort;
 
     public void Process()
     {
         foreach (var phase in Phases) {
             ProcessPhase(phase);
+
+            if (_abort) {
+                break;
+            }
         }
     }
 
@@ -21,6 +27,7 @@ public class Turn(World world)
         {
             Phase.Natural => ProcessNaturalPhase,
             Phase.Construction => ProcessConstructionPhase,
+            Phase.Inventory => ProcessInventoryPhase,
             _ => throw new ArgumentOutOfRangeException(nameof(phase), "Unknown phase"),
         };
 
@@ -31,13 +38,16 @@ public class Turn(World world)
         callback(commands);
     }
 
-    private void ProcessConstructionPhase(List<Command> commands)
+    private void ValidateAndProcess(List<Command> commands, bool abortOnRejections = false)
     {
-        var createHqs = commands.Where(command => command is CreateHq).ToList();
+        commands
+            .Tap(commandList => CommandValidator.Validate(commandList, world))
+            .Where(command => !command.IsRejected)
+            .Each(command => command.Process(world));
 
-        CommandValidator.Validate(createHqs, world);
-        // TODO: ensure CropSupply is performed before Dynamite (while being in the same phase).
-        // TODO: execute valid commands
+        if (abortOnRejections && commands.Find(command => command.IsRejected) != null) {
+            _abort = true;
+        }
     }
 
     private void ProcessNaturalPhase(List<Command> commands)
@@ -45,5 +55,26 @@ public class Turn(World world)
         foreach (var territory in world.Territories.Values) {
             territory.ApplyWastelandPenalty();
         }
+    }
+
+    private void ProcessConstructionPhase(List<Command> commands)
+    {
+        commands
+            .Where(command => command is CreateHq)
+            .ToList()
+            .Tap(createHqs => ValidateAndProcess(createHqs, true));
+    }
+
+    private void ProcessInventoryPhase(List<Command> commands)
+    {
+        commands
+            .Where(command => command is UseDynamite)
+            .ToList()
+            .Tap(useDynamites => ValidateAndProcess(useDynamites));
+
+        commands
+            .Where(command => command is UseCropSupply)
+            .ToList()
+            .Tap(useCropSupply => ValidateAndProcess(useCropSupply));
     }
 }

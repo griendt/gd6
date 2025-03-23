@@ -17,4 +17,10 @@ public static class ExtensionMethods
             callback(item);
         }
     }
+    
+    public static T Tap<T>(this T item, Action<T> callback)
+    {
+        callback(item);
+        return item;
+    }
 }

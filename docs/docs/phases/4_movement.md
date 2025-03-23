@@ -11,6 +11,9 @@ Each unit under your control can move to one adjacent land territory. There are 
     * Whenever relevant, *Skirmishes* are resolved before *Invasions*.
     * Whenever relevant, a player's moves are resolved in the order they were sent. In case of doubt, I may ask you to specify your move priorities.
 
+## Movement rules
+Each unit may move up to 2 territories per turn. Moving backwards is allowed (as in `A→B→A`).
+
 ## Skirmish
 When two or more players are involved in a *Skirmish*, the following rules will resolve the conflict:
 

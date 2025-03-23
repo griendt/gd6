@@ -5,8 +5,15 @@ namespace engine.Engine;
 
 public class Turn(World world)
 {
-    private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction, Phase.Inventory];
-    public readonly List<Command> Commands = [];
+    private static readonly Phase[] Phases =
+    [
+        Phase.Natural,
+        Phase.Construction,
+        Phase.Inventory,
+        Phase.Movement,
+    ];
+
+    private readonly List<Command> Commands = [];
 
     private bool _abort;
 
@@ -28,6 +35,7 @@ public class Turn(World world)
             Phase.Natural => ProcessNaturalPhase,
             Phase.Construction => ProcessConstructionPhase,
             Phase.Inventory => ProcessInventoryPhase,
+            Phase.Movement => ProcessMovementPhase,
             _ => throw new ArgumentOutOfRangeException(nameof(phase), "Unknown phase"),
         };
 
@@ -76,5 +84,13 @@ public class Turn(World world)
             .Where(command => command is UseCropSupply)
             .ToList()
             .Tap(useCropSupply => ValidateAndProcess(useCropSupply));
+    }
+
+    private void ProcessMovementPhase(List<Command> commands)
+    {
+        commands
+            .Where(command => command is MoveArmy)
+            .ToList()
+            .Tap(moveArmies => ValidateAndProcess(moveArmies));
     }
 }

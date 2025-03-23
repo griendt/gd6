@@ -5,7 +5,7 @@ namespace engine.Engine;
 
 public class Turn(World world)
 {
-    private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction, Phase.Inventory, Phase.Movement];
+    private static readonly Phase[] Phases = [Phase.Natural, Phase.Construction, Phase.Inventory];
     public readonly List<Command> Commands = [];
 
     private bool _abort;

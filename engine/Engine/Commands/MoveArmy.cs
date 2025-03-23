@@ -10,8 +10,14 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
 
     public override void Process(World world)
     {
-        // TODO: Implement. Note: we need to also keep into account conflicting moves
-        //  (skirmishes, invasions...)
+        // It is assumed here that the *entire path* was validated and considered safe.
+        // We may therefore process the entire movement at once. The Validator should
+        // split the command into sub-commands if any intermediate processing or
+        // validation is necessary.
+
+        Origin.Units.Pop();
+        Path.Last().Units.AddArmy();
+        Path.Each(territory => territory.Owner = Issuer);
     }
 
     [Validator]

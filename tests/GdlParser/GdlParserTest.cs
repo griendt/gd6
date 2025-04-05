@@ -5,45 +5,45 @@ namespace tests.GdlParser;
 
 public class GdlParserTest : BaseTest
 {
-    public gdl.GdlParser Parser;
+    private gdl.GdlParser _parser;
 
     [SetUp]
     public void SetUpParser()
     {
-        Parser = new gdl.GdlParser(World);
+        _parser = new gdl.GdlParser(World);
     }
 
     [Test]
     public void ItNoopsOnEmptyCommandList()
     {
-        Parser.Parse("");
+        _parser.Parse("");
 
-        Assert.That(Parser.Commands, Is.Empty);
+        Assert.That(_parser.Commands, Is.Empty);
     }
 
     [Test]
     public void ItNoopsOnCommandListWithOnlyPlayerNames()
     {
-        Parser.Parse($"Set {Players.Player1.Name}");
+        _parser.Parse($"Set {Players.Player1.Name}");
 
-        Assert.That(Parser.Commands, Is.Empty);
+        Assert.That(_parser.Commands, Is.Empty);
     }
 
     [Test]
     public void ItRejectsCommandSetWithUnknownPlayerName()
     {
-        Assert.Throws<UnknownPlayerException>(() => { Parser.Parse("Set UnknownPlayer"); });
-        Assert.That(Parser.Commands, Is.Empty);
+        Assert.Throws<UnknownPlayerException>(() => { _parser.Parse("Set UnknownPlayer"); });
+        Assert.That(_parser.Commands, Is.Empty);
     }
 
     [Test]
     public void ItParsesACreateHqOrder()
     {
-        Parser.Parse($"Set {Players.Player1.Name}\nCon {World.Territories.First().Value.Id} Hq");
+        _parser.Parse($"Set {Players.Player1.Name}\nCon {World.Territories.First().Value.Id} Hq");
 
-        Assert.That(Parser.Commands, Has.Count.EqualTo(1));
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
 
-        var command = Parser.Commands.First() as CreateHq;
+        var command = _parser.Commands.First() as CreateHq;
         Assert.That(command, Is.InstanceOf(typeof(CreateHq)));
 
         Assert.Multiple(() =>
@@ -56,12 +56,12 @@ public class GdlParserTest : BaseTest
     [Test]
     public void ItRejectsConstructionOrderBeforeSettingIssuer()
     {
-        Assert.Throws<CommandSetNotInitialized>(() => Parser.Parse("Con 1 Hq"));
+        Assert.Throws<CommandSetNotInitialized>(() => _parser.Parse("Con 1 Hq"));
     }
 
     [Test]
     public void ItRejectsACreateHqOrderWithUnknownOrigin()
     {
-        Assert.Throws<UnknownTerritoryException>(() => { Parser.Parse($"Set {Players.Player1.Name}\nCon UnknownTerritory Hq"); });
+        Assert.Throws<UnknownTerritoryException>(() => { _parser.Parse($"Set {Players.Player1.Name}\nCon UnknownTerritory Hq"); });
     }
 }

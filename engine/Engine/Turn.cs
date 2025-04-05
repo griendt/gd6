@@ -92,7 +92,8 @@ public class Turn(World world)
             .OfType<MoveArmy>()
             .ToList()
             .Tap(moveArmies => CommandValidator.Validate(moveArmies, world))
-            .Where(moveArmy => !moveArmy.IsRejected);
+            .Where(moveArmy => !moveArmy.IsRejected)
+            .ToList();
 
         List<MoveArmy> filteredMoves = [];
 

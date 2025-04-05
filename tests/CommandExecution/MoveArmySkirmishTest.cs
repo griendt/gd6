@@ -1,4 +1,6 @@
+using engine;
 using engine.Engine.Commands;
+using engine.Engine.MoveResolutions;
 
 namespace tests.CommandExecution;
 
@@ -33,13 +35,14 @@ public class MoveArmySkirmishTest : BaseTest
             },
         ];
 
-        var resultingMoves = MoveArmy.ProcessSkirmish(commands);
+        new Skirmish { Moves = commands }.Process(World);
+
+        // Both moves are considered processed
+        commands.Each(command => Assert.That(command.IsProcessed));
+
 
         Assert.Multiple(() =>
         {
-            // Moves are resolved without any resulting moves left to process
-            Assert.That(resultingMoves, Is.Empty);
-
             // Both territories lost a unit
             Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
             Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(4));

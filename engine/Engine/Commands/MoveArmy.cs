@@ -4,6 +4,7 @@ namespace engine.Engine.Commands;
 
 public class MoveArmy : Command, IHasOrigin, IHasPath
 {
+    public bool IsProcessed;
     public required Territory Origin { get; set; }
     public required List<Territory> Path { get; set; }
 
@@ -27,6 +28,7 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
     public void Fail()
     {
         Origin.Units.Pop();
+        IsProcessed = true;
     }
 
     [Validator]

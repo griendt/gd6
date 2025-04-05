@@ -6,9 +6,13 @@ public class World
 {
     public readonly Dictionary<int, Territory> Territories = [];
     public readonly Dictionary<int, List<int>> TerritoryBorders = [];
+    public List<Player> Players = [];
 
     [Pure]
-    public int NumberOfTerritories(Player player) => Territories.Values.Count(territory => territory.Owner == player);
+    public int NumberOfTerritories(Player player)
+    {
+        return Territories.Values.Count(territory => territory.Owner == player);
+    }
 
     public void AddBorder(Territory first, Territory second)
     {
@@ -26,7 +30,7 @@ public class World
         if (territories.Count == 0) {
             return [];
         }
-        
+
         var longestInterval = territories
             .Select(territory => territory.Loyalty)
             .Max();

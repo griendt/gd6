@@ -27,11 +27,20 @@ public abstract class BaseTest
     public void SetupPlayers()
     {
         Players = (
-            new Player { Id = 1, Name = "1" },
-            new Player { Id = 2, Name = "2" },
-            new Player { Id = 3, Name = "3" },
-            new Player { Id = 4, Name = "4" },
-            new Player { Id = 5, Name = "5" }
+            new Player { Id = 1, Name = "A" },
+            new Player { Id = 2, Name = "B" },
+            new Player { Id = 3, Name = "C" },
+            new Player { Id = 4, Name = "D" },
+            new Player { Id = 5, Name = "E" }
         );
+
+        World.Players =
+        [
+            Players.Player1,
+            Players.Player2,
+            Players.Player3,
+            Players.Player4,
+            Players.Player5,
+        ];
     }
 }

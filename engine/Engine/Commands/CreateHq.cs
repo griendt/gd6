@@ -5,7 +5,12 @@ namespace engine.Engine.Commands;
 public class CreateHq : Command, IHasOrigin
 {
     public required Territory Origin { get; set; }
-    public override Phase Phase() => Engine.Phase.Construction;
+
+    public override Phase Phase()
+    {
+        return Engine.Phase.Construction;
+    }
+
     public override void Process(World world)
     {
         world.Territories[Origin.Id].HqSettler = Issuer;
@@ -20,7 +25,7 @@ public class CreateHq : Command, IHasOrigin
             borders.Add(command.Origin.Id);
 
             var conflicts = commands
-                .Where(other => 
+                .Where(other =>
                     other.Issuer != command.Issuer &&
                     world.TerritoryBorders[other.Origin.Id].ToHashSet().Intersect(borders).Any())
                 .ToList();
@@ -50,12 +55,12 @@ public class CreateHq : Command, IHasOrigin
 
             blacklistedTerritoryIds.UnionWith(blacklistBorder);
         }
-        
+
         commands
             .Where(command => blacklistedTerritoryIds.Contains(command.Origin.Id))
             .Each(command => command.Reject(RejectReason.BuildingHqTooCloseToExistingHq));
     }
-    
+
     [Validator]
     public static void ValidateBuildingHqInOccupiedTerritory(List<CreateHq> commands, World world)
     {
@@ -77,7 +82,7 @@ public class CreateHq : Command, IHasOrigin
             }
         }
     }
-    
+
     [Validator]
     public static void ValidateBuildingHqWhenPlayerAlreadyHasHq(List<CreateHq> commands, World world)
     {

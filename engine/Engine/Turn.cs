@@ -46,16 +46,21 @@ public class Turn(World world)
         callback(commands);
     }
 
-    private void ValidateAndProcess(List<Command> commands, bool abortOnRejections = false)
+    private void ValidateAndProcess(IEnumerable<Command> commands, bool abortOnRejections = false)
     {
         commands
             .Tap(commandList => CommandValidator.Validate(commandList, world))
-            .Where(command => !command.IsRejected)
-            .Each(command => command.Process(world));
-
-        if (abortOnRejections && commands.Find(command => command.IsRejected) != null) {
-            _abort = true;
-        }
+            .Each(command =>
+            {
+                if (command.IsRejected) {
+                    if (abortOnRejections) {
+                        _abort = true;
+                    }
+                }
+                else {
+                    command.Process(world);
+                }
+            });
     }
 
     private void ProcessNaturalPhase(List<Command> commands)
@@ -68,21 +73,18 @@ public class Turn(World world)
     private void ProcessConstructionPhase(List<Command> commands)
     {
         commands
-            .Where(command => command is CreateHq)
-            .ToList()
+            .OfType<CreateHq>()
             .Tap(createHqs => ValidateAndProcess(createHqs, true));
     }
 
     private void ProcessInventoryPhase(List<Command> commands)
     {
         commands
-            .Where(command => command is UseDynamite)
-            .ToList()
+            .OfType<UseDynamite>()
             .Tap(useDynamites => ValidateAndProcess(useDynamites));
 
         commands
-            .Where(command => command is UseCropSupply)
-            .ToList()
+            .OfType<UseCropSupply>()
             .Tap(useCropSupply => ValidateAndProcess(useCropSupply));
     }
 
@@ -90,26 +92,12 @@ public class Turn(World world)
     {
         var validMoves = commands
             .OfType<MoveArmy>()
-            .ToList()
             .Tap(moveArmies => CommandValidator.Validate(moveArmies, world))
             .Where(moveArmy => !moveArmy.IsRejected)
             .ToList();
 
-        List<MoveArmy> filteredMoves = [];
-
-        // Standard skirmish
-        foreach (var validMove in validMoves) {
-            var skirmishingMoves = validMoves
-                .Where(move => move != validMove)
-                .Where(move => move.Path.Count > 0)
-                .Where(move => move.Path.First() == validMove.Path.First());
-
-            filteredMoves
-                .AddRange(MoveArmy
-                    .ProcessSkirmish(skirmishingMoves.Concat([validMove]).ToList())
-                );
+        // Resolve until no more resolution is done
+        while (!MoveArmyOrderResolver.Resolve(validMoves)) {
         }
-
-        filteredMoves.Each(move => move.Process(world));
     }
 }

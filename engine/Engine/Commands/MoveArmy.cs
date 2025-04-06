@@ -51,36 +51,4 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
             .Where(command => command.Path.Count > 2)
             .Each(command => command.Reject(RejectReason.PathTooLong));
     }
-
-    public static List<MoveArmy> ProcessSkirmish(List<MoveArmy> commands)
-    {
-        var commandsByPlayer = new Dictionary<Player, List<MoveArmy>>();
-
-        foreach (var command in commands) {
-            if (!commandsByPlayer.ContainsKey(command.Issuer)) {
-                commandsByPlayer[command.Issuer] = [];
-            }
-
-            commandsByPlayer[command.Issuer].Add(command);
-        }
-
-        while (true) {
-            if (commandsByPlayer.Count(group => group.Value.Count > 0) <= 1) {
-                // If only one (or zero) players have moves left, break out of the loop.
-                break;
-            }
-
-            foreach (var (player, moves) in commandsByPlayer) {
-                // TODO: keep into account command priority (i.e. pop lowest priority first!)
-                moves.First().Fail();
-                moves.RemoveAt(0);
-            }
-        }
-
-        foreach (var (player, remainingCommands) in commandsByPlayer) {
-            return remainingCommands;
-        }
-
-        return [];
-    }
 }

@@ -112,4 +112,40 @@ public class GdlParserTest : BaseTest
             });
         }
     }
+
+    [Test]
+    public void ItParsesBasicMoveArmyOrder()
+    {
+        var name = Players.Player1.Name;
+        _parser.Parse($"Set {name}\nMov 1→2 1A");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as MoveArmy;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(MoveArmy)));
+            Assert.That(command.Origin.Id, Is.EqualTo(1));
+            Assert.That(command.Path.Select(territory => territory.Id).ToList(), Is.EqualTo([1, 2]));
+        });
+    }
+
+    [Test]
+    public void ItParsesALongerPathOfMoves()
+    {
+        var name = Players.Player1.Name;
+        _parser.Parse($"Set {name}\nMov 1→2→3→4 1A");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as MoveArmy;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(MoveArmy)));
+            Assert.That(command.Origin.Id, Is.EqualTo(1));
+            Assert.That(command.Path.Select(territory => territory.Id).ToList(), Is.EqualTo([1, 2, 3, 4]));
+        });
+    }
 }

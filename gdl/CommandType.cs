@@ -90,13 +90,18 @@ public partial class GdlParser(World world)
 
         if (command[2] == "Hq") {
             Commands.Add(new CreateHq { Issuer = CurrentIssuer!, Origin = target });
+            return;
         }
 
-        else if (!ArmiesRegex().Match(command[2]).Success) {
-            throw new Exception("Could not parse second argument");
+        var armiesMatch = ArmiesRegex().Match(command[2]);
+        if (armiesMatch.Success) {
+            Commands.Add(new SpawnArmy { Issuer = CurrentIssuer!, Origin = target, Quantity = int.Parse(armiesMatch.Groups[1].Value) });
+            return;
         }
+
+        throw new Exception("Could not parse second argument");
     }
 
-    [GeneratedRegex(@"^\d+A$")]
+    [GeneratedRegex(@"^(\d+)A$")]
     private static partial Regex ArmiesRegex();
 }

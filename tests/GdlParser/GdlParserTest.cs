@@ -64,4 +64,25 @@ public class GdlParserTest : BaseTest
     {
         Assert.Throws<UnknownTerritoryException>(() => { _parser.Parse($"Set {Players.Player1.Name}\nCon UnknownTerritory Hq"); });
     }
+
+    [TestCase(1)]
+    [TestCase(3)]
+    [TestCase(12)]
+    public void ItParsesConstructArmyOrder(int quantity)
+    {
+        var name = Players.Player1.Name;
+        var territoryId = World.Territories.First().Value.Id;
+        _parser.Parse($"Set {name}\nCon {territoryId} {quantity}A");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as SpawnArmy;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(SpawnArmy)));
+            Assert.That(command!.Origin.Id, Is.EqualTo(territoryId));
+            Assert.That(command.Quantity, Is.EqualTo(quantity));
+        });
+    }
 }

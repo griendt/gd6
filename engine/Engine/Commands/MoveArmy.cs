@@ -15,14 +15,7 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
 
     public override void Process(World world)
     {
-        // It is assumed here that the *entire path* was validated and considered safe.
-        // We may therefore process the entire movement at once. The Validator should
-        // split the command into sub-commands if any intermediate processing or
-        // validation is necessary.
-
-        Origin.Units.Pop();
-        Path.Last().Units.AddArmy();
-        Path.Each(territory => territory.Owner = Issuer);
+        throw new Exception("MoveArmy should not be processed directly, but via a MoveResolver");
     }
 
     public void Fail()

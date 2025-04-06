@@ -46,7 +46,15 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
     public static void ValidatePathLength(IEnumerable<MoveArmy> commands, World world)
     {
         commands
-            .Where(command => command.Path.Count > 2)
-            .Each(command => command.Reject(RejectReason.PathTooLong));
+            .Where(command => !((int[]) [2, 3]).Contains(command.Path.Count))
+            .Each(command => command.Reject(RejectReason.InvalidPathLength));
+    }
+
+    [Validator]
+    public static void ValidateFirstPartOfPathIsEqualToOrigin(IEnumerable<MoveArmy> commands, World world)
+    {
+        commands
+            .Where(command => command.Origin != command.Path[0])
+            .Each(command => command.Reject(RejectReason.InvalidPathStartingPoint));
     }
 }

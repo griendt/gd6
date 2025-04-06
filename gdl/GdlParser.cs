@@ -30,6 +30,7 @@ public partial class GdlParser(World world)
             {
                 "Set" => InitializeMoveSet,
                 "Con" => Construct,
+                "Inv" => Inventory,
                 "Mov" => Move,
                 _ => throw new UnknownCommandType(),
             };
@@ -96,6 +97,30 @@ public partial class GdlParser(World world)
                 Origin = world.Territories[path[0]],
                 Path = path.Select(item => world.Territories[item]).ToList(),
             });
+        }
+    }
+
+    private void Inventory(string[] command)
+    {
+        switch (command[2]) {
+            case "Dyn":
+                var path = command[1].Split('→')
+                    .Select(int.Parse)
+                    .ToList();
+
+                if (path.Count != 2) {
+                    throw new InvalidPathLengthException(2, path.Count);
+                }
+
+                Commands.Add(new UseDynamite
+                {
+                    Issuer = _currentIssuer!,
+                    Origin = world.Territories[path[0]],
+                    Target = world.Territories[path[1]],
+                });
+                break;
+            default:
+                throw new UnknownInventoryItemException();
         }
     }
 

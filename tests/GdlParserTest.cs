@@ -148,4 +148,34 @@ public class GdlParserTest : BaseTest
             Assert.That(command.Path.Select(territory => territory.Id).ToList(), Is.EqualTo([1, 2, 3, 4]));
         });
     }
+
+    [Test]
+    public void ItParsesAUseDynamiteOrder()
+    {
+        var name = Players.Player1.Name;
+        _parser.Parse($"Set {name}\nInv 1→2 Dyn");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as UseDynamite;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(UseDynamite)));
+            Assert.That(command.Origin.Id, Is.EqualTo(1));
+            Assert.That(command.Target.Id, Is.EqualTo(2));
+        });
+    }
+
+    [Test]
+    public void ItRejectsAUseDynamiteOrderIfFirstArgumentNotSimplePath()
+    {
+        var name = Players.Player1.Name;
+
+        Assert.Multiple(() =>
+        {
+            Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nInv 1 Dyn"));
+            Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nInv 1→2→3 Dyn"));
+        });
+    }
 }

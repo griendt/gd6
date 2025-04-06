@@ -178,4 +178,29 @@ public class GdlParserTest : BaseTest
             Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nInv 1→2→3 Dyn"));
         });
     }
+
+    [Test]
+    public void ItParsesAUseCropSupplyOrder()
+    {
+        var name = Players.Player1.Name;
+
+        _parser.Parse($"Set {name}\nInv 1:3,2:2 Crp");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as UseCropSupply;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(UseCropSupply)));
+        });
+
+        Assert.That(command.Quantities.Keys.ToList(), Is.EqualTo([1, 2]));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command.Quantities[1], Is.EqualTo(3));
+            Assert.That(command.Quantities[2], Is.EqualTo(2));
+        });
+    }
 }

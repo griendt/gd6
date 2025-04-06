@@ -119,6 +119,15 @@ public partial class GdlParser(World world)
                     Target = world.Territories[path[1]],
                 });
                 break;
+            case "Crp":
+                Commands.Add(new UseCropSupply
+                {
+                    Issuer = _currentIssuer!,
+                    Quantities = command[1].Split(',')
+                        .Select(item => item.Split(':'))
+                        .ToDictionary(item => int.Parse(item[0]), item => int.Parse(item[1])),
+                });
+                break;
             default:
                 throw new UnknownInventoryItemException();
         }

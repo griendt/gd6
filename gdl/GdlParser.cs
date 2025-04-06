@@ -5,26 +5,6 @@ using gdl.Exceptions;
 
 namespace gdl;
 
-public class CommandType
-{
-    private CommandType(string value)
-    {
-        Value = value;
-    }
-
-    private string Value { get; }
-
-    public static CommandType Set => new("Set");
-    public static CommandType Con => new("Con");
-    public static CommandType Inv => new("Inv");
-    public static CommandType Mov => new("Mov");
-
-    public override string ToString()
-    {
-        return Value;
-    }
-}
-
 public partial class GdlParser(World world)
 {
     public readonly List<Command> Commands = [];
@@ -50,7 +30,7 @@ public partial class GdlParser(World world)
             {
                 "Set" => InitializeMoveset,
                 "Con" => Construct,
-                _ => throw new ArgumentOutOfRangeException(),
+                _ => throw new UnknownCommandType(),
             };
 
             callback(parts);

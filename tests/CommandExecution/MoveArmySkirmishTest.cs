@@ -52,4 +52,125 @@ public class MoveArmySkirmishTest : BaseTest
             Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(0));
         });
     }
+
+    [Test]
+    public void ItProcessesAMutualAttackSkirmish()
+    {
+        World.Territories[2].Owner = Players.Player3;
+        World.Territories[2].Units.AddArmies(5);
+
+        List<MoveArmy> commands =
+        [
+            new()
+            {
+                Issuer = Players.Player1,
+                Origin = World.Territories[1],
+                Path = [World.Territories[2]],
+            },
+            new()
+            {
+                Issuer = Players.Player3,
+                Origin = World.Territories[2],
+                Path = [World.Territories[1]],
+            },
+        ];
+
+        new Skirmish { Moves = commands }.Process(World);
+
+        // Both moves are considered processed
+        commands.Each(command => Assert.That(command.IsProcessed));
+
+        Assert.Multiple(() =>
+        {
+            // Both territories lost a unit
+            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
+            Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(4));
+        });
+    }
+
+    [Test]
+    public void ItProcessesALargerCircularSkirmish()
+    {
+        World.Territories[2].Owner = Players.Player3;
+        World.Territories[2].Units.AddArmies(5);
+
+        List<MoveArmy> commands =
+        [
+            new()
+            {
+                Issuer = Players.Player1,
+                Origin = World.Territories[1],
+                Path = [World.Territories[2]],
+            },
+            new()
+            {
+                Issuer = Players.Player3,
+                Origin = World.Territories[2],
+                Path = [World.Territories[3]],
+            },
+            new()
+            {
+                Issuer = Players.Player2,
+                Origin = World.Territories[3],
+                Path = [World.Territories[1]],
+            },
+        ];
+
+        new Skirmish { Moves = commands }.Process(World);
+
+        // All moves are considered processed
+        commands.Each(command => Assert.That(command.IsProcessed));
+
+        // Each territory lost one unit
+        Assert.Multiple(() => { ((int[]) [1, 2, 3]).Each(id => Assert.That(World.Territories[id].Units.Armies, Is.EqualTo(4))); });
+    }
+
+
+    [Test]
+    public void ItLeavesLeftOverMovesAfterSkirmish()
+    {
+        List<MoveArmy> commands =
+        [
+            new()
+            {
+                Issuer = Players.Player1,
+                Origin = World.Territories[1],
+                Path = [World.Territories[2]],
+            },
+            new()
+            {
+                Issuer = Players.Player1,
+                Origin = World.Territories[1],
+                Path = [World.Territories[2], World.Territories[4]],
+            },
+            new()
+            {
+                Issuer = Players.Player2,
+                Origin = World.Territories[3],
+                Path = [World.Territories[2]],
+            },
+        ];
+
+        new Skirmish { Moves = commands }.Process(World);
+
+        // Two of three moves are considered processed
+        Assert.That(commands.Count(command => command.IsProcessed), Is.EqualTo(2));
+
+        // The unprocessed move is the second command by player 1.
+        // This is because the first move is considered higher priority.
+        var unprocessedMove = commands.First(command => !command.IsProcessed);
+        Assert.That(unprocessedMove.Path, Has.Count.EqualTo(2));
+
+        Assert.Multiple(() =>
+        {
+            // Both territories lost a unit
+            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
+            Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(4));
+
+            // The middle territory remains neutral.
+            // It will be overtaken only later by the last remaining move.
+            Assert.That(World.Territories[2].IsNeutral);
+            Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(0));
+        });
+    }
 }

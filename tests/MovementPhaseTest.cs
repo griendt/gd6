@@ -52,4 +52,40 @@ public class MovementPhaseTest : BaseTest
             Assert.That(World.Territories[2].IsNeutral);
         });
     }
+
+    [Test]
+    public void ItResolvesMutualInvasionAsSkirmish()
+    {
+        World.Territories[2].Owner = Players.Player2;
+        World.Territories[2].Units.AddArmies(5);
+
+        List<Command> commands =
+        [
+            new MoveArmy
+            {
+                Issuer = Players.Player1,
+                Origin = World.Territories[1],
+                Path = [World.Territories[1], World.Territories[2]],
+            },
+            new MoveArmy
+            {
+                Issuer = Players.Player2,
+                Origin = World.Territories[2],
+                Path = [World.Territories[2], World.Territories[1]],
+            },
+        ];
+
+        new Turn { World = World, Commands = commands }.Process();
+
+        // Processed as a skirmish
+        Assert.Multiple(() =>
+        {
+            commands.OfType<MoveArmy>().Each(command => Assert.That(command.IsProcessed));
+
+            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
+            Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(4));
+            Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
+            Assert.That(World.Territories[2].Owner, Is.EqualTo(Players.Player2));
+        });
+    }
 }

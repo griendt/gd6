@@ -36,11 +36,9 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
     public static void ValidatePathIsConnected(IEnumerable<MoveArmy> commands, World world)
     {
         commands
-            .Where(command =>
-                !world.TerritoryBorders[command.Origin.Id].Contains(command.Path.First().Id) ||
-                Enumerable
-                    .Range(0, command.Path.Count - 1)
-                    .Any(index => !world.TerritoryBorders[command.Path[index].Id].Contains(command.Path[index + 1].Id)))
+            .Where(command => Enumerable
+                .Range(0, command.Path.Count - 1)
+                .Any(index => !world.TerritoryBorders[command.Path[index].Id].Contains(command.Path[index + 1].Id)))
             .Each(command => command.Reject(RejectReason.PathNotConnected));
     }
 

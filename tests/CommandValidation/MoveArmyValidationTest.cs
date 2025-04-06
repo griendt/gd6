@@ -36,7 +36,7 @@ public class MoveArmyValidationTest : BaseTest
         World.Territories[originId].Owner = Players.Player1;
         World.Territories[originId].Units.AddArmies(5);
 
-        var command = new MoveArmy { Issuer = Players.Player1, Origin = World.Territories[originId], Path = [World.Territories[targetId]] };
+        var command = new MoveArmy { Issuer = Players.Player1, Origin = World.Territories[originId], Path = [World.Territories[originId], World.Territories[targetId]] };
 
         CommandValidator.Validate([command], World);
 
@@ -54,15 +54,15 @@ public class MoveArmyValidationTest : BaseTest
         World.Territories[1].Owner = Players.Player1;
         World.Territories[1].Units.AddArmies(5);
 
-        var command = new MoveArmy()
+        var command = new MoveArmy
         {
             Issuer = Players.Player1,
             Origin = World.Territories[1],
             Path = Enumerable.Range(2, numMoves).Select(i => World.Territories[i]).ToList(),
         };
-            
+
         CommandValidator.Validate([command], World);
-        
+
         Assert.That(command.IsRejected, Is.EqualTo(expectedRejected));
         if (reason != null) {
             Assert.That(command.Rejections.First().Reason, Is.EqualTo(reason));

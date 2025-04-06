@@ -3,7 +3,7 @@ using engine.Models;
 
 namespace engine.Engine;
 
-public class Turn(World world)
+public class Turn
 {
     private static readonly Phase[] Phases =
     [
@@ -13,9 +13,9 @@ public class Turn(World world)
         Phase.Movement,
     ];
 
-    private readonly List<Command> Commands = [];
-
     private bool _abort;
+    public required List<Command> Commands = [];
+    public required World World;
 
     public void Process()
     {
@@ -39,17 +39,17 @@ public class Turn(World world)
             _ => throw new ArgumentOutOfRangeException(nameof(phase), "Unknown phase"),
         };
 
-        var commands = Commands
+        var commands1 = Commands
             .Where(command => command.Phase() == phase)
             .ToList();
 
-        callback(commands);
+        callback(commands1);
     }
 
     private void ValidateAndProcess(IEnumerable<Command> commands, bool abortOnRejections = false)
     {
         commands
-            .Tap(commandList => CommandValidator.Validate(commandList, world))
+            .Tap(commandList => CommandValidator.Validate(commandList, World))
             .Each(command =>
             {
                 if (command.IsRejected) {
@@ -58,14 +58,14 @@ public class Turn(World world)
                     }
                 }
                 else {
-                    command.Process(world);
+                    command.Process(World);
                 }
             });
     }
 
     private void ProcessNaturalPhase(List<Command> commands)
     {
-        foreach (var territory in world.Territories.Values) {
+        foreach (var territory in World.Territories.Values) {
             territory.ApplyWastelandPenalty();
         }
     }
@@ -92,12 +92,12 @@ public class Turn(World world)
     {
         var validMoves = commands
             .OfType<MoveArmy>()
-            .Tap(moveArmies => CommandValidator.Validate(moveArmies, world))
+            .Tap(moveArmies => CommandValidator.Validate(moveArmies, World))
             .Where(moveArmy => !moveArmy.IsRejected)
             .ToList();
 
         // Resolve until no more resolution is done
-        while (!MoveArmyOrderResolver.Resolve(validMoves)) {
+        while (MoveArmyOrderResolver.Resolve(validMoves, World)) {
         }
     }
 }

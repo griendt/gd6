@@ -1,16 +1,17 @@
+using engine.Engine.Commands;
 using engine.Models;
 
 namespace engine.Engine.MoveResolutions;
 
-public class Skirmish : MoveResolver, IProcessable
+public class Skirmish : MoveResolver
 {
-    public override void Process(World world)
+    public override void Resolve(List<MoveArmy> moves, World world)
     {
-        var commandsByPlayer = Moves.GroupBy(move => move.Issuer).ToList();
+        var commandsByPlayer = moves.GroupBy(move => move.Issuer).ToList();
 
         while (commandsByPlayer.Count(group => group.Any(move => !move.IsProcessed)) > 1) {
-            foreach (var moves in commandsByPlayer) {
-                moves.First().Fail();
+            foreach (var movesForPlayer in commandsByPlayer) {
+                movesForPlayer.First().Fail();
             }
         }
     }

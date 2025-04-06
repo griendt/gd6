@@ -35,7 +35,7 @@ public class MoveArmySkirmishTest : BaseTest
             },
         ];
 
-        new Skirmish { Moves = commands }.Process(World);
+        new Skirmish().Resolve(commands, World);
 
         // Both moves are considered processed
         commands.Each(command => Assert.That(command.IsProcessed));
@@ -75,7 +75,7 @@ public class MoveArmySkirmishTest : BaseTest
             },
         ];
 
-        new Skirmish { Moves = commands }.Process(World);
+        new Skirmish().Resolve(commands, World);
 
         // Both moves are considered processed
         commands.Each(command => Assert.That(command.IsProcessed));
@@ -116,7 +116,7 @@ public class MoveArmySkirmishTest : BaseTest
             },
         ];
 
-        new Skirmish { Moves = commands }.Process(World);
+        new Skirmish().Resolve(commands, World);
 
         // All moves are considered processed
         commands.Each(command => Assert.That(command.IsProcessed));
@@ -151,7 +151,7 @@ public class MoveArmySkirmishTest : BaseTest
             },
         ];
 
-        new Skirmish { Moves = commands }.Process(World);
+        new Skirmish().Resolve(commands, World);
 
         // Two of three moves are considered processed
         Assert.That(commands.Count(command => command.IsProcessed), Is.EqualTo(2));

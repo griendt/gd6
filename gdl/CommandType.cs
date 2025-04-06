@@ -27,8 +27,8 @@ public class CommandType
 
 public partial class GdlParser(World world)
 {
-    public List<Command> Commands = [];
-    private Player? CurrentIssuer;
+    public readonly List<Command> Commands = [];
+    private Player? _currentIssuer;
 
     public void Parse(string lines)
     {
@@ -42,7 +42,7 @@ public partial class GdlParser(World world)
 
             var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            if (CurrentIssuer == null && parts[0] != "Set") {
+            if (_currentIssuer == null && parts[0] != "Set") {
                 throw new CommandSetNotInitialized();
             }
 
@@ -60,7 +60,7 @@ public partial class GdlParser(World world)
     private void InitializeMoveset(string[] command)
     {
         try {
-            CurrentIssuer = world.Players.First(player => player.Name == command[1]);
+            _currentIssuer = world.Players.First(player => player.Name == command[1]);
         }
         catch (InvalidOperationException) {
             throw new UnknownPlayerException();
@@ -89,13 +89,13 @@ public partial class GdlParser(World world)
         var target = world.Territories[territoryId];
 
         if (command[2] == "Hq") {
-            Commands.Add(new CreateHq { Issuer = CurrentIssuer!, Origin = target });
+            Commands.Add(new CreateHq { Issuer = _currentIssuer!, Origin = target });
             return;
         }
 
         var armiesMatch = ArmiesRegex().Match(command[2]);
         if (armiesMatch.Success) {
-            Commands.Add(new SpawnArmy { Issuer = CurrentIssuer!, Origin = target, Quantity = int.Parse(armiesMatch.Groups[1].Value) });
+            Commands.Add(new SpawnArmy { Issuer = _currentIssuer!, Origin = target, Quantity = int.Parse(armiesMatch.Groups[1].Value) });
             return;
         }
 

@@ -8,8 +8,8 @@ public class UseCropSupplyValidationTest : BaseTest
     [SetUp]
     public void SetUpOwners()
     {
-        World.Territories[1].HqSettler = Players.Player1;
-        World.Territories[1].Owner = Players.Player1;
+        T(1).HqSettler = Players.Player1;
+        T(1).Owner = Players.Player1;
     }
 
     [Test]
@@ -18,7 +18,7 @@ public class UseCropSupplyValidationTest : BaseTest
         var command = new UseCropSupply
         {
             Issuer = Players.Player1,
-            Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 5 } },
+            Quantities = new Dictionary<int, int> { { T(1).Id, 5 } },
         };
         Players.Player1.Inventory = [Item.CropSupply];
 
@@ -38,7 +38,7 @@ public class UseCropSupplyValidationTest : BaseTest
             .Select(i => new UseCropSupply
             {
                 Issuer = Players.Player1,
-                Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 5 } },
+                Quantities = new Dictionary<int, int> { { T(1).Id, 5 } },
             })
             .ToList();
 
@@ -57,7 +57,7 @@ public class UseCropSupplyValidationTest : BaseTest
         var command = new UseCropSupply
         {
             Issuer = Players.Player1,
-            Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 6 } },
+            Quantities = new Dictionary<int, int> { { T(1).Id, 6 } },
         };
         Players.Player1.Inventory = [Item.CropSupply];
 
@@ -77,7 +77,7 @@ public class UseCropSupplyValidationTest : BaseTest
         var commands = Enumerable.Range(1, numCropsInCommands).Select(i => new UseCropSupply
         {
             Issuer = Players.Player1,
-            Quantities = new Dictionary<int, int> { { World.Territories[1].Id, 5 } },
+            Quantities = new Dictionary<int, int> { { T(1).Id, 5 } },
         }).ToList();
 
         Players.Player1.Inventory = Enumerable.Range(1, numCropsInInventory).Select(Item (i) => Item.CropSupply).ToList();
@@ -101,16 +101,17 @@ public class UseCropSupplyValidationTest : BaseTest
         foreach (var i in Enumerable.Range(1, numOwnedTerritories)) {
             World.Territories[i].Owner = Players.Player1;
         }
+
         Players.Player1.Inventory = [Item.CropSupply];
 
         var command = new UseCropSupply
         {
             Issuer = Players.Player1,
-            Quantities = new Dictionary<int, int> { { World.Territories[1].Id, maxArmiesForCropSupply } },
+            Quantities = new Dictionary<int, int> { { T(1).Id, maxArmiesForCropSupply } },
         };
-        
+
         CommandValidator.Validate([command], World);
-        
+
         Assert.That(command.IsRejected, Is.False);
     }
 }

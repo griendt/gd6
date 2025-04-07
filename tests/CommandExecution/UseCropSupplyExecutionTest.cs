@@ -7,7 +7,7 @@ public class UseCropSupplyExecutionTest : BaseTest
     [SetUp]
     public void SetUpOwners()
     {
-        World.Territories[1].Owner = Players.Player1;
+        T(1).Owner = Players.Player1;
     }
 
     [TestCase(0, 3, 3)]
@@ -21,14 +21,14 @@ public class UseCropSupplyExecutionTest : BaseTest
             Issuer = Players.Player1,
             Quantities = new Dictionary<int, int>
             {
-                { World.Territories[1].Id, numAdded },
+                { T(1).Id, numAdded },
             },
         };
-        World.Territories[1].Units.AddArmies(numExisting);
+        T(1).Units.AddArmies(numExisting);
 
 
         command.Process(World);
 
-        Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(numTotal));
+        Assert.That(T(1).Units.Armies, Is.EqualTo(numTotal));
     }
 }

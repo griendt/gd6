@@ -7,6 +7,11 @@ public abstract class BaseTest
     protected (Player Player1, Player Player2, Player Player3, Player Player4, Player Player5) Players;
     protected World World;
 
+    protected Territory T(int id)
+    {
+        return World.Territories[id];
+    }
+
     [SetUp]
     public void SetupWorld()
     {

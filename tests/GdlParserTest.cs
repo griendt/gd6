@@ -1,17 +1,18 @@
 using engine;
 using engine.Engine.Commands;
+using gdl;
 using gdl.Exceptions;
 
-namespace tests.GdlParser;
+namespace tests;
 
 public class GdlParserTest : BaseTest
 {
-    private gdl.GdlParser _parser;
+    private GdlParser _parser;
 
     [SetUp]
     public void SetUpParser()
     {
-        _parser = new gdl.GdlParser(World);
+        _parser = new GdlParser(World);
     }
 
     [Test]

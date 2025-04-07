@@ -9,11 +9,11 @@ public class MoveArmySkirmishTest : BaseTest
     [SetUp]
     public void SetUpForSkirmish()
     {
-        World.Territories[1].Owner = Players.Player1;
-        World.Territories[1].Units.AddArmies(5);
+        T(1).Owner = Players.Player1;
+        T(1).Units.AddArmies(5);
 
-        World.Territories[3].Owner = Players.Player2;
-        World.Territories[3].Units.AddArmies(5);
+        T(3).Owner = Players.Player2;
+        T(3).Units.AddArmies(5);
     }
 
     [Test]
@@ -24,14 +24,14 @@ public class MoveArmySkirmishTest : BaseTest
             new()
             {
                 Issuer = Players.Player1,
-                Origin = World.Territories[1],
-                Path = [World.Territories[2]],
+                Origin = T(1),
+                Path = [T(2)],
             },
             new()
             {
                 Issuer = Players.Player2,
-                Origin = World.Territories[3],
-                Path = [World.Territories[2]],
+                Origin = T(3),
+                Path = [T(2)],
             },
         ];
 
@@ -44,34 +44,34 @@ public class MoveArmySkirmishTest : BaseTest
         Assert.Multiple(() =>
         {
             // Both territories lost a unit
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
-            Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(4));
+            Assert.That(T(1).Units.Armies, Is.EqualTo(4));
+            Assert.That(T(3).Units.Armies, Is.EqualTo(4));
 
             // The middle territory remains neutral
-            Assert.That(World.Territories[2].IsNeutral);
-            Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(0));
+            Assert.That(T(2).IsNeutral);
+            Assert.That(T(2).Units.Armies, Is.EqualTo(0));
         });
     }
 
     [Test]
     public void ItProcessesAMutualAttackSkirmish()
     {
-        World.Territories[2].Owner = Players.Player3;
-        World.Territories[2].Units.AddArmies(5);
+        T(2).Owner = Players.Player3;
+        T(2).Units.AddArmies(5);
 
         List<MoveArmy> commands =
         [
             new()
             {
                 Issuer = Players.Player1,
-                Origin = World.Territories[1],
-                Path = [World.Territories[2]],
+                Origin = T(1),
+                Path = [T(2)],
             },
             new()
             {
                 Issuer = Players.Player3,
-                Origin = World.Territories[2],
-                Path = [World.Territories[1]],
+                Origin = T(2),
+                Path = [T(1)],
             },
         ];
 
@@ -83,36 +83,36 @@ public class MoveArmySkirmishTest : BaseTest
         Assert.Multiple(() =>
         {
             // Both territories lost a unit
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
-            Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(4));
+            Assert.That(T(1).Units.Armies, Is.EqualTo(4));
+            Assert.That(T(2).Units.Armies, Is.EqualTo(4));
         });
     }
 
     [Test]
     public void ItProcessesALargerCircularSkirmish()
     {
-        World.Territories[2].Owner = Players.Player3;
-        World.Territories[2].Units.AddArmies(5);
+        T(2).Owner = Players.Player3;
+        T(2).Units.AddArmies(5);
 
         List<MoveArmy> commands =
         [
             new()
             {
                 Issuer = Players.Player1,
-                Origin = World.Territories[1],
-                Path = [World.Territories[2]],
+                Origin = T(1),
+                Path = [T(2)],
             },
             new()
             {
                 Issuer = Players.Player3,
-                Origin = World.Territories[2],
-                Path = [World.Territories[3]],
+                Origin = T(2),
+                Path = [T(3)],
             },
             new()
             {
                 Issuer = Players.Player2,
-                Origin = World.Territories[3],
-                Path = [World.Territories[1]],
+                Origin = T(3),
+                Path = [T(1)],
             },
         ];
 
@@ -134,20 +134,20 @@ public class MoveArmySkirmishTest : BaseTest
             new()
             {
                 Issuer = Players.Player1,
-                Origin = World.Territories[1],
-                Path = [World.Territories[2]],
+                Origin = T(1),
+                Path = [T(2)],
             },
             new()
             {
                 Issuer = Players.Player1,
-                Origin = World.Territories[1],
-                Path = [World.Territories[2], World.Territories[4]],
+                Origin = T(1),
+                Path = [T(2), T(4)],
             },
             new()
             {
                 Issuer = Players.Player2,
-                Origin = World.Territories[3],
-                Path = [World.Territories[2]],
+                Origin = T(3),
+                Path = [T(2)],
             },
         ];
 
@@ -164,13 +164,13 @@ public class MoveArmySkirmishTest : BaseTest
         Assert.Multiple(() =>
         {
             // Both territories lost a unit
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(4));
-            Assert.That(World.Territories[3].Units.Armies, Is.EqualTo(4));
+            Assert.That(T(1).Units.Armies, Is.EqualTo(4));
+            Assert.That(T(3).Units.Armies, Is.EqualTo(4));
 
             // The middle territory remains neutral.
             // It will be overtaken only later by the last remaining move.
-            Assert.That(World.Territories[2].IsNeutral);
-            Assert.That(World.Territories[2].Units.Armies, Is.EqualTo(0));
+            Assert.That(T(2).IsNeutral);
+            Assert.That(T(2).Units.Armies, Is.EqualTo(0));
         });
     }
 }

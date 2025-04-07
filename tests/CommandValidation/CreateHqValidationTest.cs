@@ -8,7 +8,7 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void CreatingASingleHqIsValid()
     {
-        List<CreateHq> commands = [new() { Issuer = Players.Player1, Origin = World.Territories[1] }];
+        List<CreateHq> commands = [new() { Issuer = Players.Player1, Origin = T(1) }];
 
         CommandValidator.Validate(commands, World);
 
@@ -24,7 +24,7 @@ public class CreateHqValidationTest : BaseTest
         List<Player> players = [Players.Player1, Players.Player2, Players.Player3, Players.Player4, Players.Player5];
 
         var commands = Enumerable.Range(0, numPlayers)
-            .Select(i => new CreateHq { Issuer = players[i], Origin = World.Territories[1] })
+            .Select(i => new CreateHq { Issuer = players[i], Origin = T(1) })
             .ToList();
 
         CommandValidator.Validate(commands, World);
@@ -45,8 +45,8 @@ public class CreateHqValidationTest : BaseTest
     {
         List<CreateHq> commands =
         [
-            new() { Issuer = Players.Player1, Origin = World.Territories[1] },
-            new() { Issuer = Players.Player2, Origin = World.Territories[2] },
+            new() { Issuer = Players.Player1, Origin = T(1) },
+            new() { Issuer = Players.Player2, Origin = T(2) },
         ];
 
         CommandValidator.Validate(commands, World);
@@ -66,11 +66,11 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItRejectsBuildingHqOnTopOfExistingHq()
     {
-        World.Territories[1].HqSettler = Players.Player1;
+        T(1).HqSettler = Players.Player1;
 
         List<CreateHq> commands =
         [
-            new() { Issuer = Players.Player2, Origin = World.Territories[1] },
+            new() { Issuer = Players.Player2, Origin = T(1) },
         ];
 
         CommandValidator.Validate(commands, World);
@@ -82,11 +82,11 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItRejectsBuildingHqNextToExistingHq()
     {
-        World.Territories[1].HqSettler = Players.Player1;
+        T(1).HqSettler = Players.Player1;
 
         List<CreateHq> commands =
         [
-            new() { Issuer = Players.Player2, Origin = World.Territories[2] },
+            new() { Issuer = Players.Player2, Origin = T(2) },
         ];
 
         CommandValidator.Validate(commands, World);
@@ -98,11 +98,11 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItAllowsBuildingHqNextToExistingHqIfForced()
     {
-        World.Territories[1].HqSettler = Players.Player1;
+        T(1).HqSettler = Players.Player1;
 
         List<CreateHq> commands =
         [
-            new() { Issuer = Players.Player2, Origin = World.Territories[2], Force = true },
+            new() { Issuer = Players.Player2, Origin = T(2), Force = true },
         ];
 
         CommandValidator.Validate(commands, World);
@@ -117,11 +117,11 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItRejectsBuildingHqWithBorderAdjacentToExistingHq()
     {
-        World.Territories[1].HqSettler = Players.Player1;
+        T(1).HqSettler = Players.Player1;
 
         List<CreateHq> commands =
         [
-            new() { Issuer = Players.Player2, Origin = World.Territories[3] },
+            new() { Issuer = Players.Player2, Origin = T(3) },
         ];
 
         CommandValidator.Validate(commands, World);
@@ -133,9 +133,9 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItAllowsBuildingHqAtDistance3OfExistingHq()
     {
-        World.Territories[1].HqSettler = Players.Player1;
+        T(1).HqSettler = Players.Player1;
 
-        var command = new CreateHq { Issuer = Players.Player2, Origin = World.Territories[4] };
+        var command = new CreateHq { Issuer = Players.Player2, Origin = T(4) };
 
         CommandValidator.Validate([command], World);
 
@@ -145,16 +145,16 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItRejectsBuildingHqOnOccupiedTerritory()
     {
-        World.Territories[1].Owner = Players.Player1;
+        T(1).Owner = Players.Player1;
 
-        var command = new CreateHq { Issuer = Players.Player2, Origin = World.Territories[1] };
+        var command = new CreateHq { Issuer = Players.Player2, Origin = T(1) };
 
         CommandValidator.Validate([command], World);
 
         Assert.That(command.Rejections, Has.Count.EqualTo(1));
         Assert.That(command.Rejections[0].Reason, Is.EqualTo(RejectReason.BuildingHqOnOccupiedTerritory));
     }
-    
+
     [TestCase(2)]
     [TestCase(3)]
     [TestCase(47)]
@@ -162,7 +162,7 @@ public class CreateHqValidationTest : BaseTest
     {
         var commands = Enumerable
             .Range(1, numHqs)
-            .Select(i => new CreateHq { Issuer = Players.Player1, Origin = World.Territories[1] })
+            .Select(i => new CreateHq { Issuer = Players.Player1, Origin = T(1) })
             .ToList();
 
         CommandValidator.Validate(commands, World);
@@ -176,9 +176,9 @@ public class CreateHqValidationTest : BaseTest
     [Test]
     public void ItRejectsBuildingHqIfPlayerAlreadyHasHq()
     {
-        World.Territories[1].HqSettler = Players.Player1;
+        T(1).HqSettler = Players.Player1;
 
-        var command = new CreateHq { Issuer = Players.Player1, Origin = World.Territories[4] };
+        var command = new CreateHq { Issuer = Players.Player1, Origin = T(4) };
 
         CommandValidator.Validate([command], World);
 

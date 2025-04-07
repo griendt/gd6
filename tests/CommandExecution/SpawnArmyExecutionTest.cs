@@ -7,9 +7,9 @@ public class SpawnArmyExecutionTest : BaseTest
     [SetUp]
     public void SetUpOwners()
     {
-        World.Territories[1].Owner = Players.Player1;
+        T(1).Owner = Players.Player1;
     }
-    
+
     [TestCase(1)]
     [TestCase(2)]
     [TestCase(47)]
@@ -18,20 +18,20 @@ public class SpawnArmyExecutionTest : BaseTest
         var command = new SpawnArmy
         {
             Issuer = Players.Player1,
-            Origin = World.Territories[1],
+            Origin = T(1),
             Quantity = numArmies,
         };
-        
+
         command.Process(World);
-        
+
         Assert.Multiple(() =>
         {
-            Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
-            Assert.That(World.Territories[1].Units.IsEmpty, Is.False);
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(numArmies));
+            Assert.That(T(1).Owner, Is.EqualTo(Players.Player1));
+            Assert.That(T(1).Units.IsEmpty, Is.False);
+            Assert.That(T(1).Units.Armies, Is.EqualTo(numArmies));
         });
     }
-    
+
     [TestCase(0, 1, 1)]
     [TestCase(0, 3, 3)]
     [TestCase(1, 1, 2)]
@@ -42,18 +42,18 @@ public class SpawnArmyExecutionTest : BaseTest
         var command = new SpawnArmy
         {
             Issuer = Players.Player1,
-            Origin = World.Territories[1],
+            Origin = T(1),
             Quantity = numAdded,
         };
-        World.Territories[1].Units.AddArmies(numExisting);
-        
+        T(1).Units.AddArmies(numExisting);
+
         command.Process(World);
-        
+
         Assert.Multiple(() =>
         {
-            Assert.That(World.Territories[1].Owner, Is.EqualTo(Players.Player1));
-            Assert.That(World.Territories[1].Units.IsEmpty, Is.False);
-            Assert.That(World.Territories[1].Units.Armies, Is.EqualTo(numTotal));
+            Assert.That(T(1).Owner, Is.EqualTo(Players.Player1));
+            Assert.That(T(1).Units.IsEmpty, Is.False);
+            Assert.That(T(1).Units.Armies, Is.EqualTo(numTotal));
         });
     }
 }

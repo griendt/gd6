@@ -135,19 +135,19 @@ public class MoveArmySkirmishTest : BaseTest
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
-                Path = [T(2)],
+                Path = [T(1), T(2)],
             },
             new()
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
-                Path = [T(2), T(4)],
+                Path = [T(1), T(2), T(4)],
             },
             new()
             {
                 Issuer = Players.Player2,
                 Origin = T(3),
-                Path = [T(2)],
+                Path = [T(3), T(2)],
             },
         ];
 
@@ -159,7 +159,7 @@ public class MoveArmySkirmishTest : BaseTest
         // The unprocessed move is the second command by player 1.
         // This is because the first move is considered higher priority.
         var unprocessedMove = commands.First(command => !command.IsProcessed);
-        Assert.That(unprocessedMove.Path, Has.Count.EqualTo(2));
+        Assert.That(unprocessedMove.Path, Has.Count.EqualTo(3));
 
         Assert.Multiple(() =>
         {

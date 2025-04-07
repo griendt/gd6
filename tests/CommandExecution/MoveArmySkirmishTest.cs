@@ -25,13 +25,13 @@ public class MoveArmySkirmishTest : BaseTest
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
-                Path = [T(2)],
+                Path = [T(1), T(2)],
             },
             new()
             {
                 Issuer = Players.Player2,
                 Origin = T(3),
-                Path = [T(2)],
+                Path = [T(3), T(2)],
             },
         ];
 
@@ -65,13 +65,13 @@ public class MoveArmySkirmishTest : BaseTest
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
-                Path = [T(2)],
+                Path = [T(1), T(2)],
             },
             new()
             {
                 Issuer = Players.Player3,
                 Origin = T(2),
-                Path = [T(1)],
+                Path = [T(2), T(1)],
             },
         ];
 
@@ -100,19 +100,19 @@ public class MoveArmySkirmishTest : BaseTest
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
-                Path = [T(2)],
+                Path = [T(1), T(2)],
             },
             new()
             {
                 Issuer = Players.Player3,
                 Origin = T(2),
-                Path = [T(3)],
+                Path = [T(2), T(3)],
             },
             new()
             {
                 Issuer = Players.Player2,
                 Origin = T(3),
-                Path = [T(1)],
+                Path = [T(3), T(1)],
             },
         ];
 

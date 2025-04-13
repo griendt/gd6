@@ -31,15 +31,11 @@ Each *Turn*, each player may spawn a certain amount of *Army* units. These units
 * contain an *HQ* that is under your control; **OR**
 * are adjacent to an *HQ* that is under your control, and are not controlled by anyone **else**.
 
-This means that spawning on a neutral empty land next to your *HQ* is allowed. Note however that this will not automatically grant you ownership of it. 
+This means that spawning on a neutral empty land next to your *HQ* is allowed. This will automatically grant you ownership of it. 
 Furthermore, if you already own the land next to your *HQ* and have some units stationed there, you may add additional ones.
 
 !!! tip
     This is why *HQ*s must always have distance `2` or more between them, to avoid *Skirmishes* during unit spawning.
-
-??? question "What do the different unit types do?"
-    The *Army* is the most common and basic unit type. Other types have some (dis)advantages over the *Army*.
-    For an overview of the different unit types, check the [Unit Types](../units.md) section. 
 
 * The amount of units that you may spawn equals `2` plus `1` for each `3` territories that are under your control at the start of this *Turn*. That means in the very beginning you will have only `2` units, and if you own `11` territories, you will be able to spawn `5` units.
 

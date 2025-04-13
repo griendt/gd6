@@ -22,5 +22,3 @@
     4. If, after the *Turn* ends it turns out that some moves were invalid (but I did not spot it before), I may choose to extend the *Turn* instead and allow the issuer to fix them.
     5. Sometimes, real life gets in the way. If a player requests for an extension of the *Turn* deadline, it will be granted, provided it is done reasonably before the deadline and the delay won't be too long.
     6. If a player does not send any moves before the *Turn* deadline, with no notification, I may end the *Turn* anyway. This will effectively mean that the player will do **absolutely nothing** that *Turn*. This is highly discouraged and might severely impact the game for all players. Please don't do this.
-    7. Whenever the rulebook says a territory "loses one unit", units of different types are lost in a specific order. This order is:
-        * Armies

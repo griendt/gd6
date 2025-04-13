@@ -32,4 +32,9 @@ public static class ExtensionMethods
         callback(item);
         return item;
     }
+
+    public static TValue Pipe<T, TValue>(this T input, Func<T, TValue> callback)
+    {
+        return callback(input);
+    }
 }

@@ -14,10 +14,10 @@ public static class MoveArmyOrderResolver
     /// <param name="commands">The commands to process.</param>
     /// <param name="world">The world to process the commands in.</param>
     /// <returns>Whether any resolution has been done.</returns>
-    public static bool Resolve(List<MoveArmy> commands, World world)
-    {
-        return ResolveBasicSkirmish(commands, world) || ResolveMutualInvasion(commands, world);
-    }
+    public static bool Resolve(List<MoveArmy> commands, World world) =>
+        ResolveBasicSkirmish(commands, world)
+        || ResolveMutualInvasion(commands, world)
+        || ResolveCircularInvasion(commands, world);
 
     private static bool ResolveBasicSkirmish(List<MoveArmy> commands, World world)
     {
@@ -47,7 +47,8 @@ public static class MoveArmyOrderResolver
 
         commands
             .Where(command => !command.IsProcessed)
-            .GroupBy(command => [command.Path[0].Id, command.Path[1].Id], HashSet<int>.CreateSetComparer())
+            .GroupBy(keySelector: command => [command.Path[0].Id, command.Path[1].Id], HashSet<int>.CreateSetComparer())
+            .Where(group => group.Count() >= 2)
             .Each(group =>
             {
                 // It is assumed that it is impossible for two different players to have a valid move A→B
@@ -59,5 +60,51 @@ public static class MoveArmyOrderResolver
             });
 
         return isResolutionDone;
+    }
+
+    private static bool ResolveCircularInvasion(List<MoveArmy> commands, World world)
+    {
+        var validCommands =
+            commands
+                .Where(command => !command.IsProcessed)
+                .ToList();
+
+        try {
+            foreach (var startingNode in validCommands.Select(command => command.Path.First())) {
+                FindCycle(startingNode, validCommands, []);
+            }
+        }
+        catch (CycleFound exception) {
+            new Skirmish().Resolve(exception.Cycle, world);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static void FindCycle(Territory currentNode, List<MoveArmy> edges, List<MoveArmy> stack)
+    {
+        if (stack.Count == 0) {
+            foreach (var move in edges.Where(move => move.Path.First() == currentNode)) {
+                FindCycle(move.Path.Skip(1).First(), edges, [move]);
+            }
+        }
+
+        else if (currentNode == stack.First().Path.First()) {
+            throw new CycleFound(stack);
+        }
+
+        else {
+            foreach (var move in edges.Where(move => move.Path.First() == currentNode)) {
+                List<MoveArmy> newStack = [..stack];
+                newStack.Add(move);
+                FindCycle(move.Path.Skip(1).First(), edges, newStack);
+            }
+        }
+    }
+
+    private class CycleFound(List<MoveArmy> cycle) : Exception
+    {
+        public readonly List<MoveArmy> Cycle = cycle;
     }
 }

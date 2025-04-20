@@ -33,8 +33,5 @@ public static class ExtensionMethods
         return item;
     }
 
-    public static TValue Pipe<T, TValue>(this T input, Func<T, TValue> callback)
-    {
-        return callback(input);
-    }
+    public static T Second<T>(this IEnumerable<T> inputs) => inputs.Skip(1).First();
 }

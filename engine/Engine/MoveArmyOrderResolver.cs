@@ -15,8 +15,40 @@ public static class MoveArmyOrderResolver
     /// <param name="world">The world to process the commands in.</param>
     /// <returns>Whether any resolution has been done.</returns>
     public static bool Resolve(List<MoveArmy> commands, World world) =>
-        ResolveBasicSkirmish(commands, world)
+        ResolveDistributesToOwnedTerritories(commands, world)
+        || ResolveDistributesToNeutralTerritories(commands, world)
+        || ResolveBasicSkirmish(commands, world)
         || ResolveCircularInvasion(commands, world);
+
+    private static bool ResolveDistributesToOwnedTerritories(List<MoveArmy> commands, World world)
+    {
+        var distributes = commands
+            .Where(command => !command.IsProcessed)
+            .Where(command => command.Issuer == command.Path.Second().Owner)
+            .ToList();
+
+        new Distribute().Resolve(distributes, world);
+
+        return distributes.Count > 0;
+    }
+
+    private static bool ResolveDistributesToNeutralTerritories(List<MoveArmy> commands, World world)
+    {
+        var isResolutionDone = false;
+
+        commands
+            .Where(command => !command.IsProcessed)
+            .Where(command => command.Path[1].Owner == null)
+            .GroupBy(command => command.Path[1])
+            .Where(group => group.DistinctBy(command => command.Issuer).Count() == 1)
+            .Each(group =>
+            {
+                new Distribute().Resolve(group.ToList(), world);
+                isResolutionDone = true;
+            });
+
+        return isResolutionDone;
+    }
 
     private static bool ResolveBasicSkirmish(List<MoveArmy> commands, World world)
     {
@@ -26,15 +58,11 @@ public static class MoveArmyOrderResolver
         commands
             .Where(command => !command.IsProcessed)
             .GroupBy(command => command.Path[1])
+            .Where(group => group.DistinctBy(command => command.Issuer).Count() > 1)
             .Each(group =>
             {
-                // Skirmish of two or more players moving to the same target.
-                // FIXME: if it is two players and one of them owns the target already,
-                // then the Distribution surely should come first, and it should be an invasion!
-                if (group.DistinctBy(command => command.Issuer).Count() > 1) {
-                    new Skirmish().Resolve(group.ToList(), world);
-                    isResolutionDone = true;
-                }
+                new Skirmish().Resolve(group.ToList(), world);
+                isResolutionDone = true;
             });
 
         return isResolutionDone;
@@ -64,7 +92,7 @@ public static class MoveArmyOrderResolver
     {
         if (stack.Count == 0) {
             foreach (var move in edges.Where(move => move.Path.First() == currentNode)) {
-                FindCycle(move.Path.Skip(1).First(), edges, [move]);
+                FindCycle(move.Path.Second(), edges, [move]);
             }
         }
 
@@ -76,7 +104,7 @@ public static class MoveArmyOrderResolver
             foreach (var move in edges.Where(move => move.Path.First() == currentNode)) {
                 List<MoveArmy> newStack = [..stack];
                 newStack.Add(move);
-                FindCycle(move.Path.Skip(1).First(), edges, newStack);
+                FindCycle(move.Path.Second(), edges, newStack);
             }
         }
     }

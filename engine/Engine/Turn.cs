@@ -86,6 +86,15 @@ public class Turn
         commands
             .OfType<UseCropSupply>()
             .Tap(useCropSupply => ValidateAndProcess(useCropSupply));
+        
+        commands
+            .OfType<UseToxicWaste>()
+            .Tap(useToxicWastes => ValidateAndProcess(useToxicWastes));
+        
+        // It is important that BuyItem occur after item usage        
+        commands
+            .OfType<BuyItemCommand>()
+            .Tap(buyItems => ValidateAndProcess(buyItems));
     }
 
     private void ProcessMovementPhase(List<Command> commands)

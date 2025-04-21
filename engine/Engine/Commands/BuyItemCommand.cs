@@ -23,6 +23,7 @@ public class BuyItemCommand : Command
     
     public override void Process(World world)
     {
+        Issuer.InfluencePoints -= Cost();
         Issuer.Inventory.Add(ItemType());
     }
     

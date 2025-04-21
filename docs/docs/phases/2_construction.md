@@ -39,6 +39,17 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
 * The amount of units that you may spawn equals `2` plus `1` for each `3` territories that are under your control at the start of this *Turn*. That means in the very beginning you will have only `2` units, and if you own `11` territories, you will be able to spawn `5` units.
 
+??? question "What if a player has no HQ?"
+    If a player has no HQ, then the player may select **one** territory they still control, which has the maximum Loyalty of each territory they own.
+    Loyalty increases each turn for each territory you own; see the [Final Phase](5_final.md).
+    Note that:
+
+    * Adjacent territories are **not** considered.
+    * Only **one** territory is considered. So, a player with no HQ can only spawn in one territory per Turn.
+    * The chosen spawn point may change in subsequent turns.
+
+    These limitations are in place to ensure that players without HQs can still play and compete, but not at an advantage.
+
 ## Fortress
 
 At the expense of `20` Influence Points, you can build a Fortress on a land territory that:

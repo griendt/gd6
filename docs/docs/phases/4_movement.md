@@ -17,9 +17,13 @@ It is possible -- even likely -- that players will submit _conflicting_ moves. T
 2. **Invasion**: is _asymmetrical_ (there is an _attacker_ and a _defender_). A move is an *Invasion* when:
     - A player tries to move into a territory that is owned by another player.
 
-!!! info Resolution order
+!!! info "Resolution order"
     Whenever possible, moves that *give no conflicts* are resolved before conflicting moves.
 And whenever relevant, Skirmishes are resolved before Invasions.
+
+!!! info "Territory loyalty"
+    Whenever a territory is neutralized or overtaken, its Loyalty will be immediately reset to `0`.
+    Loyalty is relevant to determine which territories have belonged to a player the longest; see [Construction Phase](2_construction.md) for more details.
 
 ## Skirmishes
 A skirmish is resolved quite simply: each player involved in the skirmish loses one army.
@@ -53,7 +57,7 @@ the attacker has to lose two Armies (in addition to the regular invasion penalty
 * If the attacker sends enough units to break through the fortress, then the fortress turns into a Ruin.
 * If the attacker still has armies left, they will proceed to invade as usual.
 
-!!! example
+??? example
     Suppose an attacker sends `6` armies to a territory contains a fortress and one defending army. Then the invasion proceeds as follows (and in this order):
     
     1. The attacker pays a penalty of `2` armies, so that `4` will continue the attack;

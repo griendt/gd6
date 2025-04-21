@@ -51,7 +51,7 @@ A fortress will give you an extra line of defense; see the [Fortress rules](/pha
 
 ## Bivouac
 
-At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control, you can build a Bivouac on a land territory that:
+At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control at the start of this Turn, you can build a Bivouac on a land territory that:
 
 1. is under your control;
 2. does not already contain some construct (other than *HQ*);

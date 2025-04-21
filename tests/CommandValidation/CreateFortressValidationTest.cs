@@ -62,4 +62,16 @@ public class CreateFortressValidationTest : BaseTest
         Assert.That(command.IsRejected);
         Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.PlayerDoesNotOwnOriginTerritory));
     }
+
+    [Test]
+    public void ItChecksForWasteland()
+    {
+        T(1).IsWasteland = true;
+        var command = new CreateFortress { Issuer = Players.Player1, Origin = T(1) };
+        
+        CommandValidator.Validate([command], World);
+        
+        Assert.That(command.IsRejected);
+        Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.BuildingOnToxicWasteland));
+    }
 }

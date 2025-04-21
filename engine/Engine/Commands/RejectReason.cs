@@ -22,4 +22,5 @@ public enum RejectReason
     TargetAlreadyContainsConstruct,
     InsufficientInfluencePoints,
     BuildingMultipleConstructsInOneTerritory,
+    BuildingOnToxicWasteland,
 }

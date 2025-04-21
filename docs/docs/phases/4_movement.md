@@ -19,6 +19,27 @@ It is possible -- even likely -- that players will submit _conflicting_ moves. T
 
 !!! info Resolution order
     Whenever possible, moves that *give no conflicts* are resolved before conflicting moves.
-    And whenever relevant, Skirmishes are resolved before Invasions.
+And whenever relevant, Skirmishes are resolved before Invasions.
 
 ## Skirmishes
+A skirmish is resolved quite simply: each player involved in the skirmish loses one army.
+If there are still two or more players involved in the skirmish, repeat, until at most one player is left.
+
+??? "Neutral resolution"
+    It is possible that two players send the same amount of units into a skirmish.
+    This effectively means they will neutralize each other. It also means that the destination(s) that these units were intending to go to, will remain untouched.
+
+    For example, if two players attempt to occupy the same neutral territory using the same amount of Armies,
+    then after the skirmish the territory will still be neutral.
+
+??? "Units remaining after skirmish"
+    It is possible that one player "wins" the skirmish and still has units left after the skirmish is resolved. 
+    Then these units will proceed to move as usual. This can be an expansion or distribution (no further battle) or an Invasion.
+
+## Invasion
+An invasion comes at the cost of a certain penalty: the attacker will lose two Armies before being able to deal any damage.
+
+After this initial penalty, an Invasion goes similarly to a skirmish: both the attacker and the defender lose one Army each until at most one player is left standing.
+
+* If the defending armies are all defeated, the territory becomes neutral.
+* If the invader still has armies left, they will proceed to move as usual.

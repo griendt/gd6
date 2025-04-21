@@ -18,7 +18,8 @@ public static class MoveArmyOrderResolver
         ResolveDistributesToOwnedTerritories(commands, world)
         || ResolveDistributesToNeutralTerritories(commands, world)
         || ResolveBasicSkirmish(commands, world)
-        || ResolveCircularInvasion(commands, world);
+        || ResolveCircularInvasion(commands, world)
+        || ResolveInvasion(commands, world);
 
     private static bool ResolveDistributesToOwnedTerritories(List<MoveArmy> commands, World world)
     {
@@ -87,6 +88,25 @@ public static class MoveArmyOrderResolver
 
         return false;
     }
+
+    private static bool ResolveInvasion(List<MoveArmy> commands, World world)
+    {
+        var isResolutionDone = false;
+        
+        commands
+            .Where(command => !command.IsProcessed)
+            .GroupBy(command => command.Path.Second())
+            .Where(group => group.DistinctBy(command => command.Issuer).Count() == 1)
+            .Where(group => group.First().Issuer != group.First().Path.Second().Owner)
+            .Each(group =>
+            {
+                new Invasion().Resolve(group.ToList(), world);
+                isResolutionDone = true;
+            });
+
+        return isResolutionDone;
+    }
+
 
     private static void FindCycle(Territory currentNode, List<MoveArmy> edges, List<MoveArmy> stack)
     {

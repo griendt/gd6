@@ -43,7 +43,7 @@ public class Territory(World world)
     [Pure]
     public bool IsNeighbour(Territory other) => Neighbours().Contains(other);
 
-    private void Neutralize() => Owner = null;
+    public void Neutralize() => Owner = null;
 
     public void Build(Construct construct) => Constructs.Add(construct);
 

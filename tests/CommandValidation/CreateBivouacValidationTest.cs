@@ -10,7 +10,7 @@ public class CreateBivouacValidationTest : BaseTest
         T(1).Owner = Players.Player1;
         T(2).Owner = Players.Player1;
         T(3).Owner = Players.Player1;
-        Players.Player1.InfluencePoints = 40;
+        Players.Player1.InfluencePoints = 60;
     }
 
     [TestCase(1, false)]

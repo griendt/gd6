@@ -39,3 +39,7 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
 * The amount of units that you may spawn equals `2` plus `1` for each `3` territories that are under your control at the start of this *Turn*. That means in the very beginning you will have only `2` units, and if you own `11` territories, you will be able to spawn `5` units.
 
+## Fortress
+
+At the expense of `20` Influence Points, you can build a Fortress on any land territory that you control.
+A fortress will give you an extra line of defense; see [Fortress](/phases/4_movement/#fortress).

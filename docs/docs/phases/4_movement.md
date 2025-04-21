@@ -41,5 +41,26 @@ An invasion comes at the cost of a certain penalty: the attacker will lose two A
 
 After this initial penalty, an Invasion goes similarly to a skirmish: both the attacker and the defender lose one Army each until at most one player is left standing.
 
-* If the defending armies are all defeated, the territory becomes neutral.
+* If the defending armies are all defeated, the territory becomes neutral. If the target contains a Bivouac, it is destroyed.
 * If the invader still has armies left, they will proceed to move as usual.
+* Some mechanics alter the way an Invasion is processed, such as a Fortress, as described below.
+
+### Fortress
+
+If the defending player has a Fortress on their territory, then that Fortress must first be broken through. In order to do this,
+the attacker has to lose two Armies (in addition to the regular invasion penalty).
+
+* If the attacker sends enough units to break through the fortress, then the fortress turns into a Ruin.
+* If the attacker still has armies left, they will proceed to invade as usual.
+
+!!! example
+    Suppose an attacker sends `6` armies to a territory contains a fortress and one defending army. Then the invasion proceeds as follows (and in this order):
+    
+    1. The attacker pays a penalty of `2` armies, so that `4` will continue the attack;
+    2. The attacker pays an additional penalty of `2` armies to turn the Fortress into a Ruin, and has `2` left to attack;
+    3. One attacking army dies to slay the defending unit. The target becomes neutral and the attacker now has `1` army left.
+    4. The last remaining army occupies the target territory. The attack was successful!
+
+??? tip "Fortress in a neutral territory"
+    If a fortress stands on a neutral land, then there is no need to break the fortress first in order to occupy the territory.
+    So, the fortress penalty only applies to invasions.

@@ -6,10 +6,8 @@ public class Player
 {
     public string Color = "#000";
     public Territory? Hq = null;
-
     [Key] public required int Id;
-
-    public List<Item> Inventory = [];
-
     public required string Name;
+    public List<Item> Inventory = [];
+    public int InfluencePoints = 0;
 }

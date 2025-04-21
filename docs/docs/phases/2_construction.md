@@ -41,5 +41,20 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
 ## Fortress
 
-At the expense of `20` Influence Points, you can build a Fortress on any land territory that you control.
-A fortress will give you an extra line of defense; see [Fortress](/phases/4_movement/#fortress).
+At the expense of `20` Influence Points, you can build a Fortress on a land territory that:
+
+1. is under your control;
+2. does not already contain some construct (other than *HQ*);
+3. is not a [Toxic Wasteland](/phases/1_natural/#toxic-wasteland).
+
+A fortress will give you an extra line of defense; see the [Fortress rules](/phases/4_movement/#fortress).
+
+## Bivouac
+
+At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control, you can build a Bivouac on a land territory that:
+
+1. is under your control;
+2. does not already contain some construct (other than *HQ*);
+3. is not a [Toxic Wasteland](/phases/1_natural/#toxic-wasteland).
+
+A Bivouac will increase your influx of Armies; see the [Bivouac rules](/phases/1_natural/#bivouac).

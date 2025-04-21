@@ -26,6 +26,8 @@ If the target territory contains no units after the *Dynamite* is used, it will 
     Whenever relevant, *Crop Supply* use is processed **before** *Dynamite* use. This means that freshly generated *Armies* from a *Crop Supply* can immediately get bombed, before they can even move!
 
 ## Toxic Waste
-*Toxic Waste* may be used on any land territory that you control, or any adjacent land territory. Using *Toxic Waste* will turn the land into a *Toxic Wasteland*. Be careful: once a *Toxic Wasteland*, this can never be undone! 
+*Toxic Waste* may be used on any land territory that you control, or any adjacent land territory. 
+Using *Toxic Waste* will turn the land into a *Toxic Wasteland*. 
+Be careful: once a *Toxic Wasteland*, this can never be undone!
 
 See [Toxic Wasteland](1_natural.md/#toxic-wasteland) for details.

@@ -19,4 +19,7 @@ public enum RejectReason
     PathNotConnected,
     InvalidPathLength,
     InvalidPathStartingPoint,
+    TargetAlreadyContainsConstruct,
+    InsufficientInfluencePoints,
+    BuildingMultipleConstructsInOneTerritory,
 }

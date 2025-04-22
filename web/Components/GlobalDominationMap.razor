@@ -74,17 +74,6 @@
         await LoadTerritories();
     }
 
-    protected override async void OnAfterRender(bool firstRender)
-    {
-        if (!firstRender) return;
-        
-        using var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
-        while (await periodicTimer.WaitForNextTickAsync()) {
-            await LoadTerritories();
-            await InvokeAsync(StateHasChanged);
-        }
-    }
-
     private async Task LoadTerritories() => _territories = await new Gd6DbContext().Territories.ToListAsync();
 
     @* Put the active territory in the back, to make it stand out on top of the rest *@

@@ -3,13 +3,18 @@
 @inject IJSRuntime JsInterop
 
 
-<div class="container">
+<div class="container" style="max-width: @($"{_width}px") !important; max-height: @($"{_height}px") !important;">
     <h3>Map</h3>
     <svg
+        id="gd6-map"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 @_width @_height"
         opacity="@_opacity"
-        style="border: @_borderThickness solid var(--md-footer-bg-color)"
+        style="
+            border: @_borderThickness solid var(--md-footer-bg-color);
+            background: conic-gradient(from 90deg at 1px 1px, #ccc 90deg, #eee 0) 0 0/20px 20px;
+        "
+        @onmousemove="SetMouseXy"
         @onmouseleave="UnSticky">
 
         <rect x="0" y="0" width="@_width" height="@_height" fill="@_backgroundColor"/>
@@ -21,10 +26,19 @@
                 StrokeWidth="@StrokeWidth(territory)"
                 StrokeColour="@TerritoryStrokeColour(territory)"
                 FillColour="@TerritoryFillColour(territory)"
-                />
+            />
         }
     </svg>
+    
+    X: @_mouseX Y: @_mouseY
 </div>
+
+<script>
+    function getMapBaseXY() {
+        const position = document.getElementById("gd6-map").getBoundingClientRect();
+        return [position.left, position.top];
+    }
+</script>
 
 @code {
     #region styling
@@ -32,9 +46,9 @@
     private int _width = 1920;
     private int _height = 1080;
     private double _opacity = 0.9;
-    private string _borderThickness = "30px";
+    private string _borderThickness = "1px";
 
-    private string _backgroundColor = "#3a785e";
+    private string _backgroundColor = "#3a785e00";
     private int _territoryStrokeWidth = 2;
     private int _territoryStrokeWidthActive = 8;
     private string _territoryStrokeColour = "#200";
@@ -43,7 +57,10 @@
     private int StrokeWidth(Territory territory) => territory == _activeTerritory ? _territoryStrokeWidthActive : _territoryStrokeWidth;
     private string TerritoryStrokeColour(Territory territory) => territory == _activeTerritory ? _territoryStrokeColourActive : _territoryStrokeColour;
     private string TerritoryFillColour(Territory territory) => territory.CurrentOwner()?.Colour ?? "#fdd";
-    
+
+    private int _mouseX = 0;
+    private int _mouseY = 0;
+
     #endregion
 
     private List<Territory> _territories = [];
@@ -57,13 +74,24 @@
         await LoadTerritories();
     }
 
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (!firstRender) return;
+        
+        using var periodicTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        while (await periodicTimer.WaitForNextTickAsync()) {
+            await LoadTerritories();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
     private async Task LoadTerritories() => _territories = await new Gd6DbContext().Territories.ToListAsync();
 
     @* Put the active territory in the back, to make it stand out on top of the rest *@
     private List<Territory> TerritoriesSorted => _territories
         .Where(t => t != _activeTerritory)
         .Concat(_activeTerritory == null ? [] : [_activeTerritory])
-        .ToList(); 
+        .ToList();
 
     private void SetActive(Territory territory, bool sticky)
     {
@@ -72,9 +100,22 @@
         }
 
         _isActiveTerritorySticky |= sticky;
-        
+
         StateHasChanged();
     }
 
     private void UnSticky() => _isActiveTerritorySticky = false;
+
+    private async Task SetMouseXy(MouseEventArgs eventArgs)
+    {
+        await Callback();
+        return;
+
+        async Task Callback()
+        {
+            var result = await JsInterop.InvokeAsync<List<float>>("getMapBaseXY");
+            _mouseX = (int)(eventArgs.ClientX - result[0]);
+            _mouseY = (int)(eventArgs.ClientY - result[1]);
+        }
+    }
 }

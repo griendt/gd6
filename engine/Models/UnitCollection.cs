@@ -34,6 +34,7 @@ public class UnitCollection
         _units[unitType] = current + quantity;
     }
 
+    public void Set(Unit unitType, int quantity) => _units[unitType] = quantity;
     public bool IsEmpty => _units.Values.Sum() <= 0;
 
     // Convenience methods

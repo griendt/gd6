@@ -154,7 +154,7 @@ public class GdlParserTest : BaseTest
     public void ItParsesAUseDynamiteOrder()
     {
         var name = Players.Player1.Name;
-        _parser.Parse($"Set {name}\nInv 1→2 Dyn");
+        _parser.Parse($"Set {name}\nUse 1→2 Dyn");
 
         Assert.That(_parser.Commands, Has.Count.EqualTo(1));
         var command = _parser.Commands.First() as UseDynamite;
@@ -175,8 +175,8 @@ public class GdlParserTest : BaseTest
 
         Assert.Multiple(() =>
         {
-            Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nInv 1 Dyn"));
-            Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nInv 1→2→3 Dyn"));
+            Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nUse 1 Dyn"));
+            Assert.Throws<InvalidPathLengthException>(() => _parser.Parse($"Set {name}\nUse 1→2→3 Dyn"));
         });
     }
 
@@ -185,7 +185,7 @@ public class GdlParserTest : BaseTest
     {
         var name = Players.Player1.Name;
 
-        _parser.Parse($"Set {name}\nInv 1:3,2:2 Crp");
+        _parser.Parse($"Set {name}\nUse 1:3,2:2 Crp");
 
         Assert.That(_parser.Commands, Has.Count.EqualTo(1));
         var command = _parser.Commands.First() as UseCropSupply;

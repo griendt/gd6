@@ -30,7 +30,7 @@ public partial class GdlParser(World world)
             {
                 "Set" => InitializeMoveSet,
                 "Con" => Construct,
-                "Inv" => Inventory,
+                "Use" => UseItem,
                 "Mov" => Move,
                 _ => throw new UnknownCommandType(),
             };
@@ -100,7 +100,7 @@ public partial class GdlParser(World world)
         }
     }
 
-    private void Inventory(string[] command)
+    private void UseItem(string[] command)
     {
         switch (command[2]) {
             case "Dyn":

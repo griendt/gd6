@@ -11,6 +11,7 @@ public class Turn
         Phase.Construction,
         Phase.Inventory,
         Phase.Movement,
+        Phase.Final,
     ];
 
     private bool _abort;
@@ -36,6 +37,7 @@ public class Turn
             Phase.Construction => ProcessConstructionPhase,
             Phase.Inventory => ProcessInventoryPhase,
             Phase.Movement => ProcessMovementPhase,
+            Phase.Final => ProcessFinalPhase,
             _ => throw new ArgumentOutOfRangeException(nameof(phase), "Unknown phase"),
         };
 
@@ -108,5 +110,38 @@ public class Turn
         // Resolve until no more resolution is done
         while (MoveArmyOrderResolver.Resolve(validMoves, World)) {
         }
+    }
+
+    private void ProcessFinalPhase(List<Command> commands)
+    {
+        // Bivouac
+        World.Territories.Values
+            .Where(territory => territory.Constructs.Contains(Construct.Bivouac))
+            .Where(territory => !territory.IsWasteland)
+            .Where(territory => !territory.IsNeutral)
+            .Each(territory => territory.Units.AddArmy());
+        
+        // Increase Loyalty
+        World.Territories.Values
+            .Where(territory => !territory.IsNeutral)
+            .Each(territory => territory.Loyalty++);
+        
+        // Add IP per territory
+        World.Territories.Values
+            .Where(territory => !territory.IsNeutral)
+            .GroupBy(territory => territory.Owner)
+            .Each(group => group.Key!.InfluencePoints += group.Count());
+        
+        // Add IP per HQ
+        World.Territories.Values
+            .Where(territory => !territory.IsNeutral)
+            .Where(territory => territory.ContainsHq)
+            .Each(territory => territory.Owner!.InfluencePoints += 6);
+
+        // Add IP per 10 Armies
+        World.Territories.Values
+            .Where(territory => !territory.IsNeutral)
+            .GroupBy(territory => territory.Owner)
+            .Each(group => group.Key!.InfluencePoints += group.Sum(territory => territory.Units.Armies) / 10);
     }
 }

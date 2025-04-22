@@ -1,9 +1,8 @@
-using engine;
 using engine.Engine;
 using engine.Engine.Commands;
 using engine.Models;
 
-namespace tests;
+namespace tests.Phases;
 
 public class InventoryPhaseTest : BaseTest
 {
@@ -37,10 +36,11 @@ public class InventoryPhaseTest : BaseTest
 
         new Turn { World = World, Commands = commands }.Process();
 
-        // Item is bought, but not used
+        // Item is bought, but not used.
+        // Note that this puts the IP to 21 (-20 from item, +1 from owned territory).
         Assert.Multiple(() =>
         {
-            Assert.That(Players.Player1.InfluencePoints, Is.EqualTo(20));
+            Assert.That(Players.Player1.InfluencePoints, Is.EqualTo(21));
             Assert.That(Players.Player1.Inventory, Does.Contain(Item.Dynamite));
             Assert.That(T(2).Units.Armies, Is.EqualTo(5));
         });

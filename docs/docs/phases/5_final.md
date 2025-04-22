@@ -7,7 +7,7 @@ In this phase, the following things happen:
 1. Any territory that contains a Bivouac and is not neutral will gain one Army unit, *unless* it is a Toxic Wasteland.
 2. Any territory that is occupied will gain `+1` Loyalty.
 3. For each territory you control, gain `+1` Influence Point.
-4. For each `10` units under your control, gain `+1` Influence Point.
+4. For each `10` Armies under your control, gain `+1` Influence Point. This bonus is applied _after_ the Bivouac mechanic. 
 5. For each *HQ* under your control, gain `+6` Influence Points.
 
 Influence Points are permanent, so you can save them up for later.

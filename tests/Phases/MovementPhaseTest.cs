@@ -2,7 +2,7 @@ using engine;
 using engine.Engine;
 using engine.Engine.Commands;
 
-namespace tests;
+namespace tests.Phases;
 
 public class MovementPhaseTest : BaseTest
 {

@@ -32,11 +32,11 @@ public abstract class BaseTest
     public void SetupPlayers()
     {
         Players = (
-            new Player { Id = 1, Name = "A" },
-            new Player { Id = 2, Name = "B" },
-            new Player { Id = 3, Name = "C" },
-            new Player { Id = 4, Name = "D" },
-            new Player { Id = 5, Name = "E" }
+            new Player { Id = Guid.NewGuid(), Name = "A" },
+            new Player { Id = Guid.NewGuid(), Name = "B" },
+            new Player { Id = Guid.NewGuid(), Name = "C" },
+            new Player { Id = Guid.NewGuid(), Name = "D" },
+            new Player { Id = Guid.NewGuid(), Name = "E" }
         );
 
         World.Players =

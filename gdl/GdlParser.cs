@@ -67,9 +67,16 @@ public partial class GdlParser(World world)
 
         var target = world.Territories[territoryId];
 
-        if (command[2] == "Hq") {
-            Commands.Add(new CreateHq { Issuer = _currentIssuer!, Origin = target });
-            return;
+        switch (command[2]) {
+            case "Hq":
+                Commands.Add(new CreateHq { Issuer = _currentIssuer!, Origin = target });
+                return;
+            case "For":
+                Commands.Add(new CreateFortress { Issuer = _currentIssuer!, Origin = target });
+                return;
+            case "Biv":
+                Commands.Add(new CreateBivouac { Issuer = _currentIssuer!, Origin = target });
+                return;
         }
 
         var armiesMatch = ArmiesRegex().Match(command[2]);

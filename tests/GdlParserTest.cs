@@ -39,20 +39,22 @@ public class GdlParserTest : BaseTest
         Assert.That(_parser.Commands, Is.Empty);
     }
 
-    [Test]
-    public void ItParsesACreateHqOrder()
+    [TestCase("Hq", typeof(CreateHq))]
+    [TestCase("For", typeof(CreateFortress))]
+    [TestCase("Biv", typeof(CreateBivouac))]
+    public void ItParsesACreateConstructOrder(string identifier, Type orderType)
     {
-        _parser.Parse($"Set {Players.Player1.Name}\nCon {World.Territories.First().Value.Id} Hq");
+        _parser.Parse($"Set {Players.Player1.Name}\nCon {World.Territories.First().Value.Id} {identifier}");
 
         Assert.That(_parser.Commands, Has.Count.EqualTo(1));
 
-        var command = _parser.Commands.First() as CreateHq;
-        Assert.That(command, Is.InstanceOf(typeof(CreateHq)));
+        var command = _parser.Commands.First();
+        Assert.That(command, Is.InstanceOf(orderType));
 
         Assert.Multiple(() =>
         {
             Assert.That(command.Issuer, Is.EqualTo(Players.Player1));
-            Assert.That(command.Origin, Is.EqualTo(World.Territories.First().Value));
+            Assert.That((command as IHasOrigin)!.Origin, Is.EqualTo(World.Territories.First().Value));
         });
     }
 

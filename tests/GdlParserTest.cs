@@ -1,5 +1,6 @@
 using engine;
 using engine.Engine.Commands;
+using engine.Models;
 using gdl;
 using gdl.Exceptions;
 
@@ -150,6 +151,25 @@ public class GdlParserTest : BaseTest
         });
     }
 
+    [TestCase("Dyn", Item.Dynamite)]
+    [TestCase("Crp", Item.CropSupply)]
+    [TestCase("Tox", Item.ToxicWaste)]
+    public void ItParsesABuyOrder(string identifier, Item item)
+    {
+        var name = Players.Player1.Name;
+        _parser.Parse($"Set {name}\nBuy {identifier}");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as BuyItemCommand;
+        
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(BuyItemCommand)));
+            Assert.That(command.ItemType(), Is.EqualTo(item));
+        });
+    }
+    
     [Test]
     public void ItParsesAUseDynamiteOrder()
     {

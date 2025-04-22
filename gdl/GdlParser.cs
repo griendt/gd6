@@ -30,6 +30,7 @@ public partial class GdlParser(World world)
             {
                 "Set" => InitializeMoveSet,
                 "Con" => Construct,
+                "Buy" => BuyItem,
                 "Use" => UseItem,
                 "Mov" => Move,
                 _ => throw new UnknownCommandType(),
@@ -98,6 +99,23 @@ public partial class GdlParser(World world)
                 Path = path.Select(item => world.Territories[item]).ToList(),
             });
         }
+    }
+
+    private void BuyItem(string[] command)
+    {
+        var itemType = command[1] switch
+        {
+            "Dyn" => Item.Dynamite,
+            "Crp" => Item.CropSupply,
+            "Tox" => Item.ToxicWaste,
+            _ => throw new Exception("Unknown item type"),
+        };
+        
+        Commands.Add(new BuyItemCommand
+        {
+            Issuer = _currentIssuer!,
+            ItemType = () => itemType,
+        });
     }
 
     private void UseItem(string[] command)

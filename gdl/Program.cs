@@ -15,5 +15,11 @@ Mov 2→4     // Move a unit from 2 to 4
 Mov 5→6 3A  // Move three armies from 5 to 6. Should expand into three separate MoveArmy moves with same(like) priority.
  */
 
+using web;
+
+var game = new Gd6DbContext().Games.First(game => game.Name == "Global Domination VI");
+var world = game.ToEngineWorld();
+
+
 
 Console.WriteLine("Hello, World!");

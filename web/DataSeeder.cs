@@ -5,56 +5,43 @@ using web.Models;
 
 namespace web;
 
-[MeansImplicitUse]
-[AttributeUsage(AttributeTargets.Method)]
-public class SeedAttribute : Attribute;
-
 public class DataSeeder(Gd6DbContext db)
 {
     private readonly Game _game = new() { Name = "Global Domination VI" };
-    private readonly Player _aluce = new() { Name = "Aluce", Colour = "#f00" };
-    private Territory _territory;
-    
+
     public void Seed(DbContext context, bool seed)
     {
-        _territory = new Territory
-        {
-                Game = _game,
-                Identifier = "1",
-                Coordinates =
-                [
-                    new Coordinate { X = 50, Y = 50 },
-                    new Coordinate { X = 80, Y = 140 },
-                    new Coordinate { X = 100, Y = 170 },
-                    new Coordinate { X = 140, Y = 160 },
-                    new Coordinate { X = 160, Y = 150 },
-                    new Coordinate { X = 200, Y = 40 },
-                    new Coordinate { X = 150, Y = 50 },
-                ],
-        };
-        
         db.Games.Add(_game);
-        db.Players.Add(_aluce);
-        db.Territories.Add(_territory);
-        
-        GetType()
-            .GetMethods()
-            .Where(method => method.GetCustomAttributes(typeof(SeedAttribute), false).Length > 0)
-            .Each(method => method.Invoke(this, []));
+
+        List<Action> seeders = [
+            SeedPlayers,
+            SeedPlayersToGame,
+            SeedTerritories,
+        ];
+
+        seeders.ForEach(seeder =>
+        {
+            seeder();
+            db.SaveChanges();
+        });
     }
 
-    [Seed]
-    public void SeedPlayers()
+    private void SeedPlayers()
     {
         if (db.Players.Any()) {
             return;
         }
 
-        db.Players.Add(new Player { Name = "Psycho17", Colour = "#0f0" });
+        List<Player> players =
+        [
+            new() { Name = "Aluce", Colour = "#f00" },
+            new() { Name = "Psycho17", Colour = "#0f0" },
+        ];
+
+        players.ForEach(player => db.Players.Add(player));
     }
 
-    [Seed]
-    public void SeedTerritories()
+    private void SeedTerritories()
     {
         if (db.Territories.Any()) {
             return;
@@ -166,28 +153,16 @@ public class DataSeeder(Gd6DbContext db)
                 new Coordinate { X = 140, Y = 230 }, 
             ],
         });
-
-        db.SaveChanges();
     }
 
-    [Seed]
-    public void SeedFirstTurn()
+    private void SeedPlayersToGame()
     {
-        var turn = new Turn
-        {
-            Game = _game,
-            TurnNumber = 1,
-        };
-
-        db.Turns.Add(turn);
-        
-        db.TerritoryTurns.Add(new TerritoryTurn
-        {
-            Owner = _aluce,
-            Territory = _territory,
-            Turn = turn,
-        });
-
-        db.SaveChanges();
+        foreach (var player in db.Players) {
+            db.GamePlayers.Add(new GamePlayer
+            {
+                Game = _game,
+                Player = player,
+            });
+        }
     }
 }

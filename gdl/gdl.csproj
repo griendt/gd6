@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\engine\engine.csproj"/>
+        <ProjectReference Include="..\web\web.csproj" />
     </ItemGroup>
 
 </Project>

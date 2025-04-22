@@ -5,8 +5,8 @@ namespace web.Models;
 
 public class Territory
 {
-    [Key] public Guid Id { get; init; }
-    public required string Identifier { get; set; }
+    [Key] public int Id { get; init; }
+    public required string Identifier { get; init; }
 
     public Guid GameId { get; init; }
     public virtual Game Game { get; set; }

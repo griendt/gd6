@@ -20,6 +20,10 @@ public partial class GdlParser(World world)
                 break;
             }
 
+            if (line.StartsWith("//")) {
+                continue;
+            }
+
             var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             if (_currentIssuer == null && parts[0] != "Set") {

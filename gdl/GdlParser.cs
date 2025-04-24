@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using Castle.Components.DictionaryAdapter.Xml;
 using engine;
 using engine.Engine;
 using engine.Engine.Commands;
@@ -10,10 +9,10 @@ namespace gdl;
 
 public partial class GdlParser(World world)
 {
-    private bool _isInSetup = false;
+    private readonly Player _admin = new() { Id = Guid.NewGuid(), Name = "root" };
     public readonly List<Command> Commands = [];
     private Player? _currentIssuer;
-    private Player _admin = new Player { Id = Guid.NewGuid(), Name = "root" };
+    private bool _isInSetup;
 
     public IEnumerable<Turn> Turns()
     {
@@ -25,7 +24,7 @@ public partial class GdlParser(World world)
                 turn = new Turn { World = world, Commands = [] };
                 continue;
             }
-            
+
             turn.Commands.Add(command);
         }
 
@@ -34,7 +33,7 @@ public partial class GdlParser(World world)
             yield return turn;
         }
     }
-    
+
     public void Parse(string lines)
     {
         using var reader = new StringReader(lines);
@@ -59,7 +58,7 @@ public partial class GdlParser(World world)
                 if (!_isInSetup) {
                     throw new Exception("Cannot end init if not started");
                 }
-                
+
                 _isInSetup = false;
                 continue;
             }
@@ -106,20 +105,22 @@ public partial class GdlParser(World world)
 
     private void AddPlayer(string[] command)
     {
+        if (!ColorRegex().Match(command[2]).Success) {
+            throw new InvalidColorException();
+        }
+
         world.Players.Add(new Player
         {
             Id = Guid.NewGuid(),
             Name = command[1],
+            Colour = command[2],
         });
     }
 
     private void CreateTerritories(string[] command)
     {
         Enumerable.Range(1, int.Parse(command[1]))
-            .Each(i => world.Territories.Add(i, new Territory(world)
-            {
-                Id = i,
-            }));
+            .Each(i => world.Territories.Add(i, new Territory(world) { Id = i }));
     }
 
     private void CreateTerritoryBoundaries(string[] command)
@@ -136,7 +137,7 @@ public partial class GdlParser(World world)
             if (!world.Territories.ContainsKey(territoryIds[0]) || !world.Territories.ContainsKey(territoryIds[1])) {
                 throw new UnknownTerritoryException();
             }
-            
+
             world.AddBorder(world.Territories[territoryIds[0]], world.Territories[territoryIds[1]]);
         }
     }
@@ -218,7 +219,7 @@ public partial class GdlParser(World world)
             "Tox" => Item.ToxicWaste,
             _ => throw new Exception("Unknown item type"),
         };
-        
+
         Commands.Add(new BuyItemCommand
         {
             Issuer = _currentIssuer!,
@@ -251,7 +252,7 @@ public partial class GdlParser(World world)
                     Issuer = _currentIssuer!,
                     Quantities = command[1].Split(',')
                         .Select(item => item.Split(':'))
-                        .ToDictionary(item => int.Parse(item[0]), item => int.Parse(item[1])),
+                        .ToDictionary(keySelector: item => int.Parse(item[0]), elementSelector: item => int.Parse(item[1])),
                 });
                 break;
             default:
@@ -261,4 +262,7 @@ public partial class GdlParser(World world)
 
     [GeneratedRegex(@"^(\d+)A$")]
     private static partial Regex ArmiesRegex();
+
+    [GeneratedRegex(@"^#[\da-fA-F]{3}$")]
+    private static partial Regex ColorRegex();
 }

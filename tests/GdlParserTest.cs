@@ -45,16 +45,96 @@ public class GdlParserTest : BaseTest
         Assert.Throws<Exception>(() => _parser.Parse("InitEnd"));
     }
 
-    [TestCase("AddPlayer Aluce")]
+    [TestCase("AddPlayer Aluce #f00")]
     [TestCase("SetNumTerritories 5")]
     [TestCase("SetNumTerritories 5\nSetBoundaries 1,2;3,4")]
     public void ItRejectsInitCommandsIfNotInitStarted(string command)
     {
         World.Territories = [];
         World.TerritoryBorders = [];
-        
+
         Assert.Throws<CommandSetNotInitialized>(() => _parser.Parse(command));
         Assert.DoesNotThrow(() => _parser.Parse($"InitStart\n{command}"));
+    }
+
+    [TestCase("#f00", false)]
+    [TestCase("#F80", false)]
+    [TestCase("#a8F", false)]
+    [TestCase("#ff0000", true)]
+    [TestCase("#FF0000", true)]
+    [TestCase("f00", true)]
+    [TestCase("#g00", true)]
+    public void ItChecksPlayerColors(string color, bool shouldExpectError)
+    {
+        var gdl = $"InitStart\nAddPlayer Aluce {color}";
+        if (shouldExpectError) {
+            Assert.Throws<InvalidColorException>(() => _parser.Parse(gdl));
+        }
+        else {
+            Assert.DoesNotThrow(() => _parser.Parse(gdl));
+        }
+    }
+
+    [Test]
+    public void ItAddsPlayers()
+    {
+        World.Players = [];
+
+        _parser.Parse("InitStart\nAddPlayer Aluce #f00\nAddPlayer Psycho17 #0f0");
+
+        Assert.That(World.Players.Count, Is.EqualTo(2));
+        foreach (var player in World.Players) {
+            var color = player.Name switch
+            {
+                "Aluce" => "#f00",
+                "Psycho17" => "#0f0",
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+
+            Assert.That(player.Colour, Is.EqualTo(color));
+        }
+    }
+
+    [TestCase(0)]
+    [TestCase(1)]
+    [TestCase(6)]
+    public void ItAddsTerritories(int numTerritories)
+    {
+        World.Territories = [];
+
+        _parser.Parse($"InitStart\nSetNumTerritories {numTerritories}");
+
+        Assert.That(World.Territories, Has.Count.EqualTo(numTerritories));
+    }
+
+    [Test]
+    public void ItRejectsBoundariesFromUnknownTerritories()
+    {
+        Assert.Throws<UnknownTerritoryException>(() => _parser.Parse("InitStart\nSetBoundaries 21,22"));
+    }
+
+    [TestCase("1,2")]
+    [TestCase("1,2;3,4")]
+    [TestCase("1,2;2,3")]
+    public void ItSetsTerritoryBoundaries(string boundaries)
+    {
+        _parser.Parse($"InitStart\nSetBoundaries {boundaries}");
+
+        foreach (var boundary in boundaries.Split(";")) {
+            var items = boundary.Split(",");
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(World.TerritoryBorders, Does.ContainKey(int.Parse(items[0])));
+                Assert.That(World.TerritoryBorders, Does.ContainKey(int.Parse(items[1])));
+            });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(World.TerritoryBorders[int.Parse(items[0])], Does.Contain(int.Parse(items[1])));
+                Assert.That(World.TerritoryBorders[int.Parse(items[1])], Does.Contain(int.Parse(items[0])));
+            });
+        }
     }
 
     [Test]
@@ -189,7 +269,7 @@ public class GdlParserTest : BaseTest
 
         Assert.That(_parser.Commands, Has.Count.EqualTo(1));
         var command = _parser.Commands.First() as BuyItemCommand;
-        
+
         Assert.Multiple(() =>
         {
             Assert.That(command!.Issuer.Name, Is.EqualTo(name));
@@ -197,7 +277,7 @@ public class GdlParserTest : BaseTest
             Assert.That(command.ItemType(), Is.EqualTo(item));
         });
     }
-    
+
     [Test]
     public void ItParsesAUseDynamiteOrder()
     {

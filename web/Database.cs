@@ -69,7 +69,7 @@ public class Gd6DbContext : DbContext
     {
         var game = new Game { Name = "Global Domination VI", Id = Guid.NewGuid() };
         var players = world.Players
-            .Select(player => new Player { Id = Guid.NewGuid(), Name = player.Name, Colour = "#fff" })
+            .Select(player => new Player { Id = Guid.NewGuid(), Name = player.Name, Colour = player.Colour })
             .ToList();
 
         Games.Add(game);

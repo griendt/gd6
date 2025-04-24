@@ -1,9 +1,9 @@
 InitStart
 SetNumTerritories 6
 SetBoundaries 1,2;2,3;3,4;5,6
-AddPlayer Aluce
-AddPlayer Psycho17
-AddPlayer Brew
+AddPlayer Aluce #f00
+AddPlayer Psycho17 #0f0
+AddPlayer Brew #00f
 InitEnd
 
 Set Aluce
@@ -29,4 +29,8 @@ Con 4 2A
 
 Set Brew
 Con 6 2A
+End
+
+End
+
 End

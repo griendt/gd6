@@ -4,8 +4,10 @@ namespace engine.Models;
 
 public class Player
 {
+
+    public string Colour = "#fff";
     [Key] public required Guid Id;
-    public required string Name;
-    public List<Item> Inventory = [];
     public int InfluencePoints = 0;
+    public List<Item> Inventory = [];
+    public required string Name;
 }

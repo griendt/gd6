@@ -30,6 +30,10 @@ public class Gd6DbContext : DbContext
         modelBuilder.Entity<Territory>().OwnsMany(
             territory => territory.Coordinates,
             ownedNavigationBuilder => ownedNavigationBuilder.ToJson());
+
+        modelBuilder.Entity<Territory>()
+            .HasMany(territory => territory.TerritoryBorders)
+            .WithOne(border => border.FirstTerritory);
     }
 
     public override int SaveChanges()

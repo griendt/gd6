@@ -1,4 +1,6 @@
 using System.Text.RegularExpressions;
+using Castle.Components.DictionaryAdapter.Xml;
+using engine;
 using engine.Engine.Commands;
 using engine.Models;
 using gdl.Exceptions;
@@ -7,6 +9,7 @@ namespace gdl;
 
 public partial class GdlParser(World world)
 {
+    private bool _isInSetup = false;
     public readonly List<Command> Commands = [];
     private Player? _currentIssuer;
 
@@ -26,6 +29,32 @@ public partial class GdlParser(World world)
 
             var parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
+            if (parts[0] == "InitStart") {
+                _isInSetup = true;
+                continue;
+            }
+            if (parts[0] == "InitEnd") {
+                if (!_isInSetup) {
+                    throw new Exception("Cannot end init if not started");
+                }
+                
+                _isInSetup = false;
+                continue;
+            }
+
+            if (_isInSetup) {
+                Action<string[]> setup = parts[0] switch
+                {
+                    "AddPlayer" => AddPlayer,
+                    "SetNumTerritories" => CreateTerritories,
+                    "SetBoundaries" => CreateTerritoryBoundaries,
+                    _ => throw new UnknownCommandType(),
+                };
+
+                setup(parts);
+                continue;
+            }
+
             if (_currentIssuer == null && parts[0] != "Set") {
                 throw new CommandSetNotInitialized();
             }
@@ -41,6 +70,43 @@ public partial class GdlParser(World world)
             };
 
             callback(parts);
+        }
+    }
+
+    private void AddPlayer(string[] command)
+    {
+        world.Players.Add(new Player
+        {
+            Id = Guid.NewGuid(),
+            Name = command[1],
+        });
+    }
+
+    private void CreateTerritories(string[] command)
+    {
+        Enumerable.Range(1, int.Parse(command[1]))
+            .Each(i => world.Territories.Add(i, new Territory(world)
+            {
+                Id = i,
+            }));
+    }
+
+    private void CreateTerritoryBoundaries(string[] command)
+    {
+        var arguments = command[1].Split(";");
+
+        foreach (var argument in arguments) {
+            var territoryIds = argument.Split(",").Select(int.Parse).ToList();
+
+            if (territoryIds.Count != 2) {
+                throw new InvalidArgumentException();
+            }
+
+            if (!world.Territories.ContainsKey(territoryIds[0]) || !world.Territories.ContainsKey(territoryIds[1])) {
+                throw new UnknownTerritoryException();
+            }
+            
+            world.AddBorder(world.Territories[territoryIds[0]], world.Territories[territoryIds[1]]);
         }
     }
 

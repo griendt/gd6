@@ -39,6 +39,24 @@ public class GdlParserTest : BaseTest
         Assert.That(_parser.Commands, Is.Empty);
     }
 
+    [Test]
+    public void ItRejectsInitEndIfNotInitStarted()
+    {
+        Assert.Throws<Exception>(() => _parser.Parse("InitEnd"));
+    }
+
+    [TestCase("AddPlayer Aluce")]
+    [TestCase("SetNumTerritories 5")]
+    [TestCase("SetNumTerritories 5\nSetBoundaries 1,2;3,4")]
+    public void ItRejectsInitCommandsIfNotInitStarted(string command)
+    {
+        World.Territories = [];
+        World.TerritoryBorders = [];
+        
+        Assert.Throws<CommandSetNotInitialized>(() => _parser.Parse(command));
+        Assert.DoesNotThrow(() => _parser.Parse($"InitStart\n{command}"));
+    }
+
     [TestCase("Hq", typeof(CreateHq))]
     [TestCase("For", typeof(CreateFortress))]
     [TestCase("Biv", typeof(CreateBivouac))]

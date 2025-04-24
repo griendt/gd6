@@ -4,8 +4,8 @@ namespace engine.Models;
 
 public class World
 {
-    public readonly Dictionary<int, Territory> Territories = [];
-    public readonly Dictionary<int, List<int>> TerritoryBorders = [];
+    public Dictionary<int, Territory> Territories = [];
+    public Dictionary<int, List<int>> TerritoryBorders = [];
     public List<Player> Players = [];
 
     [Pure]

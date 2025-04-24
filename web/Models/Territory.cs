@@ -12,7 +12,7 @@ public class Territory
     public virtual Game Game { get; set; }
 
     [MinLength(3)] public List<Coordinate> Coordinates { get; init; }
-
+    public virtual List<TerritoryBorder> TerritoryBorders { get; set; } = [];
     public virtual List<TerritoryTurn> TerritoryTurns { get; set; }
 
     public Player? CurrentOwner() =>

@@ -12,6 +12,7 @@ public partial class GdlParser(World world)
     private bool _isInSetup = false;
     public readonly List<Command> Commands = [];
     private Player? _currentIssuer;
+    private Player _admin = new Player { Id = Guid.NewGuid(), Name = "root" };
 
     public void Parse(string lines)
     {
@@ -61,6 +62,7 @@ public partial class GdlParser(World world)
 
             Action<string[]> callback = parts[0] switch
             {
+                "End" => EndOfTurn,
                 "Set" => InitializeMoveSet,
                 "Con" => Construct,
                 "Buy" => BuyItem,
@@ -71,6 +73,14 @@ public partial class GdlParser(World world)
 
             callback(parts);
         }
+    }
+
+    private void EndOfTurn(string[] command)
+    {
+        Commands.Add(new EndOfTurnCommand
+        {
+            Issuer = _admin,
+        });
     }
 
     private void AddPlayer(string[] command)

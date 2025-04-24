@@ -57,6 +57,14 @@ public class GdlParserTest : BaseTest
         Assert.DoesNotThrow(() => _parser.Parse($"InitStart\n{command}"));
     }
 
+    [Test]
+    public void ItAddsEndOfTurnCommand()
+    {
+        _parser.Parse($"Set {Players.Player1.Name}\nEnd");
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        Assert.That(_parser.Commands[0], Is.InstanceOf<EndOfTurnCommand>());
+    }
+
     [TestCase("Hq", typeof(CreateHq))]
     [TestCase("For", typeof(CreateFortress))]
     [TestCase("Biv", typeof(CreateBivouac))]

@@ -1,0 +1,22 @@
+InitStart
+SetNumTerritories 6
+SetBoundaries 1,2;2,3;3,4;5,6
+AddPlayer Aluce
+AddPlayer Psycho17
+AddPlayer Brew
+InitEnd
+
+Set Aluce
+Con 1 Hq
+Con 1 1A
+Con 2 1A
+
+Set Psycho17
+Con 4 Hq
+Con 4 2A
+
+Set Brew
+Con 6 Hq
+Con 5 1A
+Con 6 1A
+End

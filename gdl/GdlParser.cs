@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using Castle.Components.DictionaryAdapter.Xml;
 using engine;
+using engine.Engine;
 using engine.Engine.Commands;
 using engine.Models;
 using gdl.Exceptions;
@@ -14,6 +15,26 @@ public partial class GdlParser(World world)
     private Player? _currentIssuer;
     private Player _admin = new Player { Id = Guid.NewGuid(), Name = "root" };
 
+    public IEnumerable<Turn> Turns()
+    {
+        var turn = new Turn { World = world, Commands = [] };
+
+        foreach (var command in Commands) {
+            if (command is EndOfTurnCommand) {
+                yield return turn;
+                turn = new Turn { World = world, Commands = [] };
+                continue;
+            }
+            
+            turn.Commands.Add(command);
+        }
+
+        // Implicit end of turn at command list end
+        if (turn.Commands.Count > 0) {
+            yield return turn;
+        }
+    }
+    
     public void Parse(string lines)
     {
         using var reader = new StringReader(lines);
@@ -24,7 +45,7 @@ public partial class GdlParser(World world)
                 break;
             }
 
-            if (line.StartsWith("//")) {
+            if (line.StartsWith("//") || line.Trim() == "") {
                 continue;
             }
 

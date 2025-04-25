@@ -67,9 +67,20 @@ public class Gd6DbContext : DbContext
         var players = world.Players
             .Select(player => new Player { Id = Guid.NewGuid(), Name = player.Name, Colour = player.Colour })
             .ToList();
+        var territories = world.Territories
+            .Values
+            .Select(territory => new Territory
+            {
+                Game = game,
+                Id = territory.Id,
+                Identifier = $"{territory.Id}",
+                Coordinates = territory.Coordinates.Select(xy => new Coordinate { X = xy.Item1, Y = xy.Item2 }).ToList(),
+            })
+            .ToList();
 
         Games.Add(game);
         players.ForEach(player => GamePlayers.Add(new GamePlayer { Game = game, Player = player }));
+        territories.ForEach(territory => Territories.Add(territory));
 
         SaveChanges();
     }

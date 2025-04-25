@@ -1,38 +1,42 @@
 InitStart
 SetNumTerritories 6
 SetBoundaries 1,2;2,3;3,4;5,6
-SetCoordinates 1 2,3;3,4;4,5
-
+SetCoordinates 1 50,50;80,140;100,170;140,160;160,150;200,40;150,50
+SetCoordinates 2 100,170;90,220;140,230;200,220;210,300;230,190;250,150;160,150
+SetCoordinates 3 150,150;200,40;220,20;250,30;260,40;280,10;290,60;330,50;360,40;370,70;360,100;350,150;340,180;250,150
+SetCoordinates 4 370,70;420,60;440,100;430,130;420,160;460,170;430,190;420,230;350,260;340,180;350,150;360,100
+SetCoordinates 5 0,0;0,1;2,2
+SetCoordinates 6 0,0;0,1;2,2
 AddPlayer Aluce #f00
 AddPlayer Psycho17 #0f0
 AddPlayer Brew #00f
 InitEnd
 
+// Turn 1
 Set Aluce
 Con 1 Hq
 Con 1 1A
 Con 2 1A
-
 Set Psycho17
 Con 4 Hq
 Con 4 2A
-
 Set Brew
 Con 6 Hq
 Con 5 1A
 Con 6 1A
 End
 
+// Turn 2
 Set Aluce
 Con 1 2A
-
 Set Psycho17
 Con 4 2A
-
 Set Brew
 Con 6 2A
 End
 
+// Turn 3
 End
 
+// Turn 4
 End

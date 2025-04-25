@@ -12,7 +12,7 @@
         opacity="@_opacity"
         style="
             border: @_borderThickness solid var(--md-footer-bg-color);
-            background: conic-gradient(from 90deg at 1px 1px, #ccc 90deg, #eee 0) 0 0/20px 20px;
+        background: conic-gradient(from 90deg at 1px 1px, #ccc 90deg, #eee 0) 0 0/20px 20px;
         "
         @onmousemove="SetMouseXy"
         @onmouseleave="UnSticky">
@@ -29,7 +29,7 @@
             />
         }
     </svg>
-    
+
     X: @_mouseX Y: @_mouseY
 </div>
 
@@ -56,7 +56,7 @@
 
     private int StrokeWidth(Territory territory) => territory == _activeTerritory ? _territoryStrokeWidthActive : _territoryStrokeWidth;
     private string TerritoryStrokeColour(Territory territory) => territory == _activeTerritory ? _territoryStrokeColourActive : _territoryStrokeColour;
-    private string TerritoryFillColour(Territory territory) => territory.CurrentOwner()?.Colour ?? "#fdd";
+    private string TerritoryFillColour(Territory territory) => territory.Owner?.Colour ?? "#fdd";
 
     private int _mouseX = 0;
     private int _mouseY = 0;

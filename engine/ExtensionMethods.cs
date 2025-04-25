@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace engine;
 
 public static class ExtensionMethods
@@ -34,4 +36,14 @@ public static class ExtensionMethods
     }
 
     public static T Second<T>(this IEnumerable<T> inputs) => inputs.Skip(1).First();
+
+    public static T FirstOr<T>(this IQueryable<T> source, Expression<Func<T, bool>> predicate, Func<T> orElse)
+    {
+        try {
+            return source.First(predicate);
+        }
+        catch (Exception) {
+            return orElse();
+        }
+    }
 }

@@ -11,12 +11,8 @@ namespace web;
 
 public class Gd6DbContext : DbContext
 {
-    public DbSet<Game> Games { get; set; }
     public DbSet<Player> Players { get; set; }
-    public DbSet<GamePlayer> GamePlayers { get; set; }
     public DbSet<Territory> Territories { get; set; }
-    public DbSet<Turn> Turns { get; set; }
-    public DbSet<TerritoryTurn> TerritoryTurns { get; set; }
     public DbSet<HeadQuarter> HeadQuarters { get; set; }
 
     private static string DbPath => "/home/alex/projects/gd6/gd6.db";
@@ -63,24 +59,40 @@ public class Gd6DbContext : DbContext
 
     public void FromWorld(World world)
     {
-        var game = new Game { Name = "Global Domination VI", Id = Guid.NewGuid() };
-        var players = world.Players
-            .Select(player => new Player { Id = Guid.NewGuid(), Name = player.Name, Colour = player.Colour })
-            .ToList();
-        var territories = world.Territories
+        world.Players
+            .ForEach(player => Players.Add(new Player { Id = player.Id, Name = player.Name, Colour = player.Colour }));
+
+        world.Territories
             .Values
-            .Select(territory => new Territory
+            .ToList()
+            .ForEach(territory => Territories.Add(new Territory
             {
-                Game = game,
                 Id = territory.Id,
                 Identifier = $"{territory.Id}",
                 Coordinates = territory.Coordinates.Select(xy => new Coordinate { X = xy.Item1, Y = xy.Item2 }).ToList(),
-            })
-            .ToList();
+                Headquarter = null,
+            }));
 
-        Games.Add(game);
-        players.ForEach(player => GamePlayers.Add(new GamePlayer { Game = game, Player = player }));
-        territories.ForEach(territory => Territories.Add(territory));
+        SaveChanges();
+    }
+
+    public void SaveTurn(World world)
+    {
+        Territories.ToList().ForEach(territory =>
+        {
+            var settler = world.Territories[territory.Id].HqSettler;
+            var owner = world.Territories[territory.Id].Owner;
+
+            if (owner != null) {
+                territory.Owner = Players.First(player => player.Id == owner.Id);
+            }
+
+            if (settler != null && territory.Headquarter == null) {
+                var hq = new HeadQuarter { Name = "New Headquarter", Settler = Players.First(player => player.Id == settler.Id) };
+                HeadQuarters.Add(hq);
+                territory.Headquarter = hq;
+            }
+        });
 
         SaveChanges();
     }

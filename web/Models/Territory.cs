@@ -7,11 +7,13 @@ public class Territory
     [Key] public int Id { get; init; }
     public required string Identifier { get; init; }
 
-    public Guid GameId { get; init; }
-    public virtual Game Game { get; set; }
-
     [MinLength(3)] public List<Coordinate> Coordinates { get; init; }
-    public virtual List<TerritoryTurn> TerritoryTurns { get; set; }
+
+    public Guid? PlayerId { get; init; }
+    public virtual Player? Owner { get; set; }
+
+    public Guid? HeadquarterId { get; init; }
+    public virtual HeadQuarter? Headquarter { get; set; }
 
     public (int X, int Y) Centroid
     {
@@ -39,13 +41,6 @@ public class Territory
         .Range(0, Coordinates.Count)
         .Select(i => Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y)
         .Sum() / 2;
-
-    public Player? CurrentOwner() =>
-        TerritoryTurns
-            .OrderBy(territoryTurn => territoryTurn.Turn.Id)
-            .Reverse()
-            .FirstOrDefault()
-            ?.Owner;
 }
 
 public class Coordinate

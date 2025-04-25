@@ -155,6 +155,21 @@ public class GdlParserTest : BaseTest
     }
 
     [Test]
+    public void ItAddsCoordinates()
+    {
+        _parser.Parse("InitStart\nSetCoordinates 1 0,0;10,10;20,30;0,40");
+
+        Assert.That(World.Territories[1].Coordinates, Has.Count.EqualTo(4));
+        Assert.That(World.Territories[1].Coordinates,
+        Is.EqualTo([
+            (0, 0),
+            (10, 10),
+            (20, 30),
+            (0, 40),
+        ]));
+    }
+
+    [Test]
     public void ItAddsEndOfTurnCommand()
     {
         _parser.Parse($"Set {Players.Player1.Name}\nEnd");

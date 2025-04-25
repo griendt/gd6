@@ -1,6 +1,8 @@
 InitStart
 SetNumTerritories 6
 SetBoundaries 1,2;2,3;3,4;5,6
+SetCoordinates 1 2,3;3,4;4,5
+
 AddPlayer Aluce #f00
 AddPlayer Psycho17 #0f0
 AddPlayer Brew #00f

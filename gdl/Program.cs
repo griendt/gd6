@@ -22,5 +22,3 @@ foreach (var turn in parser.Turns()) {
 
     db.SaveTurn(world);
 }
-
-Console.WriteLine("Hello, World!");

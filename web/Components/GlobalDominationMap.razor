@@ -4,8 +4,9 @@
 
 
 <div class="container" style="max-width: @($"{_width}px") !important; max-height: @($"{_height}px") !important;">
-    <h3>Map</h3>
-    <button class="btn-primary" @onclick="LoadTerritories">Refresh</button>
+    <h3>Map
+        <button class="align-content-end btn btn-sm btn-outline-primary" @onclick="LoadTerritories">Refresh</button>
+    </h3>
     <svg
         id="gd6-map"
         xmlns="http://www.w3.org/2000/svg"

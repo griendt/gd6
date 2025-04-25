@@ -68,6 +68,7 @@ public partial class GdlParser(World world)
                 {
                     "AddPlayer" => AddPlayer,
                     "SetNumTerritories" => CreateTerritories,
+                    "SetCoordinates" => CreateTerritoryCoordinates,
                     "SetBoundaries" => CreateTerritoryBoundaries,
                     _ => throw new UnknownCommandType(),
                 };
@@ -139,6 +140,36 @@ public partial class GdlParser(World world)
             }
 
             world.AddBorder(world.Territories[territoryIds[0]], world.Territories[territoryIds[1]]);
+        }
+    }
+
+    private void CreateTerritoryCoordinates(string[] command)
+    {
+        int territoryId;
+
+        try {
+            territoryId = int.Parse(command[1]);
+        }
+        catch (FormatException) {
+            throw new UnknownTerritoryException();
+        }
+
+        if (!world.Territories.TryGetValue(territoryId, out var territory)) {
+            throw new UnknownTerritoryException();
+        }
+
+        if (!CoordinatesRegex().Match(command[2]).Success) {
+            throw new InvalidArgumentException();
+        }
+
+        foreach (var coordinates in command[2].Split(";")) {
+            var xy = coordinates.Split(",").Select(int.Parse).ToList();
+
+            if (xy.Count != 2) {
+                throw new InvalidArgumentException();
+            }
+
+            territory.Coordinates.Add((xy[0], xy[1]));
         }
     }
 
@@ -265,4 +296,7 @@ public partial class GdlParser(World world)
 
     [GeneratedRegex(@"^#[\da-fA-F]{3}$")]
     private static partial Regex ColorRegex();
+
+    [GeneratedRegex(@"^(\d+,\d+;){2,}(\d+,\d+)$")]
+    private static partial Regex CoordinatesRegex();
 }

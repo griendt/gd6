@@ -137,6 +137,23 @@ public class GdlParserTest : BaseTest
         }
     }
 
+    [TestCase("21")]
+    [TestCase("Banana")]
+    public void ItRejectsInvalidTerritoryIdInCoordinateCommand(string territoryId)
+    {
+        Assert.Throws<UnknownTerritoryException>(() => _parser.Parse("InitStart\nSetCoordinates 21 1,2;3,4;5,6"));
+    }
+
+    [TestCase("1,2,3;4,5,6;7,8,9", Description = "Coordinates should be 2-dimensional")]
+    [TestCase("1,2;3,4", Description = "Coordinates should have length at least 3 to be displayable")]
+    [TestCase("a,2;3,4;5,6", Description = "Coordinates must not contain letters")]
+    [TestCase("1.0,2.0;3.0,4;5,6.0", Description = "Coordinates must be integral")]
+    [TestCase("1,2;-3,4;5,6", Description = "Coordinates must be non-negative")]
+    public void ItRejectsInvalidCoordinates(string command)
+    {
+        Assert.Throws<InvalidArgumentException>(() => _parser.Parse($"InitStart\nSetCoordinates 1 {command}"));
+    }
+
     [Test]
     public void ItAddsEndOfTurnCommand()
     {

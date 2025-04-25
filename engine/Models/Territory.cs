@@ -5,8 +5,26 @@ namespace engine.Models;
 
 public class Territory(World world)
 {
+    public readonly HashSet<Construct> Constructs = [];
+
+    // Purely for web
+    public readonly List<(int, int)> Coordinates = [];
+    public readonly UnitCollection Units = new();
+    private Player? _owner;
+    public Player? HqSettler = null;
+
     [Key]
     public required int Id;
+
+    public bool IsWasteland = false;
+
+    /// <summary>
+    ///     Whenever a territory changes owner, set the occupation turn number.
+    ///     We can use this to decide which territories a player has owned the
+    ///     longest consecutive amount of time. This is needed for when players
+    ///     no longer own a HQ and still want to spawn units.
+    /// </summary>
+    public int Loyalty;
 
     public Player? Owner
     {
@@ -18,22 +36,8 @@ public class Territory(World world)
         }
     }
 
-    public Player? HqSettler = null;
-    public bool IsWasteland = false;
-    public readonly UnitCollection Units = new();
     public bool ContainsHq => HqSettler != null;
     public bool IsNeutral => Owner == null;
-    public readonly HashSet<Construct> Constructs = [];
-
-    private Player? _owner;
-
-    /// <summary>
-    /// Whenever a territory changes owner, set the occupation turn number.
-    /// We can use this to decide which territories a player has owned the
-    /// longest consecutive amount of time. This is needed for when players
-    /// no longer own a HQ and still want to spawn units.
-    /// </summary>
-    public int Loyalty = 0;
 
     [Pure]
     public IEnumerable<Territory> Neighbours() => world.TerritoryBorders
@@ -71,7 +75,7 @@ public class Territory(World world)
         if (Units.IsEmpty) {
             Neutralize();
         }
-        
+
         Constructs.Remove(Construct.Bivouac);
         if (Constructs.Remove(Construct.Fortress)) {
             Constructs.Add(Construct.Ruin);

@@ -7,23 +7,33 @@
     stroke-width="@StrokeWidth"
     stroke="@StrokeColour"
     fill="@FillColour"
+    filter="url(#lineBlur)"
 
     @onclick="@OnClick"
     @onmouseenter="@OnMouseEnter"
 />
+<path
+    id="@GetElementId()-pattern"
+    d="@SvgPath()"
+    fill="@Filter()"
+    pointer-events="none"
+    opacity="0.2"
+/>
 
-<TerritoryIdentifierText Territory="Territory" Fill="#000" Stroke="#000" StrokeWidth="2px" />
-<TerritoryIdentifierText Territory="Territory" />
+<TerritoryIdentifierText Territory="Territory" Fill="#000" Stroke="#000" StrokeWidth="2px"/>
+<TerritoryIdentifierText Territory="Territory"/>
 
 @code {
     [Parameter] public required Territory Territory { get; set; }
 
-    [Parameter] public Action OnClick { get; set; } = () => { };
-    [Parameter] public Action OnMouseEnter { get; set; } = () => { };
+    [Parameter] public Action OnClick { get; set; } = () => {};
+    [Parameter] public Action OnMouseEnter { get; set; } = () => {};
 
     [Parameter] public int StrokeWidth { get; set; } = 2;
-    [Parameter] public string StrokeColour { get; set; } = "#222";
-    [Parameter] public string FillColour { get; set; } = "#ddf";
+    [Parameter] public string StrokeColour { get; set; } = "#000";
+    [Parameter] public string FillColour { get; set; } = "#fff";
+
+    private string Filter() => "url(#territoryBgPattern)";
 
     private string GetElementId() => $"map-territory-{Territory.Id}";
 

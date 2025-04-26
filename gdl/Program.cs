@@ -1,5 +1,6 @@
 ﻿using engine.Models;
 using gdl;
+using Microsoft.EntityFrameworkCore;
 using web;
 
 var world = new World();
@@ -10,10 +11,10 @@ var db = new Gd6DbContext();
 // Mutates world, so must be done before creating a new Game entry in the database.
 parser.Parse(gdl);
 
-// Initialize players and territories if the db is still empty
-if (!db.Players.Any()) {
-    db.FromWorld(world);
-}
+db.Territories.ExecuteDelete();
+db.HeadQuarters.ExecuteDelete();
+db.Players.ExecuteDelete();
+db.FromWorld(world);
 
 // Process the turns
 foreach (var turn in parser.Turns()) {

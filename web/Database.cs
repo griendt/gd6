@@ -116,6 +116,11 @@ public class Gd6DbContext : DbContext
 
             territory.Armies = world.Territories[territory.Id].Units.Armies;
         });
+        
+        Players.ToList().ForEach(player =>
+        {
+            player.InfluencePoints = world.Players.First(p => player.Id == p.Id).InfluencePoints;
+        });
 
         SaveChanges();
     }

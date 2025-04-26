@@ -9,4 +9,6 @@ public class Player
 
     [RegularExpression(@"^#[0-9a-f]{3,6}$")]
     public required string Colour { get; init; }
+
+    public int InfluencePoints { get; set; } = 0;
 }

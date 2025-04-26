@@ -44,6 +44,20 @@ public class Territory
         .Range(0, Coordinates.Count)
         .Select(i => Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y)
         .Sum() / 2;
+
+    public List<Territory> boundariesOverWater()
+    {
+        var waterBoundaries = Boundaries
+            .Select(boundary => boundary.ToTerritory)
+            .Where(otherTerritory => otherTerritory
+                .Coordinates
+                .Select(c => (c.X, c.Y))
+                .Intersect(Coordinates.Select(c => (c.X, c.Y)))
+                .ToList().Count == 0)
+            .ToList();
+
+        return waterBoundaries;
+    }
 }
 
 public class Coordinate

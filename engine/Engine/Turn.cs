@@ -80,7 +80,10 @@ public class Turn
 
         commands
             .OfType<SpawnArmy>()
-            .Tap(spawnArmies => ValidateAndProcess(spawnArmies, true));
+            .Tap(spawnArmies => ValidateAndProcess(spawnArmies));
+
+        commands.OfType<CreateConstructCommand>()
+            .Tap(constructs => ValidateAndProcess(constructs));
     }
 
     private void ProcessInventoryPhase(List<Command> commands)

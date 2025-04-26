@@ -33,7 +33,6 @@
                     x="0" y="0" width="540" height="450"/>
             </pattern>
         </defs>
-        background-image: url();
         <rect
             x="0"
             y="0"
@@ -50,6 +49,17 @@
             fill="url(#oceanBgPattern)"
             opacity="0.03"
         />
+        @foreach (var territory in _territories) {
+            @foreach (var waterBoundedTerritory in territory.boundariesOverWater().Where(other => other.Id > territory.Id)) {
+                <line
+                    stroke="#000"
+                    stroke-width="10px"
+                    stroke-dasharray="5,5"
+                    x1="@territory.Centroid.X" y1="@territory.Centroid.Y"
+                    x2="@waterBoundedTerritory.Centroid.X" y2="@waterBoundedTerritory.Centroid.Y">
+                </line>
+            }
+        }
         @foreach (var territory in TerritoriesSorted) {
             <TerritorySvg
                 Territory="territory"

@@ -15,6 +15,8 @@ public abstract class CreateConstructCommand : Command, IHasOrigin
     
     public override void Process(World world)
     {
+        // TODO: add tests asserting that IP are deducted
+        Issuer.InfluencePoints -= Cost(world);
         world.Territories[Origin.Id].Constructs.Add(ConstructType());
     }
     

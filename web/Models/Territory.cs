@@ -15,6 +15,8 @@ public class Territory
     public Guid? HeadquarterId { get; init; }
     public virtual HeadQuarter? Headquarter { get; set; }
 
+    public int Armies { get; set; }
+
     public (int X, int Y) Centroid
     {
         get

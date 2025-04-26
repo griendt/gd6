@@ -1,24 +1,29 @@
 @using web.Models
+<circle
+    r="14"
+    cx="@Territory.Centroid.X"
+    cy="@Territory.Centroid.Y"
+    fill="#0008"
+    stroke="000"
+    stroke-width="2px"/>
+
 <text
-    x="@(Territory.Centroid.X - 24)"
-    y="@(Territory.Centroid.Y - 24)"
+    x="@Territory.Centroid.X"
+    y="@Territory.Centroid.Y"
     text-anchor="middle"
     font-family="Noticia"
-    font-size="40"
+    font-size="24"
     dominant-baseline="central"
     fill="@Fill"
     stroke="@Stroke"
     stroke-width="@StrokeWidth"
-
-    style="user-select: none; pointer-events: none"
->
-    @Territory.Identifier
+    style="user-select: none; pointer-events: none">
+    @Territory.Armies
 </text>
 
 @code {
     [Parameter] public required Territory Territory { get; set; }
-
-    [Parameter] public string Fill { get; set; } = "var(--md-primary-fg-color--dark)";
+    [Parameter] public string Fill { get; set; } = "var(--bs-light)";
     [Parameter] public string Stroke { get; set; } = "#0000";
     [Parameter] public string StrokeWidth { get; set; } = "0";
 }

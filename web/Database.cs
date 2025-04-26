@@ -92,6 +92,8 @@ public class Gd6DbContext : DbContext
                 HeadQuarters.Add(hq);
                 territory.Headquarter = hq;
             }
+
+            territory.Armies = world.Territories[territory.Id].Units.Armies;
         });
 
         SaveChanges();

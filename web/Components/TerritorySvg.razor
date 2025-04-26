@@ -20,8 +20,12 @@
     opacity="0.2"
 />
 
-<TerritoryIdentifierText Territory="Territory" Fill="#000" Stroke="#000" StrokeWidth="2px"/>
+<TerritoryIdentifierText Territory="Territory" Fill="#000" Stroke="#000" StrokeWidth="3px"/>
 <TerritoryIdentifierText Territory="Territory"/>
+@if (Territory.Armies > 0) {
+    <TerritoryArmiesText Territory="Territory" Fill="#f00" Stroke="#000" StrokeWidth="2px"/>
+    <TerritoryArmiesText Territory="Territory"/>
+}
 
 @code {
     [Parameter] public required Territory Territory { get; set; }

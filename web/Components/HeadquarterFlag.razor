@@ -1,0 +1,31 @@
+@using web.Models
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" x="@(Territory.Centroid.X - 40)" y="@(Territory.Centroid.Y + 10)">
+    <defs>
+        <filter id="flagPoleBlur" width="96" height="96">
+            <feOffset in="SourceAlpha" dx="0" dy="0"/>
+            <feGaussianBlur stdDeviation="0"/>
+            <feBlend in="SourceGraphic" in2="blurOut"/>
+        </filter>
+    </defs>
+    <path filter="url(#flagPoleBlur)" d="M 13 3.5 C 13 2.671875 12.328125 2 11.5 2 C 10.671875 2 10 2.671875 10 3.5 L 10 43.5 C 10 44.328125 10.671875 45 11.5 45 C 12.328125 45 13 44.328125 13 43.5 Z M 13 3.5 "/>
+</svg>
+
+@foreach (var doShadow in (bool[]) [false, true]) {
+    <svg x="@(Territory.Centroid.X - 40)" y="@(Territory.Centroid.Y + 5)" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter height="96" width="96" id="flagClothShadow">
+                <feGaussianBlur stdDeviation="1"/>
+            </filter>
+        </defs>
+        <path d="m27.11719,12.98169l-0.82813,-0.32812c-3.125,-1.25391 -6.54687,-1.56641 -9.84765,-0.90625l-3.44141,0.6875l0,20l3.44141,-0.6875c3.30078,-0.66016 6.72265,-0.34766 9.84765,0.90234c3.38672,1.35547 7.11719,1.60938 10.65625,0.72657l0.19922,-0.05079c1.17188,-0.29296 1.72656,-1.63671 1.10547,-2.67187l-3.12109,-5.20313c-0.6836,-1.13671 -1.02344,-1.70703 -1.10547,-2.32421c-0.03516,-0.25782 -0.03516,-0.51954 0,-0.78125c0.08203,-0.61719 0.42187,-1.1875 1.10547,-2.32422l2.55859,-4.26172c0.66797,-1.11719 -0.34375,-2.48438 -1.60547,-2.16797c-2.98047,0.74219 -6.11719,0.53125 -8.96484,-0.60938zm0,0"
+              filter="@(doShadow ? "url(#flagClothShadow)" : "")"
+              fill="@(doShadow ? "#fff" : Territory.Headquarter!.Settler.Colour)"
+              fill-opacity="@(doShadow ? 0.3 : 1)"
+              stroke-width="2px"
+              stroke="#000"/>
+    </svg>
+}
+
+@code {
+    [Parameter] public required Territory Territory { get; set; }
+}

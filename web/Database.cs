@@ -14,7 +14,8 @@ public class Gd6DbContext : DbContext
     public DbSet<Player> Players { get; set; }
     public DbSet<Territory> Territories { get; set; }
     public DbSet<HeadQuarter> HeadQuarters { get; set; }
-
+    public DbSet<Boundary> Boundaries { get; set; }
+    
     private static string DbPath => "/home/alex/projects/gd6/gd6.db";
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>
@@ -28,6 +29,11 @@ public class Gd6DbContext : DbContext
         modelBuilder.Entity<Territory>().OwnsMany(
         navigationExpression: territory => territory.Coordinates,
         buildAction: ownedNavigationBuilder => ownedNavigationBuilder.ToJson());
+
+        modelBuilder.Entity<Territory>()
+            .HasMany(territory => territory.Boundaries)
+            .WithOne(boundary => boundary.FromTerritory);
+
     }
 
     public override int SaveChanges()
@@ -72,6 +78,21 @@ public class Gd6DbContext : DbContext
                 Coordinates = territory.Coordinates.Select(xy => new Coordinate { X = xy.Item1, Y = xy.Item2 }).ToList(),
                 Headquarter = null,
             }));
+        
+        world.TerritoryBorders
+            .ToList()
+            .ForEach(borders =>
+            {
+                borders.Value.ForEach(neighbour =>
+                {
+                    // Symmetry is guaranteed by the symmetry of `world.TerritoryBorders`
+                    Boundaries.Add(new Boundary
+                    {
+                        FromTerritoryId = borders.Key,
+                        ToTerritoryId = neighbour,
+                    });
+                });
+            });
 
         SaveChanges();
     }

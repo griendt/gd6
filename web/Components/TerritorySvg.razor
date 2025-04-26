@@ -26,6 +26,9 @@
     <TerritoryArmiesText Territory="Territory" Fill="#f00" Stroke="#000" StrokeWidth="2px"/>
     <TerritoryArmiesText Territory="Territory"/>
 }
+@if (Territory.Headquarter != null) {
+    <HeadquarterFlag Territory="Territory"></HeadquarterFlag>
+}
 
 @code {
     [Parameter] public required Territory Territory { get; set; }

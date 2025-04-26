@@ -8,7 +8,8 @@ public class Territory
     public required string Identifier { get; init; }
 
     [MinLength(3)] public List<Coordinate> Coordinates { get; init; }
-
+    public virtual List<Boundary> Boundaries { get; init; }
+    
     public Guid? PlayerId { get; init; }
     public virtual Player? Owner { get; set; }
 

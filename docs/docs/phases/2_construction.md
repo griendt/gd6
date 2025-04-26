@@ -31,7 +31,7 @@ Each *Turn*, each player may spawn a certain amount of *Army* units. These units
 * contain an *HQ* that is under your control; **OR**
 * are adjacent to an *HQ* that is under your control, and are not controlled by anyone **else**.
 
-This means that spawning on a neutral empty land next to your *HQ* is allowed. This will automatically grant you ownership of it. 
+This means that spawning on a neutral empty land next to your *HQ* is allowed. This will immediately grant you ownership of it. 
 Furthermore, if you already own the land next to your *HQ* and have some units stationed there, you may add additional ones.
 
 !!! tip

@@ -56,4 +56,25 @@ public class SpawnArmyExecutionTest : BaseTest
             Assert.That(T(1).Units.Armies, Is.EqualTo(numTotal));
         });
     }
+
+    [Test]
+    public void ItClaimsOwnershipIfspawningInNeutralTerritoryNextToHq()
+    {
+        T(1).HqSettler = Players.Player1;
+
+        var command = new SpawnArmy
+        {
+            Issuer = Players.Player1,
+            Origin = T(2),
+            Quantity = 1,
+        };
+
+        command.Process(World);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(2).Owner, Is.EqualTo(Players.Player1));
+            Assert.That(T(2).Units.Armies, Is.EqualTo(1));
+        });
+    }
 }

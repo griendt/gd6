@@ -4,16 +4,17 @@ namespace engine.Engine.Commands;
 
 public class SpawnArmy : Command, IHasOrigin
 {
-    public override Phase Phase() => Engine.Phase.Construction;
 
     public required int Quantity;
 
+    public required Territory Origin { get; set; }
+    public override Phase Phase() => Engine.Phase.Construction;
+
     public static int MaxArmiesAllowedToSpawn(Player player, World world) => 2 + world.NumberOfTerritories(player) / 3;
 
-    public required Territory Origin { get; set; }
-    
     public override void Process(World world)
     {
+        world.Territories[Origin.Id].Owner = Issuer;
         world.Territories[Origin.Id].Units.AddArmies(Quantity);
     }
 
@@ -36,7 +37,7 @@ public class SpawnArmy : Command, IHasOrigin
             }
         }
     }
-    
+
     [Validator]
     public static void ValidateSpawningNegativeArmies(List<SpawnArmy> commands, World world)
     {
@@ -44,14 +45,14 @@ public class SpawnArmy : Command, IHasOrigin
             .Where(command => command.Quantity < 0)
             .Each(command => command.Reject(RejectReason.SpawningNegativeArmies));
     }
-    
+
     [Validator]
     public static void SpawningTooFarFromOwnedHqs(List<SpawnArmy> commands, World world)
     {
         var validSpawnLocationsByPlayer = new Dictionary<Player, List<int>>();
         var territoriesWithHq = world.Territories.Values
             .Where(territory => territory.ContainsHq && !territory.IsNeutral);
-        
+
         foreach (var territory in territoriesWithHq) {
             validSpawnLocationsByPlayer.SetOrAppend(territory.Owner!, territory.Id);
             territory.Neighbours()
@@ -77,6 +78,4 @@ public class SpawnArmy : Command, IHasOrigin
             }
         }
     }
-
-
 }

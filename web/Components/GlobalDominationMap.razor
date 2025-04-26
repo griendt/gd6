@@ -7,6 +7,7 @@
     <h3>Map
         <button class="align-content-end btn btn-sm btn-outline-primary" @onclick="LoadTerritories">Refresh</button>
     </h3>
+    <h4>X: @_mouseX Y: @_mouseY</h4>
     <svg
         id="gd6-map"
         xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +62,6 @@
         }
     </svg>
 
-    X: @_mouseX Y: @_mouseY
 </div>
 
 <script>
@@ -87,7 +87,7 @@
 
     private int StrokeWidth(Territory territory) => territory == _activeTerritory ? _territoryStrokeWidthActive : _territoryStrokeWidth;
     private string TerritoryStrokeColour(Territory territory) => territory == _activeTerritory ? _territoryStrokeColourActive : _territoryStrokeColour;
-    private string TerritoryFillColour(Territory territory) => territory.Owner?.Colour ?? "#edb88e";
+    private string TerritoryFillColour(Territory territory) => territory.Owner?.Colour ?? "#ddd";
     private int _mouseX = 0;
     private int _mouseY = 0;
 

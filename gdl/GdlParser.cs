@@ -218,12 +218,30 @@ public partial class GdlParser(World world)
                 return;
         }
 
+        var cavalryMatch = CavalryRegex().Match(command[2]);
         var armiesMatch = ArmiesRegex().Match(command[2]);
-        if (!armiesMatch.Success) {
-            throw new Exception("Could not parse second argument");
+
+        if (cavalryMatch.Success) {
+            Commands.Add(new PromoteArmyToCavalry
+            {
+                Issuer = _currentIssuer!, 
+                Origin = target, 
+                Quantity = int.Parse(cavalryMatch.Groups[1].Value),
+            });
+            return;
         }
 
-        Commands.Add(new SpawnArmy { Issuer = _currentIssuer!, Origin = target, Quantity = int.Parse(armiesMatch.Groups[1].Value) });
+        if (armiesMatch.Success) {
+            Commands.Add(new SpawnArmy
+            {
+                Issuer = _currentIssuer!,
+                Origin = target, 
+                Quantity = int.Parse(armiesMatch.Groups[1].Value),
+            });
+            return;
+        }
+
+        throw new Exception("Could not parse second argument");
     }
 
     private void Move(string[] command)
@@ -300,6 +318,9 @@ public partial class GdlParser(World world)
     [GeneratedRegex(@"^(\d+)A$")]
     private static partial Regex ArmiesRegex();
 
+    [GeneratedRegex(@"^(\d+)C$")]
+    private static partial Regex CavalryRegex();
+    
     [GeneratedRegex(@"^#[\da-fA-F]{3}$")]
     private static partial Regex ColorRegex();
 

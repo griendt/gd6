@@ -237,6 +237,27 @@ public class GdlParserTest : BaseTest
         });
     }
 
+    [TestCase(1)]
+    [TestCase(3)]
+    [TestCase(12)]
+    public void ItParsesPromoteToCavalryOrder(int quantity)
+    {
+        var name = Players.Player1.Name;
+        var territoryId = World.Territories.First().Value.Id;
+        _parser.Parse($"Set {name}\nCon {territoryId} {quantity}C");
+
+        Assert.That(_parser.Commands, Has.Count.EqualTo(1));
+        var command = _parser.Commands.First() as PromoteArmyToCavalry;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(command!.Issuer.Name, Is.EqualTo(name));
+            Assert.That(command, Is.InstanceOf(typeof(PromoteArmyToCavalry)));
+            Assert.That(command!.Origin.Id, Is.EqualTo(territoryId));
+            Assert.That(command.Quantity, Is.EqualTo(quantity));
+        });
+    }
+
     [Test]
     public void ItParsesMultipleConstructArmyOrders()
     {

@@ -213,6 +213,9 @@ public partial class GdlParser(World world)
             case "Int":
                 Commands.Add(new CreateIntelligence { Issuer = _currentIssuer!, Origin = target });
                 return;
+            case "Lib":
+                Commands.Add(new CreateLibrary { Issuer = _currentIssuer!, Origin = target });
+                return;
         }
 
         var armiesMatch = ArmiesRegex().Match(command[2]);

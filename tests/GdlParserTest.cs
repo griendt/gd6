@@ -181,6 +181,7 @@ public class GdlParserTest : BaseTest
     [TestCase("Tow", typeof(CreateWatchtower))]
     [TestCase("Biv", typeof(CreateBivouac))]
     [TestCase("Int", typeof(CreateIntelligence))]
+    [TestCase("Lib", typeof(CreateLibrary))]
     public void ItParsesACreateConstructOrder(string identifier, Type orderType)
     {
         _parser.Parse($"Set {Players.Player1.Name}\nCon {World.Territories.First().Value.Id} {identifier}");

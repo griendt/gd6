@@ -23,4 +23,7 @@ public enum RejectReason
     InsufficientInfluencePoints,
     BuildingMultipleConstructsInOneTerritory,
     BuildingOnToxicWasteland,
+    InsufficientArmies,
+    PromotingNegativeQuantity,
+    PromotingTooFarFromOwnedHq,
 }

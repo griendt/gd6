@@ -19,4 +19,37 @@ public class PromoteArmyToCavalry : Command, IHasOrigin
         }
     }
 
+    [Validator]
+    public static void ValidateOwnership(List<PromoteArmyToCavalry> promotions, World world)
+    {
+        promotions
+            .Where(promotion => promotion.Origin.Owner != promotion.Issuer)
+            .Each(promotion => promotion.Reject(RejectReason.PlayerDoesNotOwnOriginTerritory));
+    }
+
+    [Validator]
+    public static void ValidateQuantityIsPositive(List<PromoteArmyToCavalry> promotions, World world)
+    {
+        promotions
+            .Where(promotion => promotion.Quantity < 0)
+            .Each(promotion => promotion.Reject(RejectReason.PromotingNegativeQuantity));
+    }
+
+    [Validator]
+    public static void ValidateSufficientArmiesInOrigin(List<PromoteArmyToCavalry> promotions, World world)
+    {
+        promotions
+            .Where(promotion => promotion.Quantity > promotion.Origin.Units.Armies)
+            .Each(promotion => promotion.Reject(RejectReason.InsufficientArmies));
+    }
+
+    [Validator]
+    public static void ValidateCloseEnoughToOwnedHq(List<PromoteArmyToCavalry> promotions, World world)
+    {
+        promotions
+            .Where(promotion => !promotion.Origin.ContainsHq)
+            .Where(promotion => !promotion.Origin.Neighbours().Any(neighbour => neighbour.ContainsHq && neighbour.Owner == promotion.Issuer))
+            .Each(promotion => promotion.Reject(RejectReason.PromotingTooFarFromOwnedHq));
+    }
+
 }

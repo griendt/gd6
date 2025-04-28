@@ -56,6 +56,7 @@ End
 Set Aluce
 Con 1 Tow
 Con 2 Tow
+Mov 1→3 1A
 Set Psycho17
 Con 7 Biv
 Con 6 Tow
@@ -66,4 +67,7 @@ End
 End
 End
 End
+
+Set Aluce
+Con 3 Int
 End

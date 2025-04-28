@@ -60,7 +60,7 @@ At the expense of `20` Influence Points, you can build a Watchtower on a land te
 2. does not already contain some construct (other than *HQ*);
 3. is not a [Toxic Wasteland](/phases/1_natural/#toxic-wasteland).
 
-A fortress will give you an extra line of defense; see the [Watchtower rules](/phases/4_movement/#watchtower).
+A Watchtower will give you an extra line of defense; see the [Watchtower rules](/phases/4_movement/#watchtower).
 
 ## Bivouac
 

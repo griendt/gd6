@@ -210,6 +210,9 @@ public partial class GdlParser(World world)
             case "Biv":
                 Commands.Add(new CreateBivouac { Issuer = _currentIssuer!, Origin = target });
                 return;
+            case "Int":
+                Commands.Add(new CreateIntelligence { Issuer = _currentIssuer!, Origin = target });
+                return;
         }
 
         var armiesMatch = ArmiesRegex().Match(command[2]);

@@ -55,11 +55,11 @@ End
 // Turn 5
 Set Aluce
 Con 1 Tow
-Con 2 Tow
 Mov 1→3 1A
 Set Psycho17
 Con 7 Biv
 Con 6 Tow
+Mov 6→7→8 1A
 End
 End
 End
@@ -69,5 +69,8 @@ End
 End
 
 Set Aluce
+Con 2 Lib
 Con 3 Int
+
+Set Psycho17
 End

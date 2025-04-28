@@ -80,4 +80,9 @@ public class Territory(World world)
         Constructs.Remove(Construct.Watchtower);
         Constructs.Remove(Construct.Library);
     }
+
+    public void PromoteArmiesToCavalry(int quantity)
+    {
+        
+    }
 }

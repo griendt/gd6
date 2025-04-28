@@ -25,13 +25,13 @@ public class MovementPhaseTest : BaseTest
     {
         List<Command> commands =
         [
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
                 Path = [T(1), T(2)],
             },
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player2,
                 Origin = T(3),
@@ -44,7 +44,7 @@ public class MovementPhaseTest : BaseTest
         // Processed as a skirmish
         Assert.Multiple(() =>
         {
-            commands.OfType<MoveArmy>().Each(command => Assert.That(command.IsProcessed));
+            commands.OfType<MoveUnit>().Each(command => Assert.That(command.IsProcessed));
 
             Assert.That(T(1).Units.Armies, Is.EqualTo(4));
             Assert.That(T(3).Units.Armies, Is.EqualTo(4));
@@ -62,13 +62,13 @@ public class MovementPhaseTest : BaseTest
 
         List<Command> commands =
         [
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
                 Path = [T(1), T(2)],
             },
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player2,
                 Origin = T(2),
@@ -81,7 +81,7 @@ public class MovementPhaseTest : BaseTest
         // Processed as a skirmish
         Assert.Multiple(() =>
         {
-            commands.OfType<MoveArmy>().Each(command => Assert.That(command.IsProcessed));
+            commands.OfType<MoveUnit>().Each(command => Assert.That(command.IsProcessed));
 
             Assert.That(T(1).Units.Armies, Is.EqualTo(4));
             Assert.That(T(2).Units.Armies, Is.EqualTo(4));
@@ -99,19 +99,19 @@ public class MovementPhaseTest : BaseTest
 
         List<Command> commands =
         [
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player1,
                 Origin = T(1),
                 Path = [T(1), T(2)],
             },
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player3,
                 Origin = T(2),
                 Path = [T(2), T(3)],
             },
-            new MoveArmy
+            new MoveUnit
             {
                 Issuer = Players.Player2,
                 Origin = T(3),
@@ -124,7 +124,7 @@ public class MovementPhaseTest : BaseTest
         // Processed as a skirmish
         Assert.Multiple(() =>
         {
-            commands.OfType<MoveArmy>().Each(command => Assert.That(command.IsProcessed));
+            commands.OfType<MoveUnit>().Each(command => Assert.That(command.IsProcessed));
 
             Assert.That(T(1).Units.Armies, Is.EqualTo(4));
             Assert.That(T(2).Units.Armies, Is.EqualTo(4));

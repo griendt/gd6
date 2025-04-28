@@ -1,13 +1,16 @@
+using System.ComponentModel.DataAnnotations;
 using engine.Models;
 
 namespace engine.Engine.Commands;
 
-public class MoveArmy : Command, IHasOrigin, IHasPath
+public class MoveUnit : Command, IHasOrigin, IHasPath
 {
     public bool IsProcessed;
     public required Territory Origin { get; set; }
     public required List<Territory> Path { get; set; }
-
+    public virtual Unit UnitType() => Unit.Army;
+    public virtual int MaxMovements() => 2;
+    
     public override Phase Phase()
     {
         return Engine.Phase.Movement;
@@ -20,12 +23,12 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
 
     public void Fail()
     {
-        Origin.Units.Pop();
+        Origin.Units.Pop(UnitType());
         IsProcessed = true;
     }
 
     [Validator]
-    public static void ValidateOwnerOwnsOrigin(IEnumerable<MoveArmy> commands, World world)
+    public static void ValidateOwnerOwnsOrigin(IEnumerable<MoveUnit> commands, World world)
     {
         commands
             .Where(command => command.Origin.Owner != command.Issuer)
@@ -33,7 +36,7 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
     }
 
     [Validator]
-    public static void ValidatePathIsConnected(IEnumerable<MoveArmy> commands, World world)
+    public static void ValidatePathIsConnected(IEnumerable<MoveUnit> commands, World world)
     {
         commands
             .Where(command => Enumerable
@@ -43,15 +46,15 @@ public class MoveArmy : Command, IHasOrigin, IHasPath
     }
 
     [Validator]
-    public static void ValidatePathLength(IEnumerable<MoveArmy> commands, World world)
+    public static void ValidatePathLength(IEnumerable<MoveUnit> commands, World world)
     {
         commands
-            .Where(command => !((int[]) [2, 3]).Contains(command.Path.Count))
+            .Where(command => command.Path.Count < 2 || command.Path.Count > command.MaxMovements() + 1)
             .Each(command => command.Reject(RejectReason.InvalidPathLength));
     }
 
     [Validator]
-    public static void ValidateFirstPartOfPathIsEqualToOrigin(IEnumerable<MoveArmy> commands, World world)
+    public static void ValidateFirstPartOfPathIsEqualToOrigin(IEnumerable<MoveUnit> commands, World world)
     {
         commands
             .Where(command => command.Origin != command.Path[0])

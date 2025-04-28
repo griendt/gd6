@@ -5,7 +5,7 @@ namespace engine.Engine.MoveResolutions;
 
 public class Distribute : MoveResolver
 {
-    public override void Resolve(List<MoveArmy> moves, World world)
+    public override void Resolve(List<MoveUnit> moves, World world)
     {
         foreach (var move in moves) {
             // Note: this assumes that the origin is also part of the path.
@@ -14,11 +14,10 @@ public class Distribute : MoveResolver
                 continue;
             }
 
-            move.Path.First().Units.Pop();
+            move.Path.First().Units.Pop(move.UnitType());
+            move.Path.Second().Units.Add(move.UnitType());
+            move.Path.Second().Owner = move.Issuer;
             move.Path.RemoveAt(0);
-
-            move.Path.First().Units.AddArmy();
-            move.Path.First().Owner = move.Issuer;
 
             if (move.Path.Count < 2) {
                 move.IsProcessed = true;

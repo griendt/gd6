@@ -15,7 +15,7 @@ public class MoveArmyDistributeTest : BaseTest
     [Test]
     public void ItDistributesAnArmy()
     {
-        var move = new MoveArmy
+        var move = new MoveUnit
         {
             Issuer = Players.Player1,
             Origin = T(1),
@@ -38,7 +38,7 @@ public class MoveArmyDistributeTest : BaseTest
     [Test]
     public void ItDistributesAnArmyInALongerPathInSteps()
     {
-        var move = new MoveArmy
+        var move = new MoveUnit
         {
             Issuer = Players.Player1,
             Origin = T(1),

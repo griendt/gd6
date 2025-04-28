@@ -26,7 +26,7 @@ public class MoveArmyInvasionTest : BaseTest
     public void ItAppliesBasicPenaltyForInvasion(int numSent, int numExpectedInTarget, int numExpectedUnprocessed)
     {
         var invasions = Enumerable.Range(1, numSent)
-            .Select(i => new MoveArmy { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
+            .Select(i => new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
             .ToList();
 
         new Invasion().Resolve(invasions, World);
@@ -65,7 +65,7 @@ public class MoveArmyInvasionTest : BaseTest
         T(2).Constructs.Add(Construct.Watchtower);
 
         var invasions = Enumerable.Range(1, numSent)
-            .Select(i => new MoveArmy { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
+            .Select(i => new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
             .ToList();
 
         new Invasion().Resolve(invasions, World);
@@ -114,7 +114,7 @@ public class MoveArmyInvasionTest : BaseTest
         T(territoryIdWithIntelligence).Constructs.Add(Construct.Intelligence);
         
         var invasions = Enumerable.Range(1, numSent)
-            .Select(i => new MoveArmy { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
+            .Select(i => new MoveUnit { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
             .ToList();
 
         new Invasion().Resolve(invasions, World);
@@ -148,9 +148,9 @@ public class MoveArmyInvasionTest : BaseTest
         T(3).Units.AddArmies(10);
         T(4).Owner = Players.Player3;
         T(4).Units.AddArmies(4);
-        
+
         var invasions = Enumerable.Range(1, 4)
-            .Select(i => new MoveArmy { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
+            .Select(i => new MoveUnit { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
             .ToList();
 
         new Invasion().Resolve(invasions, World);
@@ -164,8 +164,7 @@ public class MoveArmyInvasionTest : BaseTest
             Assert.That(T(4).Units.Armies, Is.EqualTo(2));
         });
     }
-    
-    
+
     [TestCase(1, 2, 0)]
     [TestCase(2, 2, 0)]
     [TestCase(3, 1, 0)]
@@ -177,7 +176,7 @@ public class MoveArmyInvasionTest : BaseTest
         T(2).Constructs.Add(Construct.Bivouac);
 
         var invasions = Enumerable.Range(1, numSent)
-            .Select(i => new MoveArmy { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
+            .Select(i => new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
             .ToList();
 
         new Invasion().Resolve(invasions, World);
@@ -206,6 +205,36 @@ public class MoveArmyInvasionTest : BaseTest
                 ? Does.Not.Contain(Construct.Bivouac)
                 : Does.Contain(Construct.Bivouac)
             );
+        });
+    }
+    
+    [TestCase(3, 1, 2)]
+    [TestCase(4, 0, 2)]
+    [TestCase(5, 0, 1)]
+    [TestCase(6, 0, 0)]
+    public void ItKillsArmiesBeforeCavalries(int numSent, int numArmiesExpectedInTarget, int numCavalryExpectedInTarget)
+    {
+        T(2).Units.AddCavalries(2);
+        
+        var invasions = Enumerable.Range(1, numSent)
+            .Select(i => new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
+            .ToList();
+
+        new Invasion().Resolve(invasions, World);
+
+        invasions.Each(invasion => Assert.That(invasion.IsProcessed));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(1).Units.Armies, Is.EqualTo(10 - numSent));
+            Assert.That(T(1).Owner, Is.EqualTo(Players.Player1));
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(2).Units.Armies, Is.EqualTo(numArmiesExpectedInTarget));
+            Assert.That(T(2).Units.Cavalries, Is.EqualTo(numCavalryExpectedInTarget));
+            Assert.That(T(2).IsNeutral, Is.EqualTo(numArmiesExpectedInTarget == 0 && numCavalryExpectedInTarget == 0));
         });
     }
 }

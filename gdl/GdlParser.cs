@@ -238,7 +238,7 @@ public partial class GdlParser(World world)
         }
 
         foreach (var _ in Enumerable.Range(1, int.Parse(armiesMatch.Groups[1].Value))) {
-            Commands.Add(new MoveArmy
+            Commands.Add(new MoveUnit
             {
                 Issuer = _currentIssuer!,
                 Origin = world.Territories[path[0]],

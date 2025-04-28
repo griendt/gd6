@@ -5,7 +5,7 @@ namespace engine.Engine.MoveResolutions;
 
 public class Skirmish : MoveResolver
 {
-    public override void Resolve(List<MoveArmy> moves, World world)
+    public override void Resolve(List<MoveUnit> moves, World world)
     {
         var commandsByPlayer = moves.GroupBy(move => move.Issuer).ToList();
 

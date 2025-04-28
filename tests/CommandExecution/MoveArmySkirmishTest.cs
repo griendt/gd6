@@ -19,7 +19,7 @@ public class MoveArmySkirmishTest : BaseTest
     [Test]
     public void ItProcessesASimpleSkirmish()
     {
-        List<MoveArmy> commands =
+        List<MoveUnit> commands =
         [
             new()
             {
@@ -59,7 +59,7 @@ public class MoveArmySkirmishTest : BaseTest
         T(2).Owner = Players.Player3;
         T(2).Units.AddArmies(5);
 
-        List<MoveArmy> commands =
+        List<MoveUnit> commands =
         [
             new()
             {
@@ -94,7 +94,7 @@ public class MoveArmySkirmishTest : BaseTest
         T(2).Owner = Players.Player3;
         T(2).Units.AddArmies(5);
 
-        List<MoveArmy> commands =
+        List<MoveUnit> commands =
         [
             new()
             {
@@ -129,7 +129,7 @@ public class MoveArmySkirmishTest : BaseTest
     [Test]
     public void ItLeavesLeftOverMovesAfterSkirmish()
     {
-        List<MoveArmy> commands =
+        List<MoveUnit> commands =
         [
             new()
             {

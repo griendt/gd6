@@ -109,7 +109,7 @@ public class Turn
     private void ProcessMovementPhase(List<Command> commands)
     {
         var validMoves = commands
-            .OfType<MoveArmy>()
+            .OfType<MoveUnit>()
             .Tap(moveArmies => CommandValidator.Validate(moveArmies, World))
             .Where(moveArmy => !moveArmy.IsRejected)
             .ToList();

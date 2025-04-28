@@ -18,7 +18,7 @@ public class MoveArmyValidationTest : BaseTest
         T(1).Owner = doesPlayerOwnTerritory ? Players.Player1 : null;
         T(1).Units.AddArmies(5);
 
-        var command = new MoveArmy { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] };
+        var command = new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] };
 
         CommandValidator.Validate([command], World);
 
@@ -34,7 +34,7 @@ public class MoveArmyValidationTest : BaseTest
         T(1).Owner = Players.Player1;
         T(1).Units.AddArmies(5);
 
-        var command = new MoveArmy { Issuer = Players.Player1, Origin = T(1), Path = [T(2), T(3)] };
+        var command = new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(2), T(3)] };
 
         CommandValidator.Validate([command], World);
 
@@ -50,7 +50,7 @@ public class MoveArmyValidationTest : BaseTest
         World.Territories[originId].Owner = Players.Player1;
         World.Territories[originId].Units.AddArmies(5);
 
-        var command = new MoveArmy
+        var command = new MoveUnit
         {
             Issuer = Players.Player1,
             Origin = World.Territories[originId],
@@ -73,7 +73,7 @@ public class MoveArmyValidationTest : BaseTest
         T(1).Owner = Players.Player1;
         T(1).Units.AddArmies(5);
 
-        var command = new MoveArmy
+        var command = new MoveUnit
         {
             Issuer = Players.Player1,
             Origin = T(1),

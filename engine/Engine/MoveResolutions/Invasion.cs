@@ -5,7 +5,7 @@ namespace engine.Engine.MoveResolutions;
 
 public class Invasion : MoveResolver
 {
-    public override void Resolve(List<MoveArmy> moves, World world)
+    public override void Resolve(List<MoveUnit> moves, World world)
     {
         var watchTowerPenaltyPaid = 0;
 

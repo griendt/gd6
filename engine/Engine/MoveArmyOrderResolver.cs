@@ -14,14 +14,14 @@ public static class MoveArmyOrderResolver
     /// <param name="commands">The commands to process.</param>
     /// <param name="world">The world to process the commands in.</param>
     /// <returns>Whether any resolution has been done.</returns>
-    public static bool Resolve(List<MoveArmy> commands, World world) =>
+    public static bool Resolve(List<MoveUnit> commands, World world) =>
         ResolveDistributesToOwnedTerritories(commands, world)
         || ResolveDistributesToNeutralTerritories(commands, world)
         || ResolveBasicSkirmish(commands, world)
         || ResolveCircularInvasion(commands, world)
         || ResolveInvasion(commands, world);
 
-    private static bool ResolveDistributesToOwnedTerritories(List<MoveArmy> commands, World world)
+    private static bool ResolveDistributesToOwnedTerritories(List<MoveUnit> commands, World world)
     {
         var distributes = commands
             .Where(command => !command.IsProcessed)
@@ -33,7 +33,7 @@ public static class MoveArmyOrderResolver
         return distributes.Count > 0;
     }
 
-    private static bool ResolveDistributesToNeutralTerritories(List<MoveArmy> commands, World world)
+    private static bool ResolveDistributesToNeutralTerritories(List<MoveUnit> commands, World world)
     {
         var isResolutionDone = false;
 
@@ -51,7 +51,7 @@ public static class MoveArmyOrderResolver
         return isResolutionDone;
     }
 
-    private static bool ResolveBasicSkirmish(List<MoveArmy> commands, World world)
+    private static bool ResolveBasicSkirmish(List<MoveUnit> commands, World world)
     {
         var isResolutionDone = false;
 
@@ -69,7 +69,7 @@ public static class MoveArmyOrderResolver
         return isResolutionDone;
     }
 
-    private static bool ResolveCircularInvasion(List<MoveArmy> commands, World world)
+    private static bool ResolveCircularInvasion(List<MoveUnit> commands, World world)
     {
         var validCommands =
             commands
@@ -89,7 +89,7 @@ public static class MoveArmyOrderResolver
         return false;
     }
 
-    private static bool ResolveInvasion(List<MoveArmy> commands, World world)
+    private static bool ResolveInvasion(List<MoveUnit> commands, World world)
     {
         var isResolutionDone = false;
         
@@ -108,7 +108,7 @@ public static class MoveArmyOrderResolver
     }
 
 
-    private static void FindCycle(Territory currentNode, List<MoveArmy> edges, List<MoveArmy> stack)
+    private static void FindCycle(Territory currentNode, List<MoveUnit> edges, List<MoveUnit> stack)
     {
         if (stack.Count == 0) {
             foreach (var move in edges.Where(move => move.Path.First() == currentNode)) {
@@ -122,15 +122,15 @@ public static class MoveArmyOrderResolver
 
         else {
             foreach (var move in edges.Where(move => move.Path.First() == currentNode)) {
-                List<MoveArmy> newStack = [..stack];
+                List<MoveUnit> newStack = [..stack];
                 newStack.Add(move);
                 FindCycle(move.Path.Second(), edges, newStack);
             }
         }
     }
 
-    private class CycleFound(List<MoveArmy> cycle) : Exception
+    private class CycleFound(List<MoveUnit> cycle) : Exception
     {
-        public readonly List<MoveArmy> Cycle = cycle;
+        public readonly List<MoveUnit> Cycle = cycle;
     }
 }

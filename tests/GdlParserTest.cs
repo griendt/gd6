@@ -178,7 +178,7 @@ public class GdlParserTest : BaseTest
     }
 
     [TestCase("Hq", typeof(CreateHq))]
-    [TestCase("For", typeof(CreateFortress))]
+    [TestCase("Tow", typeof(CreateWatchtower))]
     [TestCase("Biv", typeof(CreateBivouac))]
     public void ItParsesACreateConstructOrder(string identifier, Type orderType)
     {

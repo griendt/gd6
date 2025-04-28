@@ -46,13 +46,13 @@ public class UseDynamiteExecutionTest : BaseTest
     }
 
     [Test]
-    public void ItTurnsFortressIntoRuin()
+    public void ItTurnsWatchtowerIntoRuin()
     {
-        T(2).Constructs.Add(Construct.Fortress);
+        T(2).Constructs.Add(Construct.Watchtower);
 
         new UseDynamite { Issuer = Players.Player1, Origin = T(1), Target = T(2) }.Process(World);
 
-        Assert.That(T(2).Constructs, Does.Not.Contain(Construct.Fortress));
+        Assert.That(T(2).Constructs, Does.Not.Contain(Construct.Watchtower));
         Assert.That(T(2).Constructs, Does.Contain(Construct.Ruin));
     }
 

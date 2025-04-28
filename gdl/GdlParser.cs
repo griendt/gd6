@@ -204,8 +204,8 @@ public partial class GdlParser(World world)
             case "Hq":
                 Commands.Add(new CreateHq { Issuer = _currentIssuer!, Origin = target });
                 return;
-            case "For":
-                Commands.Add(new CreateFortress { Issuer = _currentIssuer!, Origin = target });
+            case "Tow":
+                Commands.Add(new CreateWatchtower { Issuer = _currentIssuer!, Origin = target });
                 return;
             case "Biv":
                 Commands.Add(new CreateBivouac { Issuer = _currentIssuer!, Origin = target });

@@ -2,7 +2,7 @@ using engine.Engine.Commands;
 
 namespace tests.CommandValidation;
 
-public class CreateFortressValidationTest : BaseTest
+public class CreateWatchtowerValidationTest : BaseTest
 {
     [SetUp]
     public void SetUpInfluencePoints()
@@ -16,10 +16,10 @@ public class CreateFortressValidationTest : BaseTest
     [TestCase(1, false)]
     [TestCase(2, false)]
     [TestCase(3, true)]
-    public void ItChecksAvailableInfluencePoints(int numFortresses, bool shouldBeRejected)
+    public void ItChecksAvailableInfluencePoints(int numWatchtoweres, bool shouldBeRejected)
     {
-        var commands = Enumerable.Range(1, numFortresses)
-            .Select(i => new CreateFortress { Issuer = Players.Player1, Origin = T(i) })
+        var commands = Enumerable.Range(1, numWatchtoweres)
+            .Select(i => new CreateWatchtower { Issuer = Players.Player1, Origin = T(i) })
             .ToList();
 
         CommandValidator.Validate(commands, World);
@@ -34,10 +34,10 @@ public class CreateFortressValidationTest : BaseTest
     }
 
     [Test]
-    public void ItChecksBuildingMultipleFortressesInOneTerritory()
+    public void ItChecksBuildingMultipleWatchtoweresInOneTerritory()
     {
         var commands = Enumerable.Range(1, 2)
-            .Select(i => new CreateFortress { Issuer = Players.Player1, Origin = T(1) })
+            .Select(i => new CreateWatchtower { Issuer = Players.Player1, Origin = T(1) })
             .ToList();
 
         CommandValidator.Validate(commands, World);
@@ -53,9 +53,9 @@ public class CreateFortressValidationTest : BaseTest
     }
 
     [Test]
-    public void ItChecksOwnershipForBuildingFortress()
+    public void ItChecksOwnershipForBuildingWatchtower()
     {
-        var command = new CreateFortress { Issuer = Players.Player1, Origin = T(4) };
+        var command = new CreateWatchtower { Issuer = Players.Player1, Origin = T(4) };
 
         CommandValidator.Validate([command], World);
 
@@ -67,10 +67,10 @@ public class CreateFortressValidationTest : BaseTest
     public void ItChecksForWasteland()
     {
         T(1).IsWasteland = true;
-        var command = new CreateFortress { Issuer = Players.Player1, Origin = T(1) };
-        
+        var command = new CreateWatchtower { Issuer = Players.Player1, Origin = T(1) };
+
         CommandValidator.Validate([command], World);
-        
+
         Assert.That(command.IsRejected);
         Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.BuildingOnToxicWasteland));
     }

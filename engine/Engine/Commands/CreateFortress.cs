@@ -2,8 +2,8 @@ using engine.Models;
 
 namespace engine.Engine.Commands;
 
-public class CreateFortress : CreateConstructCommand
+public class CreateWatchtower : CreateConstructCommand
 {
-    protected override Construct ConstructType() => Construct.Fortress;
+    protected override Construct ConstructType() => Construct.Watchtower;
     protected override int Cost(World world) => 20;
 }

@@ -1,6 +1,6 @@
 @using web.Models
 <circle
-    r="14"
+    r="@(14 + 4 * (Territory.Armies / 10))"
     cx="@Territory.Centroid.X"
     cy="@Territory.Centroid.Y"
     fill="#0008"

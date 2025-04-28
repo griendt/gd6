@@ -4,6 +4,7 @@ using engine;
 using engine.Models;
 using Microsoft.EntityFrameworkCore;
 using web.Models;
+using Construct=web.Models.Construct;
 using Player=web.Models.Player;
 using Territory=web.Models.Territory;
 
@@ -15,7 +16,7 @@ public class Gd6DbContext : DbContext
     public DbSet<Territory> Territories { get; set; }
     public DbSet<HeadQuarter> HeadQuarters { get; set; }
     public DbSet<Boundary> Boundaries { get; set; }
-    
+
     private static string DbPath => "/home/alex/projects/gd6/gd6.db";
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>
@@ -28,6 +29,11 @@ public class Gd6DbContext : DbContext
         // Ensure coordinates are stored as JSON
         modelBuilder.Entity<Territory>().OwnsMany(
         navigationExpression: territory => territory.Coordinates,
+        buildAction: ownedNavigationBuilder => ownedNavigationBuilder.ToJson());
+
+        // Ensure constructs are also stored as JSON
+        modelBuilder.Entity<Territory>().OwnsMany(
+        navigationExpression: territory => territory.Constructs,
         buildAction: ownedNavigationBuilder => ownedNavigationBuilder.ToJson());
 
         modelBuilder.Entity<Territory>()
@@ -78,7 +84,7 @@ public class Gd6DbContext : DbContext
                 Coordinates = territory.Coordinates.Select(xy => new Coordinate { X = xy.Item1, Y = xy.Item2 }).ToList(),
                 Headquarter = null,
             }));
-        
+
         world.TerritoryBorders
             .ToList()
             .ForEach(borders =>
@@ -114,13 +120,11 @@ public class Gd6DbContext : DbContext
                 territory.Headquarter = hq;
             }
 
+            territory.Constructs = world.Territories[territory.Id].Constructs.Select(construct => new Construct { Name = Enum.GetName(typeof(engine.Models.Construct), construct)! }).ToList();
             territory.Armies = world.Territories[territory.Id].Units.Armies;
         });
-        
-        Players.ToList().ForEach(player =>
-        {
-            player.InfluencePoints = world.Players.First(p => player.Id == p.Id).InfluencePoints;
-        });
+
+        Players.ToList().ForEach(player => player.InfluencePoints = world.Players.First(p => player.Id == p.Id).InfluencePoints);
 
         SaveChanges();
     }

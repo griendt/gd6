@@ -49,9 +49,9 @@ public class CreateBivouacValidationTest : BaseTest
         T(2).Constructs.Add(Construct.Bivouac);
 
         var command = new CreateBivouac { Issuer = Players.Player1, Origin = T(3) };
-        
+
         CommandValidator.Validate([command], World);
-        
+
         Assert.That(command.IsRejected, Is.EqualTo(shouldBeRejected));
         if (shouldBeRejected) {
             Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.InsufficientInfluencePoints));
@@ -68,7 +68,7 @@ public class CreateBivouacValidationTest : BaseTest
     {
         Players.Player1.InfluencePoints = influencePoints;
         T(1).Constructs.Add(Construct.Bivouac);
-        T(2).Constructs.Add(Construct.Fortress);
+        T(2).Constructs.Add(Construct.Watchtower);
 
         var commands = Enumerable.Range(1, numBivouacs)
             .Select(i =>
@@ -77,9 +77,9 @@ public class CreateBivouacValidationTest : BaseTest
                 return new CreateBivouac { Issuer = Players.Player1, Origin = T(2 + i) };
             })
             .ToList();
-        
+
         CommandValidator.Validate(commands, World);
-        
+
         commands.Each(command =>
         {
             Assert.That(command.IsRejected, Is.EqualTo(shouldBeRejected));
@@ -124,9 +124,9 @@ public class CreateBivouacValidationTest : BaseTest
     {
         T(1).IsWasteland = true;
         var command = new CreateBivouac { Issuer = Players.Player1, Origin = T(1) };
-        
+
         CommandValidator.Validate([command], World);
-        
+
         Assert.That(command.IsRejected);
         Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.BuildingOnToxicWasteland));
     }

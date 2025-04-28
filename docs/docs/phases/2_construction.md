@@ -1,6 +1,7 @@
 # Construction Phase
 
 ## Building an HQ
+
 This must be the first thing any player does in their first *Turn* playing the game. This is the only way to start playing.
 
 An *HQ* may be built on any land territory, so long as:
@@ -12,7 +13,7 @@ An *HQ* may be built on any land territory, so long as:
 
 ??? warning "Clashes with other players"
     Unlike previous GD games, building an *HQ* may interfere with other players' orders. Specifically, it can interfere with other players building *HQ*s. To ensure that two *HQ*s will always have at least `2` distance between each other, the following extra rules apply.
-    
+
     * If two players try to build an *HQ* in the same territory, neither order will succeed.
     * If two players try to build *HQ*s in adjacent territories, neither order will succeed.
     * If two players try to build *HQ*s in territories which share a common neighbour, neither order will succeed.
@@ -26,12 +27,13 @@ An *HQ* may be built on any land territory, so long as:
     * After all *HQ*s are built, the rest of the *Turn* proceeds normally.
 
 ## Spawning units
+
 Each *Turn*, each player may spawn a certain amount of *Army* units. These units may be spawned across one or more land territories that:
 
 * contain an *HQ* that is under your control; **OR**
 * are adjacent to an *HQ* that is under your control, and are not controlled by anyone **else**.
 
-This means that spawning on a neutral empty land next to your *HQ* is allowed. This will immediately grant you ownership of it. 
+This means that spawning on a neutral empty land next to your *HQ* is allowed. This will immediately grant you ownership of it.
 Furthermore, if you already own the land next to your *HQ* and have some units stationed there, you may add additional ones.
 
 !!! tip
@@ -50,19 +52,20 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
     These limitations are in place to ensure that players without HQs can still play and compete, but not at an advantage.
 
-## Fortress
+## Watchtower
 
-At the expense of `20` Influence Points, you can build a Fortress on a land territory that:
+At the expense of `20` Influence Points, you can build a Watchtower on a land territory that:
 
 1. is under your control;
 2. does not already contain some construct (other than *HQ*);
 3. is not a [Toxic Wasteland](/phases/1_natural/#toxic-wasteland).
 
-A fortress will give you an extra line of defense; see the [Fortress rules](/phases/4_movement/#fortress).
+A fortress will give you an extra line of defense; see the [Watchtower rules](/phases/4_movement/#watchtower).
 
 ## Bivouac
 
-At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control at the start of this Turn, you can build a Bivouac on a land territory that:
+At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control at the start of this Turn, you can build a Bivouac on a land
+territory that:
 
 1. is under your control;
 2. does not already contain some construct (other than *HQ*);

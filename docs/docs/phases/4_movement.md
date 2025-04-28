@@ -18,14 +18,15 @@ It is possible -- even likely -- that players will submit _conflicting_ moves. T
     - A player tries to move into a territory that is owned by another player.
 
 !!! info "Resolution order"
-    Whenever possible, moves that *give no conflicts* are resolved before conflicting moves.
-And whenever relevant, Skirmishes are resolved before Invasions.
+    * Whenever possible, moves that *give no conflicts* are resolved before conflicting moves.
+    * Whenever relevant, Skirmishes are resolved before Invasions.
 
 !!! info "Territory loyalty"
     Whenever a territory is neutralized or overtaken, its Loyalty will be immediately reset to `0`.
     Loyalty is relevant to determine which territories have belonged to a player the longest; see [Construction Phase](2_construction.md) for more details.
 
 ## Skirmishes
+
 A skirmish is resolved quite simply: each player involved in the skirmish loses one army.
 If there are still two or more players involved in the skirmish, repeat, until at most one player is left.
 
@@ -41,17 +42,18 @@ If there are still two or more players involved in the skirmish, repeat, until a
     Then these units will proceed to move as usual. This can be an expansion or distribution (no further battle) or an Invasion.
 
 ## Invasion
+
 An invasion comes at the cost of a certain penalty: the attacker will lose two Armies before being able to deal any damage.
 
 After this initial penalty, an Invasion goes similarly to a skirmish: both the attacker and the defender lose one Army each until at most one player is left standing.
 
 * If the defending armies are all defeated, the territory becomes neutral. If the target contains a Bivouac, it is destroyed.
 * If the invader still has armies left, they will proceed to move as usual.
-* Some mechanics alter the way an Invasion is processed, such as a Fortress, as described below.
+* Some mechanics alter the way an Invasion is processed, such as a Watchtower, as described below.
 
-### Fortress
+### Watchtower
 
-If the defending player has a Fortress on their territory, then that Fortress must first be broken through. In order to do this,
+If the defending player has a Watchtower on their territory, then that Watchtower must first be broken through. In order to do this,
 the attacker has to lose two Armies (in addition to the regular invasion penalty).
 
 * If the attacker sends enough units to break through the fortress, then the fortress turns into a Ruin.
@@ -61,10 +63,10 @@ the attacker has to lose two Armies (in addition to the regular invasion penalty
     Suppose an attacker sends `6` armies to a territory contains a fortress and one defending army. Then the invasion proceeds as follows (and in this order):
     
     1. The attacker pays a penalty of `2` armies, so that `4` will continue the attack;
-    2. The attacker pays an additional penalty of `2` armies to turn the Fortress into a Ruin, and has `2` left to attack;
+    2. The attacker pays an additional penalty of `2` armies to turn the Watchtower into a Ruin, and has `2` left to attack;
     3. One attacking army dies to slay the defending unit. The target becomes neutral and the attacker now has `1` army left.
     4. The last remaining army occupies the target territory. The attack was successful!
 
-??? tip "Fortress in a neutral territory"
+??? tip "Watchtower in a neutral territory"
     If a fortress stands on a neutral land, then there is no need to break the fortress first in order to occupy the territory.
     So, the fortress penalty only applies to invasions.

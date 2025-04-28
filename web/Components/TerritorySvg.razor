@@ -30,6 +30,10 @@
     <HeadquarterFlag Territory="Territory"></HeadquarterFlag>
 }
 
+@foreach (var index in Enumerable.Range(0, Territory.Constructs.Count)) {
+    <ConstructIcon Territory="Territory" Index="index"></ConstructIcon>
+}
+
 @code {
     [Parameter] public required Territory Territory { get; set; }
 

@@ -50,7 +50,7 @@
             opacity="0.03"
         />
         @foreach (var territory in _territories) {
-            @foreach (var waterBoundedTerritory in territory.boundariesOverWater().Where(other => other.Id > territory.Id)) {
+            @foreach (var waterBoundedTerritory in territory.BoundariesOverWater().Where(other => other.Id > territory.Id)) {
                 <line
                     stroke="#000"
                     stroke-width="10px"

@@ -21,16 +21,16 @@ public class CreateMultipleConstructsValidationTest : BaseTest
     public void ItChecksForSufficientInfluencePoints(int influencePoints, bool shouldBeRejected)
     {
         T(3).Constructs.Add(Construct.Bivouac);
-        
+
         Players.Player1.InfluencePoints = influencePoints;
         List<Command> commands =
         [
             new CreateBivouac { Issuer = Players.Player1, Origin = T(1) },
-            new CreateFortress { Issuer = Players.Player1, Origin = T(2) },
+            new CreateWatchtower { Issuer = Players.Player1, Origin = T(2) },
         ];
-        
+
         CommandValidator.Validate(commands, World);
-        
+
         commands.Each(command =>
         {
             Assert.That(command.IsRejected, Is.EqualTo(shouldBeRejected));
@@ -38,6 +38,6 @@ public class CreateMultipleConstructsValidationTest : BaseTest
                 Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.InsufficientInfluencePoints));
             }
         });
-        
+
     }
 }

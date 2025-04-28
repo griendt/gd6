@@ -77,8 +77,6 @@ public class Territory(World world)
         }
 
         Constructs.Remove(Construct.Bivouac);
-        if (Constructs.Remove(Construct.Watchtower)) {
-            Constructs.Add(Construct.Ruin);
-        }
+        Constructs.Remove(Construct.Watchtower);
     }
 }

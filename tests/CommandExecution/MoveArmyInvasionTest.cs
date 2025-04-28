@@ -60,7 +60,7 @@ public class MoveArmyInvasionTest : BaseTest
     [TestCase(6, 0, 0, true)]
     [TestCase(7, 0, 1, true)]
     [TestCase(10, 0, 4, true)]
-    public void ItAppliesWatchtowerRulesForInvasion(int numSent, int numExpectedInTarget, int numExpectedUnprocessed, bool isWatchtowerRuined)
+    public void ItAppliesWatchtowerRulesForInvasion(int numSent, int numExpectedInTarget, int numExpectedUnprocessed, bool isWatchtowerDestroyed)
     {
         T(2).Constructs.Add(Construct.Watchtower);
 
@@ -88,7 +88,7 @@ public class MoveArmyInvasionTest : BaseTest
         {
             Assert.That(T(2).Units.Armies, Is.EqualTo(numExpectedInTarget));
             Assert.That(T(2).IsNeutral, Is.EqualTo(numExpectedInTarget == 0));
-            Assert.That(T(2).Constructs, Does.Contain(isWatchtowerRuined ? Construct.Ruin : Construct.Watchtower));
+            Assert.That(T(2).Constructs, isWatchtowerDestroyed ? Does.Not.Contain(Construct.Watchtower) : Does.Contain(Construct.Watchtower));
         });
     }
     [TestCase(1, 2, 0)]

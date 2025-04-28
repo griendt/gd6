@@ -4,5 +4,4 @@ public enum Construct
 {
     Bivouac,
     Watchtower,
-    Ruin,
 }

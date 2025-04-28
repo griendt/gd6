@@ -7,7 +7,7 @@ public class Invasion : MoveResolver
 {
     public override void Resolve(List<MoveArmy> moves, World world)
     {
-        var fortressPenaltyPaid = 0;
+        var watchTowerPenaltyPaid = 0;
 
         moves.Take(2).Each(move => move.Fail());
 
@@ -24,12 +24,11 @@ public class Invasion : MoveResolver
 
             if (target.Constructs.Contains(Construct.Watchtower)) {
                 move.Fail();
-                fortressPenaltyPaid++;
+                watchTowerPenaltyPaid++;
 
-                if (fortressPenaltyPaid >= 2) {
-                    // The second army that gets to the fortress will ruin it.
+                if (watchTowerPenaltyPaid >= 2) {
+                    // The second army that gets to the watchtower will ruin it.
                     target.Constructs.Remove(Construct.Watchtower);
-                    target.Constructs.Add(Construct.Ruin);
                 }
 
                 continue;

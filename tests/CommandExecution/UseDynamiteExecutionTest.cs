@@ -52,17 +52,6 @@ public class UseDynamiteExecutionTest : BaseTest
 
         new UseDynamite { Issuer = Players.Player1, Origin = T(1), Target = T(2) }.Process(World);
 
-        Assert.That(T(2).Constructs, Does.Not.Contain(Construct.Watchtower));
-        Assert.That(T(2).Constructs, Does.Contain(Construct.Ruin));
-    }
-
-    [Test]
-    public void ItLeavesRuinsIntact()
-    {
-        T(2).Constructs.Add(Construct.Ruin);
-
-        new UseDynamite { Issuer = Players.Player1, Origin = T(1), Target = T(2) }.Process(World);
-
-        Assert.That(T(2).Constructs, Does.Contain(Construct.Ruin));
+        Assert.That(T(2).Constructs, Has.Count.EqualTo(0));
     }
 }

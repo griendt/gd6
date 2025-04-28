@@ -91,6 +91,81 @@ public class MoveArmyInvasionTest : BaseTest
             Assert.That(T(2).Constructs, isWatchtowerDestroyed ? Does.Not.Contain(Construct.Watchtower) : Does.Contain(Construct.Watchtower));
         });
     }
+
+    [TestCase(3, 1, 3, 0)]
+    [TestCase(3, 2, 2, 0)]
+    [TestCase(3, 3, 1, 0)]
+    [TestCase(3, 4, 0, 0)]
+    [TestCase(3, 5, 0, 1)]
+    [TestCase(2, 1, 3, 0)]
+    [TestCase(2, 2, 2, 0)]
+    [TestCase(2, 3, 1, 0)]
+    [TestCase(2, 4, 0, 0)]
+    [TestCase(2, 5, 0, 1)]
+    [TestCase(1, 1, 4, 0)]
+    [TestCase(1, 5, 1, 0)]
+    public void ItAppliesIntelligenceBonusToInvasion(int territoryIdWithIntelligence, int numSent, int numExpectedInTarget, int numExpectedUnprocessed)
+    {
+        T(1).Owner = Players.Player2;
+        T(3).Owner = Players.Player2;
+        T(3).Units.AddArmies(10);
+        T(4).Owner = Players.Player3;
+        T(4).Units.AddArmies(4);
+        T(territoryIdWithIntelligence).Constructs.Add(Construct.Intelligence);
+        
+        var invasions = Enumerable.Range(1, numSent)
+            .Select(i => new MoveArmy { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
+            .ToList();
+
+        new Invasion().Resolve(invasions, World);
+
+        invasions
+            .Take(numSent - numExpectedUnprocessed)
+            .Each(invasion => Assert.That(invasion.IsProcessed));
+
+        invasions
+            .Skip(numSent - numExpectedUnprocessed)
+            .Each(invasion => Assert.That(!invasion.IsProcessed));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(3).Units.Armies, Is.EqualTo(10 - numSent + numExpectedUnprocessed));
+            Assert.That(T(3).Owner, Is.EqualTo(Players.Player2));
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(4).Units.Armies, Is.EqualTo(numExpectedInTarget));
+            Assert.That(T(4).IsNeutral, Is.EqualTo(numExpectedInTarget == 0));
+        });
+    }
+
+    [Test]
+    public void ItDoesNotApplyIntelligenceBonusIfNotOwned()
+    {
+        T(1).Constructs.Add(Construct.Intelligence);
+        T(3).Owner = Players.Player2;
+        T(3).Units.AddArmies(10);
+        T(4).Owner = Players.Player3;
+        T(4).Units.AddArmies(4);
+        
+        var invasions = Enumerable.Range(1, 4)
+            .Select(i => new MoveArmy { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
+            .ToList();
+
+        new Invasion().Resolve(invasions, World);
+
+        invasions.Each(invasion => Assert.That(invasion.IsProcessed));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(3).Units.Armies, Is.EqualTo(6));
+            Assert.That(T(3).Owner, Is.EqualTo(Players.Player2));
+            Assert.That(T(4).Units.Armies, Is.EqualTo(2));
+        });
+    }
+    
+    
     [TestCase(1, 2, 0)]
     [TestCase(2, 2, 0)]
     [TestCase(3, 1, 0)]

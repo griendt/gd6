@@ -60,7 +60,7 @@ the attacker has to lose two Armies (in addition to the regular invasion penalty
 * If the attacker still has armies left, they will proceed to invade as usual.
 
 ??? example
-    Suppose an attacker sends `6` armies to a territory contains a Watchtower and one defending army. Then the invasion proceeds as follows (and in this order):
+    Suppose an attacker sends `6` armies to a territory that contains a Watchtower and one defending army. Then the invasion proceeds as follows (and in this order):
     
     1. The attacker pays a penalty of `2` armies, so that `4` will continue the attack;
     2. The attacker pays an additional penalty of `2` armies to destroy the Watchtower, and has `2` left to attack;
@@ -70,3 +70,19 @@ the attacker has to lose two Armies (in addition to the regular invasion penalty
 ??? tip "Watchtower in a neutral territory"
     If a Watchtower stands on a neutral land, then there is no need to break the Watchtower first in order to occupy the territory.
     So, the Watchtower penalty only applies to invasions.
+
+### Intelligence
+
+If the attacker has a Military Intelligence Center on their territory, or on a territory adjacent to that, then the attacking units can be provided with military intelligence.
+This allows them to operate more efficiently. As a result, the initial penalty for invasion will no longer apply.
+Military intelligence does *not* cancel the Watchtower perks.
+
+??? example
+    Suppose an attacker sends `6` armies to a territory that contains a Watchtower and one defending army. 
+    Suppose also that the origin of the attack is adjacent to a Military Intelligence Center that is under control of the attacker.
+    Then the invasion proceeds as follows (and in this order):
+
+    1. The attacker *does not* pay an initial penalty (intelligence effect);
+    2. The attacker *does* pay a penalty of `2` armies to destroy the Watchtower, and has `4` left to attack;
+    3. One attacking army dies to slay the defending unit. The target becomes neutral and the attacker now has `3` armies left.
+    4. These `3` armies occupy the target territory. The attack was very successful!

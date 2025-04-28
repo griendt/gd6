@@ -38,7 +38,7 @@ If the target territory contains no units after the *Dynamite* is used, it will 
 
 ??? note "Dynamite versus Crop Supply"
     Whenever relevant, *Crop Supply* use is processed **before** *Dynamite* use. This means that freshly generated *Armies* from a *Crop Supply* can immediately get bombed, before they
-can even move!
+    can even move!
 
 ## Toxic Waste
 

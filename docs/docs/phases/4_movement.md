@@ -12,7 +12,7 @@ It is possible -- even likely -- that players will submit _conflicting_ moves. T
 
 1. **Skirmish**: is _symmetrical_ (penalties are the same for all involved players). A set of moves becomes a *Skirmish* when:
     - two or more players try to move into a territory that none of them own; **OR**
-    - there is a closed loop of attacks (for example, `A→B`, `B→C`, `C->D`, `D→A`).
+    - there is a closed loop of attacks (for example, `A→B`, `B→C`, `C→D`, `D→A`).
       This includes the case where two players attack each other directly (`A→B` and `B→A`).
 2. **Invasion**: is _asymmetrical_ (there is an _attacker_ and a _defender_). A move is an *Invasion* when:
     - A player tries to move into a territory that is owned by another player.

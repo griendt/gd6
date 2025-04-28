@@ -7,10 +7,10 @@
 
 ## The Phases
 1. [Natural Phase](phases/1_natural.md): Anything that happens to the map independently of any orders. Tides, disasters, aliens... who knows? These events will always be announced in the *Turn* before.
-2. [Inventory Phase](phases/3_inventory.md): Players may use one or more of their available items.
-3. [Construction Phase](phases/2_construction.md): Players may spawn units, build *Constructs* or otherwise change the landscape.
-4. [Movement Phase](phases/4_movement.md): The most complex step, this involves the movement of all units. Movements can be *Expansions* (to new territory) and may cause *Skirmishes* and *Invasions*.
-5. [Final Phase](phases/final.md): Any rewards or other things that occur at the end of the *Turn* belongs to this *Phase*. Players cannot make any orders in this *Phase*.
+2. [Construction Phase](phases/2_construction.md): Players may spawn units, build *Constructs* or otherwise change the landscape.
+3. [Inventory Phase](phases/3_inventory.md): Players may use one or more of their available items.
+5. [Movement Phase](phases/4_movement.md): The most complex step, this involves the movement of all units. Movements can be *Expansions* (to new territory) and may cause *Skirmishes* and *Invasions*.
+5. [Final Phase](phases/5_final.md): Any rewards or other things that occur at the end of the *Turn* belongs to this *Phase*. Players cannot make any orders in this *Phase*.
 
 !!! info
     Spawning units also occurs during *Construction Phase*, unlike previous GD iterations. Also, there is no separate *Battle Phase* anymore. *Invasions* may now occur before *Expansions* and vice versa.

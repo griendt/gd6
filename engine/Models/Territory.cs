@@ -78,5 +78,6 @@ public class Territory(World world)
 
         Constructs.Remove(Construct.Bivouac);
         Constructs.Remove(Construct.Watchtower);
+        Constructs.Remove(Construct.Library);
     }
 }

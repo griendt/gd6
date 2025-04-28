@@ -2,7 +2,7 @@
 
 Each player has their own, secret *Inventory*. Items in this *Inventory* can be used during the *Inventory Phase*.
 
-It is also possible to purchase an item for *Influence Points* that are obtained in the [Final Phase](5_final.md).
+It is possible to purchase an item for *Influence Points*, which are obtained in the [Final Phase](5_final.md).
 
 !!! warning
 Items that are purchased **cannot** be used in the same Turn! So be careful and plan ahead!
@@ -32,7 +32,7 @@ It can be purchased for `20` Influence Points.
 *Dynamite* is devestating. It will:
 
 * kill one unit stationed in the target territory;
-* destroy any *Bivouac* or *Watchtower*.
+* destroy any *Bivouac*, *Library* or *Watchtower*.
 
 If the target territory contains no units after the *Dynamite* is used, it will be rendered neutral, even if the territory contained no units to begin with.
 

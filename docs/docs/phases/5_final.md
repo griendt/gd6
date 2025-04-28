@@ -9,6 +9,7 @@ In this phase, the following things happen:
 3. For each territory you control, gain `+1` Influence Point.
 4. For each `10` Armies under your control, gain `+1` Influence Point. This bonus is applied _after_ the Bivouac mechanic. 
 5. For each *HQ* under your control, gain `+6` Influence Points.
+6. For each *Library* under your control, gain `+2` Influence Points.
 
 Influence Points are permanent, so you can save them up for later.
 

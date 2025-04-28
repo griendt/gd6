@@ -85,4 +85,21 @@ public class FinalPhaseTest : BaseTest
         new Turn { World = World, Commands = [] }.Process();
         Assert.That(Players.Player1.InfluencePoints, Is.EqualTo(expectedInfluencePoints));
     }
+
+    [TestCase(0, 0)]
+    [TestCase(1, 3)]
+    [TestCase(2, 6)]
+    [TestCase(10, 30)]
+    public void ItAddsInfluencePointsPerLibrary(int numLibraries, int expectedInfluencePoints)
+    {
+        Enumerable.Range(1, numLibraries)
+            .Each(i =>
+            {
+                T(i).Owner = Players.Player1;
+                T(i).Constructs.Add(Construct.Library);
+            });
+        
+        new Turn { World = World, Commands =  [] }.Process(); 
+        Assert.That(Players.Player1.InfluencePoints, Is.EqualTo(expectedInfluencePoints));
+    }
 }

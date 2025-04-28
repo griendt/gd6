@@ -35,23 +35,15 @@ public class UseDynamiteExecutionTest : BaseTest
         Assert.That(T(2).Owner, Is.Null);
     }
 
-    [Test]
-    public void ItDestroysABivouac()
+    [TestCase(Construct.Bivouac)]
+    [TestCase(Construct.Watchtower)]
+    [TestCase(Construct.Library)]
+    public void ItDestroysConstructs(Construct construct)
     {
-        T(2).Constructs.Add(Construct.Bivouac);
+        T(2).Constructs.Add(construct);
 
         new UseDynamite { Issuer = Players.Player1, Origin = T(1), Target = T(2) }.Process(World);
 
-        Assert.That(T(2).Constructs, Does.Not.Contain(Construct.Bivouac));
-    }
-
-    [Test]
-    public void ItTurnsWatchtowerIntoRuin()
-    {
-        T(2).Constructs.Add(Construct.Watchtower);
-
-        new UseDynamite { Issuer = Players.Player1, Origin = T(1), Target = T(2) }.Process(World);
-
-        Assert.That(T(2).Constructs, Has.Count.EqualTo(0));
+        Assert.That(T(2).Constructs, Does.Not.Contain(construct));
     }
 }

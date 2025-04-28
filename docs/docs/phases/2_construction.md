@@ -52,23 +52,24 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
     These limitations are in place to ensure that players without HQs can still play and compete, but not at an advantage.
 
-## Watchtower
+## Building other constructs
 
-At the expense of `20` Influence Points, you can build a Watchtower on a land territory that:
-
+Each of the below constructs can be built on a land territory that:
 1. is under your control;
 2. does not already contain some construct (other than *HQ*);
 3. is not a [Toxic Wasteland](/phases/1_natural/#toxic-wasteland).
 
+#### Watchtower
+
+At the expense of `20` Influence Points, you can build a Watchtower.
 A Watchtower will give you an extra line of defense; see the [Watchtower rules](/phases/4_movement/#watchtower).
 
-## Bivouac
+#### Bivouac
 
-At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control at the start of this Turn, you can build a Bivouac on a land
-territory that:
-
-1. is under your control;
-2. does not already contain some construct (other than *HQ*);
-3. is not a [Toxic Wasteland](/phases/1_natural/#toxic-wasteland).
-
+At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control at the start of this Turn, you can build a Bivouac.
 A Bivouac will increase your influx of Armies; see the [Bivouac rules](/phases/1_natural/#bivouac).
+
+## Library
+
+At the expense of `10` Influence Points, plus an additional `10` Influence Points for each Library under your control at the start of this Turn, you can build a Library.
+A Library will give you an IP bonus; see the [Final Phase](/phases/5_final/).

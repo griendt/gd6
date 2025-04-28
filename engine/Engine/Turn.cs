@@ -150,5 +150,11 @@ public class Turn
             .Where(territory => !territory.IsNeutral)
             .GroupBy(territory => territory.Owner)
             .Each(group => group.Key!.InfluencePoints += group.Sum(territory => territory.Units.Armies) / 10);
+        
+        // Add IP per Library
+        World.Territories.Values
+            .Where(territory => !territory.IsNeutral)
+            .Where(territory => territory.Constructs.Contains(Construct.Library))
+            .Each(territory => territory.Owner!.InfluencePoints += 2);
     }
 }

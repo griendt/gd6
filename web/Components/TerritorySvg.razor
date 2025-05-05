@@ -26,6 +26,11 @@
     <TerritoryArmiesText Territory="Territory" Fill="#f00" Stroke="#000" StrokeWidth="2px"/>
     <TerritoryArmiesText Territory="Territory"/>
 }
+@if (Territory.Cavalries > 0) {
+    <TerritoryCavalriesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
+    <TerritoryCavalriesText Territory="Territory"/>
+}
+
 @if (Territory.Headquarter != null) {
     <HeadquarterFlag Territory="Territory"></HeadquarterFlag>
 }

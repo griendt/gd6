@@ -19,7 +19,8 @@ public class Territory
     public List<Construct> Constructs { get; set; } = [];
 
     public int Armies { get; set; }
-
+    public int Cavalries { get; set; }
+    
     public (int X, int Y) Centroid
     {
         get

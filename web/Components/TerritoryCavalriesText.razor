@@ -1,0 +1,29 @@
+@using web.Models
+<circle
+    r="@(14 + 4 * (Territory.Cavalries / 10))"
+    cx="@Territory.Centroid.X"
+    cy="@(Territory.Centroid.Y - 30 * (Territory.Armies > 0 ? 1 : 0))"
+    fill="#a808"
+    stroke="#860"
+    stroke-width="2px"/>
+
+<text
+    x="@Territory.Centroid.X"
+    y="@(Territory.Centroid.Y - 30 * (Territory.Armies > 0 ? 1 : 0))"
+    text-anchor="middle"
+    font-family="Noticia"
+    font-size="24"
+    dominant-baseline="central"
+    fill="@Fill"
+    stroke="@Stroke"
+    stroke-width="@StrokeWidth"
+    style="user-select: none; pointer-events: none">
+    @Territory.Cavalries
+</text>
+
+@code {
+    [Parameter] public required Territory Territory { get; set; }
+    [Parameter] public string Fill { get; set; } = "var(--bs-light)";
+    [Parameter] public string Stroke { get; set; } = "#000";
+    [Parameter] public string StrokeWidth { get; set; } = "0";
+}

@@ -122,6 +122,7 @@ public class Gd6DbContext : DbContext
 
             territory.Constructs = world.Territories[territory.Id].Constructs.Select(construct => new Construct { Name = Enum.GetName(typeof(engine.Models.Construct), construct)! }).ToList();
             territory.Armies = world.Territories[territory.Id].Units.Armies;
+            territory.Cavalries = world.Territories[territory.Id].Units.Cavalries;
         });
 
         Players.ToList().ForEach(player => player.InfluencePoints = world.Players.First(p => player.Id == p.Id).InfluencePoints);

@@ -1,14 +1,14 @@
 @using web.Models
 <circle
     r="@(14 + 4 * (Territory.Cavalries / 10))"
-    cx="@Territory.Centroid.X"
+    cx="@(Territory.Centroid.X + 5)"
     cy="@(Territory.Centroid.Y - 30)"
     fill="#a60c"
     stroke="#830"
     stroke-width="2px"/>
 
 <text
-    x="@Territory.Centroid.X"
+    x="@(Territory.Centroid.X + 5)"
     y="@(Territory.Centroid.Y - 30)"
     text-anchor="middle"
     font-family="Noticia"

@@ -10,6 +10,8 @@ public class Territory(World world)
     // Purely for web
     public readonly List<(int, int)> Coordinates = [];
     public readonly UnitCollection Units = new();
+
+    private int _incurredDamage;
     private Player? _owner;
     public Player? HqSettler = null;
 
@@ -35,8 +37,6 @@ public class Territory(World world)
             Loyalty = 0;
         }
     }
-
-    private int _incurredDamage = 0;
 
     public bool ContainsHq => HqSettler != null;
     public bool IsNeutral => Owner == null;
@@ -97,7 +97,7 @@ public class Territory(World world)
             return;
         }
 
-        foreach (var unitType in (Unit[])[Unit.Army, Unit.Cavalry]) {
+        foreach (var unitType in UnitExtensions.DefenseOrder()) {
             if (Units.OfType(unitType) > 0 && unitType.Health() <= _incurredDamage) {
                 Units.Pop(unitType);
                 _incurredDamage = 0;
@@ -112,6 +112,6 @@ public class Territory(World world)
 
     public void PromoteArmiesToCavalry(int quantity)
     {
-        
+
     }
 }

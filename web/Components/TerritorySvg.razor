@@ -20,6 +20,14 @@
     opacity="0.2"
 />
 
+@if (Territory.Headquarter != null) {
+    <HeadquarterFlag Territory="Territory"></HeadquarterFlag>
+}
+
+@foreach (var index in Enumerable.Range(0, Territory.Constructs.Count)) {
+    <ConstructIcon Territory="Territory" Index="index"></ConstructIcon>
+}
+
 <TerritoryIdentifierText Territory="Territory" Fill="#000" Stroke="#000" StrokeWidth="3px"/>
 <TerritoryIdentifierText Territory="Territory"/>
 @if (Territory.Armies > 0) {
@@ -30,14 +38,11 @@
     <TerritoryCavalriesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
     <TerritoryCavalriesText Territory="Territory"/>
 }
-
-@if (Territory.Headquarter != null) {
-    <HeadquarterFlag Territory="Territory"></HeadquarterFlag>
+@if (Territory.Heavies > 0) {
+    <TerritoryHeaviesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
+    <TerritoryHeaviesText Territory="Territory"/>
 }
 
-@foreach (var index in Enumerable.Range(0, Territory.Constructs.Count)) {
-    <ConstructIcon Territory="Territory" Index="index"></ConstructIcon>
-}
 
 @code {
     [Parameter] public required Territory Territory { get; set; }

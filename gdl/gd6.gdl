@@ -72,6 +72,9 @@ Set Aluce
 Con 2 Lib
 Con 3 Int
 Con 1 1C
+Con 2 1H
 
 Set Psycho17
+Con 7 1H
+Con 7 3C
 End

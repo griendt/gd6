@@ -220,14 +220,26 @@ public partial class GdlParser(World world)
 
         var cavalryMatch = CavalryRegex().Match(command[2]);
         var armiesMatch = ArmiesRegex().Match(command[2]);
+        var heaviesMatch = HeaviesRegex().Match(command[2]);
 
         if (cavalryMatch.Success) {
             Commands.Add(new PromoteArmy
             {
-                Issuer = _currentIssuer!, 
-                Origin = target, 
+                Issuer = _currentIssuer!,
+                Origin = target,
                 UnitType = Unit.Cavalry,
                 Quantity = int.Parse(cavalryMatch.Groups[1].Value),
+            });
+            return;
+        }
+
+        if (heaviesMatch.Success) {
+            Commands.Add(new PromoteArmy
+            {
+                Issuer = _currentIssuer!,
+                Origin = target,
+                UnitType = Unit.Heavy,
+                Quantity = int.Parse(heaviesMatch.Groups[1].Value),
             });
             return;
         }
@@ -236,7 +248,7 @@ public partial class GdlParser(World world)
             Commands.Add(new SpawnArmy
             {
                 Issuer = _currentIssuer!,
-                Origin = target, 
+                Origin = target,
                 Quantity = int.Parse(armiesMatch.Groups[1].Value),
             });
             return;
@@ -321,7 +333,10 @@ public partial class GdlParser(World world)
 
     [GeneratedRegex(@"^(\d+)C$")]
     private static partial Regex CavalryRegex();
-    
+
+    [GeneratedRegex(@"^(\d+)H$")]
+    private static partial Regex HeaviesRegex();
+
     [GeneratedRegex(@"^#[\da-fA-F]{3}$")]
     private static partial Regex ColorRegex();
 

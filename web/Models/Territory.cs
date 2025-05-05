@@ -20,7 +20,8 @@ public class Territory
 
     public int Armies { get; set; }
     public int Cavalries { get; set; }
-    
+    public int Heavies { get; set; }
+
     public (int X, int Y) Centroid
     {
         get

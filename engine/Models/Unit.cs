@@ -25,4 +25,11 @@ internal static class UnitExtensions
             Unit.Heavy => 3,
             _ => 0,
         };
+
+    public static IEnumerable<Unit> DefenseOrder()
+    {
+        yield return Unit.Heavy;
+        yield return Unit.Army;
+        yield return Unit.Cavalry;
+    }
 }

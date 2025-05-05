@@ -1,15 +1,15 @@
 @using web.Models
 <circle
-    r="@(14 + 4 * (Territory.Cavalries / 10))"
-    cx="@Territory.Centroid.X"
-    cy="@(Territory.Centroid.Y - 30)"
-    fill="#a60c"
-    stroke="#830"
+    r="@(14 + 4 * (Territory.Heavies / 10))"
+    cx="@(Territory.Centroid.X + 20)"
+    cy="@(Territory.Centroid.Y + 30)"
+    fill="#dd0c"
+    stroke="#880"
     stroke-width="2px"/>
 
 <text
-    x="@Territory.Centroid.X"
-    y="@(Territory.Centroid.Y - 30)"
+    x="@(Territory.Centroid.X + 20)"
+    y="@(Territory.Centroid.Y + 30)"
     text-anchor="middle"
     font-family="Noticia"
     font-size="24"
@@ -18,7 +18,7 @@
     stroke="@Stroke"
     stroke-width="@StrokeWidth"
     style="user-select: none; pointer-events: none">
-    @Territory.Cavalries
+    @Territory.Heavies
 </text>
 
 @code {

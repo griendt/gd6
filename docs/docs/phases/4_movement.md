@@ -61,8 +61,8 @@ An invasion comes at the cost of a certain penalty: the attacker will suffer `2`
 After this initial penalty, the attacker and defender both suffer `1` damage simultaneously. 
 This repeats until at most one party has any units left.
 
-* If the defending armies are all defeated, the territory becomes neutral. If the target contains a Bivouac, it is destroyed.
-* If the invader still has armies left, they will proceed to move as usual.
+* If the defending units are all defeated, the territory becomes neutral. If the target contains a Bivouac, it is destroyed.
+* If the invader still has units left, they will proceed to move as usual.
 * Some mechanics alter the way an Invasion is processed, such as a Watchtower, as described below.
 
 ??? question "What if there are multiple unit types in the target territory?"
@@ -76,14 +76,14 @@ This repeats until at most one party has any units left.
     This makes Heavy units an excellent defensive choice (especially to protect your Cavalry).
 
 !!! example
-    Suppose an attacker is attacking with 3 Armies and 1 Heavy unit (in that order) and the defense contains 2 Army and 1 Heavy unit. 
+    Suppose an attacker is attacking with 3 Armies and 1 Heavy unit (in that order) and the defense contains 1 Heavy unit. 
     Then the Invasion is resolved as follows:
     
     1. The attacker suffers two damage as invasion penalty, killing the first 2 Army units.
     2. The last attacking Army is killed while damaging the Heavy unit.
     3. The attacking Heavy unit and the wounded defending Heavy unit both suffer damage. The defender is now defeated. The attacker has a wounded Heavy unit left that occupies the target territory.
 
-??? question "Partially damaged units"
+??? question "What happens to wounded units after battle resolution?"
     It is possible that a Heavy unit gets `1` damage only. This means it will not be slain. In any future moves (even in the same Turn),
     the unit will regain its full health. In other words, the sustained damage applies only for each Invasion or Skirmish individually.
 
@@ -95,7 +95,11 @@ the attacker is inflicted `2` additional damage (in addition to the regular inva
 * If the attacker sends enough units to break through the Watchtower, then the Watchtower is destroyed.
 * If the attacker still has armies left, they will proceed to invade as usual.
 
-??? example
+!!! info "Watchtower in a neutral territory"
+    If a Watchtower stands on a neutral land, then there is no need to break the Watchtower first in order to occupy the territory.
+    So, the Watchtower penalty only applies to invasions.
+
+!!! example
     Suppose an attacker sends `6` armies to a territory that contains a Watchtower and one defending army. Then the invasion proceeds as follows (and in this order):
     
     1. The attacker pays a penalty of `2` armies, so that `4` will continue the attack;
@@ -103,11 +107,7 @@ the attacker is inflicted `2` additional damage (in addition to the regular inva
     3. One attacking army dies to slay the defending unit. The target becomes neutral and the attacker now has `1` army left.
     4. The last remaining army occupies the target territory. The attack was successful!
 
-??? tip "Watchtower in a neutral territory"
-    If a Watchtower stands on a neutral land, then there is no need to break the Watchtower first in order to occupy the territory.
-    So, the Watchtower penalty only applies to invasions.
-
-??? question "Partially damaged Watchtower"
+??? question "What happens to a partially damaged Watchtower?"
     It is possible that a Watchtower gets `1` damage only, for example if the attacker sent only `3` Armies.
     In that case, the Watchtower is left standing. In any future moves (even in the same Turn), 
     the Watchtower will regain its full integrity. In other words, the sustained damage applies only for each Invasion or Skirmish individually.

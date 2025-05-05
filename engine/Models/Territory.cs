@@ -84,6 +84,8 @@ public class Territory(World world)
         Constructs.Remove(Construct.Library);
     }
 
+    public void ResetDamage() => _incurredDamage = 0;
+
     public void IncurDamage()
     {
         _incurredDamage++;

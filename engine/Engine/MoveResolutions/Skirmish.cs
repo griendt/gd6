@@ -14,5 +14,7 @@ public class Skirmish : MoveResolver
                 movesForPlayer.First().IncurDamage();
             }
         }
+        
+        moves.Each(move => move.ResetDamage());
     }
 }

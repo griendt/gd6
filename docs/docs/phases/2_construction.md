@@ -52,6 +52,18 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
     These limitations are in place to ensure that players without HQs can still play and compete, but not at an advantage.
 
+## Promoting units
+
+At the expense of `3` Influence Points, you may promote an *Army* unit to a *Cavalry* or a *Heavy* unit.
+
+These units have separate colours on the map (brown for Cavalry, yellow for Heavy).
+
+!!! warning
+    * You may not promote units that were spawned in the same turn.
+    * Once promoted, units cannot be demoted or converted to other types.
+
+For a more in-depth explanation of how Cavalry and Heavy units work compared to Armies, see the [Unit types](4_movement.md/#unit-types) section.
+
 ## Building other constructs
 
 Each of the below constructs can be built on a land territory that:

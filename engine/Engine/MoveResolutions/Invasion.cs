@@ -8,6 +8,7 @@ public class Invasion : MoveResolver
     public override void Resolve(List<MoveUnit> moves, World world)
     {
         var origin = moves.First().Path.First();
+        var target = moves.First().Path.Second();
 
         var isIntelligencePresent =
             origin.Constructs.Contains(Construct.Intelligence)
@@ -18,10 +19,8 @@ public class Invasion : MoveResolver
         }
 
         foreach (var move in moves) {
-            var target = move.Path.Second();
-
             if (target.IsNeutral) {
-                return;
+                break;
             }
 
             while (!move.IsProcessed && !target.IsNeutral) {
@@ -29,5 +28,8 @@ public class Invasion : MoveResolver
                 move.IncurDamage();
             }
         }
+        
+        target.ResetDamage();
+        moves.Each(move => move.ResetDamage());
     }
 }

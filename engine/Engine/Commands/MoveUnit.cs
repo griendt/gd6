@@ -22,9 +22,11 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
         throw new Exception("MoveArmy should not be processed directly, but via a MoveResolver");
     }
 
-    public void IncurDamage(int damage = 1)
+    public void ResetDamage() => _incurredDamage = 0;
+    
+    public void IncurDamage()
     {
-        _incurredDamage += damage;
+        _incurredDamage++;
         if (_incurredDamage >= UnitType.Health()) {
             Fail();
         }

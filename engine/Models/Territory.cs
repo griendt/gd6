@@ -36,6 +36,8 @@ public class Territory(World world)
         }
     }
 
+    private int _incurredDamage = 0;
+
     public bool ContainsHq => HqSettler != null;
     public bool IsNeutral => Owner == null;
 
@@ -51,6 +53,7 @@ public class Territory(World world)
     {
         Owner = null;
         Constructs.Remove(Construct.Bivouac);
+        _incurredDamage = 0;
     }
 
     public void Build(Construct construct) => Constructs.Add(construct);
@@ -79,6 +82,32 @@ public class Territory(World world)
         Constructs.Remove(Construct.Bivouac);
         Constructs.Remove(Construct.Watchtower);
         Constructs.Remove(Construct.Library);
+    }
+
+    public void IncurDamage()
+    {
+        _incurredDamage++;
+
+        if (Constructs.Contains(Construct.Watchtower)) {
+            if (_incurredDamage >= 2) {
+                Constructs.Remove(Construct.Watchtower);
+                _incurredDamage -= 2;
+            }
+
+            return;
+        }
+
+        foreach (var unitType in (Unit[])[Unit.Army, Unit.Cavalry]) {
+            if (Units.OfType(unitType) > 0 && unitType.Health() <= _incurredDamage) {
+                Units.Pop(unitType);
+                _incurredDamage = 0;
+                break;
+            }
+        }
+
+        if (Units.IsEmpty) {
+            Neutralize();
+        }
     }
 
     public void PromoteArmiesToCavalry(int quantity)

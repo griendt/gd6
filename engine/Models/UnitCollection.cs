@@ -7,9 +7,10 @@ public class UnitCollection
 {
     private readonly Dictionary<Unit, int> _units = [];
 
-    public int Armies => _units.GetValueOrDefault(Unit.Army, 0);
-    public int Cavalries => _units.GetValueOrDefault(Unit.Cavalry, 0);
-
+    public int OfType(Unit unitType) => _units.GetValueOrDefault(unitType, 0);
+    public int Armies => OfType(Unit.Army);
+    public int Cavalries => OfType(Unit.Cavalry);
+    
     public Unit Pop()
     {
         if (Armies > 0) {

@@ -4,6 +4,7 @@ public enum Unit
 {
     Army,
     Cavalry,
+    Heavy,
 }
 
 
@@ -15,6 +16,14 @@ static class UnitExtensions
         unit switch
         {
             Unit.Cavalry => 4,
+            Unit.Heavy => 1,
             _ => 2,
+        };
+    public static int PromotionCost(this Unit unit) =>
+        unit switch
+        {
+            Unit.Cavalry => 3,
+            Unit.Heavy => 3,
+            _ => throw new ArgumentOutOfRangeException(),
         };
 }

@@ -10,6 +10,8 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public required List<Territory> Path { get; set; }
     public virtual Unit UnitType() => Unit.Army;
     public virtual int MaxMovements() => 2;
+
+    private int _incurredDamage = 0;
     
     public override Phase Phase()
     {
@@ -19,6 +21,14 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public override void Process(World world)
     {
         throw new Exception("MoveArmy should not be processed directly, but via a MoveResolver");
+    }
+
+    public void IncurDamage(int damage = 1)
+    {
+        _incurredDamage += damage;
+        if (_incurredDamage >= UnitType().Health()) {
+            Fail();
+        }
     }
 
     public void Fail()

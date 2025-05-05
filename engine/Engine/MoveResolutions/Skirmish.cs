@@ -11,7 +11,7 @@ public class Skirmish : MoveResolver
 
         while (commandsByPlayer.Count(group => group.Any(move => !move.IsProcessed)) > 1) {
             foreach (var movesForPlayer in commandsByPlayer) {
-                movesForPlayer.First().Fail();
+                movesForPlayer.First().IncurDamage();
             }
         }
     }

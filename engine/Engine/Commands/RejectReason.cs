@@ -26,4 +26,5 @@ public enum RejectReason
     InsufficientArmies,
     PromotingNegativeQuantity,
     PromotingTooFarFromOwnedHq,
+    InvalidPromotionUnitType,
 }

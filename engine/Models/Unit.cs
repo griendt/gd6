@@ -7,8 +7,7 @@ public enum Unit
     Heavy,
 }
 
-
-static class UnitExtensions
+internal static class UnitExtensions
 {
     public static int Health(this Unit unit) => 1;
     public static int Strength(this Unit unit) => 1;
@@ -24,6 +23,6 @@ static class UnitExtensions
         {
             Unit.Cavalry => 3,
             Unit.Heavy => 3,
-            _ => throw new ArgumentOutOfRangeException(),
+            _ => 0,
         };
 }

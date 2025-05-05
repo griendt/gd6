@@ -9,7 +9,7 @@ public class PromoteArmy : Command, IHasOrigin
 
     public required Territory Origin { get; set; }
     public override Phase Phase() => Engine.Phase.Construction;
-    
+
     public override void Process(World world)
     {
         world.Territories[Origin.Id].Owner = Issuer;
@@ -45,7 +45,7 @@ public class PromoteArmy : Command, IHasOrigin
             .Where(group => group.Sum(promotion => promotion.Quantity) > group.Key.Units.Armies)
             .Each(group => group.Each(promotion => promotion.Reject(RejectReason.InsufficientArmies, group)));
     }
-    
+
     [Validator]
     public static void ValidateSufficientInfluencePoints(List<PromoteArmy> promotions, World world)
     {
@@ -64,4 +64,11 @@ public class PromoteArmy : Command, IHasOrigin
             .Each(promotion => promotion.Reject(RejectReason.PromotingTooFarFromOwnedHq));
     }
 
+    [Validator]
+    public static void ValidatePromoteToValidType(List<PromoteArmy> promotions, World world)
+    {
+        promotions
+            .Where(promotion => promotion.UnitType == Unit.Army)
+            .Each(promotion => promotion.Reject(RejectReason.InvalidPromotionUnitType));
+    }
 }

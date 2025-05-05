@@ -10,5 +10,5 @@ public enum Unit
 static class UnitExtensions
 {
     public static int Health(this Unit unit) => 1;
-    public static int Damage(this Unit unit) => 1;
+    public static int Strength(this Unit unit) => 1;
 }

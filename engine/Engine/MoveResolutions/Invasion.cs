@@ -25,7 +25,7 @@ public class Invasion : MoveResolver
             }
 
             while (!move.IsProcessed && !target.IsNeutral) {
-                target.IncurDamage();
+                Enumerable.Range(1, move.UnitType().Strength()).Each(_ => target.IncurDamage());
                 move.IncurDamage();
             }
         }

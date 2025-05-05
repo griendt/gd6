@@ -9,8 +9,20 @@ public enum Unit
 
 internal static class UnitExtensions
 {
-    public static int Health(this Unit unit) => 1;
-    public static int Strength(this Unit unit) => 1;
+    public static int Health(this Unit unit) =>
+        unit switch
+        {
+            Unit.Heavy => 2,
+            _ => 1,
+        };
+
+    public static int Strength(this Unit unit) =>
+        unit switch
+        {
+            Unit.Heavy => 2,
+            _ => 1,
+        };
+
     public static int Speed(this Unit unit) =>
         unit switch
         {
@@ -18,6 +30,7 @@ internal static class UnitExtensions
             Unit.Heavy => 1,
             _ => 2,
         };
+
     public static int PromotionCost(this Unit unit) =>
         unit switch
         {

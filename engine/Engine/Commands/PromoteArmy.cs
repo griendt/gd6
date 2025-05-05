@@ -15,7 +15,7 @@ public class PromoteArmy : Command, IHasOrigin
         world.Territories[Origin.Id].Owner = Issuer;
 
         foreach (var _ in Enumerable.Range(0, Quantity)) {
-            Issuer.InfluencePoints -= 3;
+            Issuer.InfluencePoints -= UnitType.PromotionCost();
             world.Territories[Origin.Id].Units.Pop(Unit.Army);
             world.Territories[Origin.Id].Units.Add(UnitType);
         }
@@ -44,6 +44,15 @@ public class PromoteArmy : Command, IHasOrigin
             .GroupBy(promotion => promotion.Origin)
             .Where(group => group.Sum(promotion => promotion.Quantity) > group.Key.Units.Armies)
             .Each(group => group.Each(promotion => promotion.Reject(RejectReason.InsufficientArmies, group)));
+    }
+    
+    [Validator]
+    public static void ValidateSufficientInfluencePoints(List<PromoteArmy> promotions, World world)
+    {
+        promotions
+            .GroupBy(promotion => promotion.Issuer)
+            .Where(group => group.Sum(promotion => promotion.UnitType.PromotionCost() * promotion.Quantity) > group.Key.InfluencePoints)
+            .Each(group => group.Each(promotion => promotion.Reject(RejectReason.InsufficientInfluencePoints, group)));
     }
 
     [Validator]

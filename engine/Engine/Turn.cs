@@ -119,7 +119,7 @@ public class Turn
             .ToList();
 
         // Resolve until no more resolution is done
-        while (MoveArmyOrderResolver.Resolve(validMoves, World)) {
+        while (MoveUnitOrderResolver.Resolve(validMoves, World)) {
         }
     }
 

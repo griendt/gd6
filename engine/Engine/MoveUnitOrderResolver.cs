@@ -4,7 +4,7 @@ using engine.Models;
 
 namespace engine.Engine;
 
-public static class MoveArmyOrderResolver
+public static class MoveUnitOrderResolver
 {
     /// <summary>
     ///     Executes one step of resolution. Returns `true` if at least one

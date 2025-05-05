@@ -14,8 +14,8 @@ public class Distribute : MoveResolver
                 continue;
             }
 
-            move.Path.First().Units.Pop(move.UnitType());
-            move.Path.Second().Units.Add(move.UnitType());
+            move.Path.First().Units.Pop(move.UnitType);
+            move.Path.Second().Units.Add(move.UnitType);
             move.Path.Second().Owner = move.Issuer;
             move.Path.RemoveAt(0);
 

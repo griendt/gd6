@@ -1,5 +1,6 @@
 using engine.Engine.Commands;
 using engine.Engine.MoveResolutions;
+using engine.Models;
 
 namespace tests.CommandExecution;
 
@@ -15,9 +16,10 @@ public class MoveCavalryDistributeTest : BaseTest
     [Test]
     public void ItDistributesACavalry()
     {
-        var move = new MoveCavalry
+        var move = new MoveUnit
         {
             Issuer = Players.Player1,
+            UnitType = Unit.Cavalry,
             Origin = T(1),
             Path = [T(1), T(2)],
         };
@@ -37,9 +39,10 @@ public class MoveCavalryDistributeTest : BaseTest
     [Test]
     public void ItDistributesACavalryInALongerPathInSteps()
     {
-        var move = new MoveCavalry
+        var move = new MoveUnit
         {
             Issuer = Players.Player1,
+            UnitType = Unit.Cavalry,
             Origin = T(1),
             Path = [T(1), T(2), T(3), T(4), T(5)],
         };

@@ -8,7 +8,7 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public bool IsProcessed;
     public required Territory Origin { get; set; }
     public required List<Territory> Path { get; set; }
-    public virtual Unit UnitType() => Unit.Army;
+    public Unit UnitType = Unit.Army;
 
     private int _incurredDamage = 0;
     
@@ -25,14 +25,14 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public void IncurDamage(int damage = 1)
     {
         _incurredDamage += damage;
-        if (_incurredDamage >= UnitType().Health()) {
+        if (_incurredDamage >= UnitType.Health()) {
             Fail();
         }
     }
 
     public void Fail()
     {
-        Origin.Units.Pop(UnitType());
+        Origin.Units.Pop(UnitType);
         IsProcessed = true;
     }
 
@@ -58,7 +58,7 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public static void ValidatePathLength(IEnumerable<MoveUnit> commands, World world)
     {
         commands
-            .Where(command => command.Path.Count < 2 || command.Path.Count > command.UnitType().Speed() + 1)
+            .Where(command => command.Path.Count < 2 || command.Path.Count > command.UnitType.Speed() + 1)
             .Each(command => command.Reject(RejectReason.InvalidPathLength));
     }
 

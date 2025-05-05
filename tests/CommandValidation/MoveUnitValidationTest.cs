@@ -21,21 +21,12 @@ public class MoveUnitValidationTest : BaseTest
         T(1).Owner = doesPlayerOwnTerritory ? Players.Player1 : null;
         T(1).Units.Add(unitType, 5);
 
-        var command = unitType switch
+        var command = new MoveUnit
         {
-            Unit.Army => new MoveUnit
-            {
-                Issuer = Players.Player1,
-                Origin = T(1),
-                Path = [T(1), T(2)],
-            },
-            Unit.Cavalry => new MoveCavalry
-            {
-                Issuer = Players.Player1,
-                Origin = T(1),
-                Path = [T(1), T(2)],
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
+            Issuer = Players.Player1,
+            UnitType = unitType,
+            Origin = T(1),
+            Path = [T(1), T(2)],
         };
 
         CommandValidator.Validate([command], World);
@@ -53,23 +44,14 @@ public class MoveUnitValidationTest : BaseTest
         T(1).Owner = Players.Player1;
         T(1).Units.Add(unitType, 5);
 
-        var command = unitType switch
+        var command = new MoveUnit
         {
-            Unit.Army => new MoveUnit
-            {
-                Issuer = Players.Player1,
-                Origin = T(1),
-                Path = [T(2), T(3)],
-            },
-            Unit.Cavalry => new MoveCavalry
-            {
-                Issuer = Players.Player1,
-                Origin = T(1),
-                Path = [T(2), T(3)],
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
+            Issuer = Players.Player1,
+            UnitType = unitType,
+            Origin = T(1),
+            Path = [T(2), T(3)],
         };
-        
+
         CommandValidator.Validate([command], World);
 
         Assert.That(command.IsRejected);
@@ -87,21 +69,12 @@ public class MoveUnitValidationTest : BaseTest
         World.Territories[originId].Owner = Players.Player1;
         World.Territories[originId].Units.Add(unitType, 5);
 
-        var command = unitType switch
+        var command = new MoveUnit
         {
-            Unit.Army => new MoveUnit
-            {
-                Issuer = Players.Player1,
-                Origin = T(originId),
-                Path = [T(originId), T(targetId)],
-            },
-            Unit.Cavalry => new MoveCavalry
-            {
-                Issuer = Players.Player1,
-                Origin = T(originId),
-                Path = [T(originId), T(targetId)],
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(unitType), unitType, null)
+            Issuer = Players.Player1,
+            UnitType = unitType,
+            Origin = T(originId),
+            Path = [T(originId), T(targetId)],
         };
 
         CommandValidator.Validate([command], World);
@@ -134,7 +107,7 @@ public class MoveUnitValidationTest : BaseTest
             Assert.That(command.Rejections.First().Reason, Is.EqualTo(reason));
         }
     }
-    
+
     [TestCase(2, false, null)]
     [TestCase(3, false, null)]
     [TestCase(4, false, null)]
@@ -145,9 +118,10 @@ public class MoveUnitValidationTest : BaseTest
         T(1).Owner = Players.Player1;
         T(1).Units.AddCavalries(5);
 
-        var command = new MoveCavalry
+        var command = new MoveUnit
         {
             Issuer = Players.Player1,
+            UnitType = Unit.Cavalry,
             Origin = T(1),
             Path = Enumerable.Range(1, numMoves).Select(i => World.Territories[i]).ToList(),
         };

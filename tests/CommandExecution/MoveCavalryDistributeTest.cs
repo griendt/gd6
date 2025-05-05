@@ -34,7 +34,6 @@ public class MoveCavalryDistributeTest : BaseTest
         });
     }
 
-
     [Test]
     public void ItDistributesACavalryInALongerPathInSteps()
     {

@@ -9,7 +9,6 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public required Territory Origin { get; set; }
     public required List<Territory> Path { get; set; }
     public virtual Unit UnitType() => Unit.Army;
-    public virtual int MaxMovements() => 2;
 
     private int _incurredDamage = 0;
     
@@ -59,7 +58,7 @@ public class MoveUnit : Command, IHasOrigin, IHasPath
     public static void ValidatePathLength(IEnumerable<MoveUnit> commands, World world)
     {
         commands
-            .Where(command => command.Path.Count < 2 || command.Path.Count > command.MaxMovements() + 1)
+            .Where(command => command.Path.Count < 2 || command.Path.Count > command.UnitType().Speed() + 1)
             .Each(command => command.Reject(RejectReason.InvalidPathLength));
     }
 

@@ -79,6 +79,10 @@ public class Turn
             .Tap(createHqs => ValidateAndProcess(createHqs, true));
 
         commands
+            .OfType<PromoteArmyToCavalry>()
+            .Tap(promotions => ValidateAndProcess(promotions));
+        
+        commands
             .OfType<SpawnArmy>()
             .Tap(spawnArmies => ValidateAndProcess(spawnArmies));
 

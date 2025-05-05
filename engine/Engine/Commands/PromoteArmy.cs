@@ -2,12 +2,14 @@ using engine.Models;
 
 namespace engine.Engine.Commands;
 
-public class PromoteArmyToCavalry : Command, IHasOrigin
+public class PromoteArmy : Command, IHasOrigin
 {
     public required int Quantity;
+    public required Unit UnitType;
+
     public required Territory Origin { get; set; }
     public override Phase Phase() => Engine.Phase.Construction;
-
+    
     public override void Process(World world)
     {
         world.Territories[Origin.Id].Owner = Issuer;
@@ -15,12 +17,12 @@ public class PromoteArmyToCavalry : Command, IHasOrigin
         foreach (var _ in Enumerable.Range(0, Quantity)) {
             Issuer.InfluencePoints -= 3;
             world.Territories[Origin.Id].Units.Pop(Unit.Army);
-            world.Territories[Origin.Id].Units.AddCavalry();
+            world.Territories[Origin.Id].Units.Add(UnitType);
         }
     }
 
     [Validator]
-    public static void ValidateOwnership(List<PromoteArmyToCavalry> promotions, World world)
+    public static void ValidateOwnership(List<PromoteArmy> promotions, World world)
     {
         promotions
             .Where(promotion => promotion.Origin.Owner != promotion.Issuer)
@@ -28,7 +30,7 @@ public class PromoteArmyToCavalry : Command, IHasOrigin
     }
 
     [Validator]
-    public static void ValidateQuantityIsPositive(List<PromoteArmyToCavalry> promotions, World world)
+    public static void ValidateQuantityIsPositive(List<PromoteArmy> promotions, World world)
     {
         promotions
             .Where(promotion => promotion.Quantity < 0)
@@ -36,15 +38,16 @@ public class PromoteArmyToCavalry : Command, IHasOrigin
     }
 
     [Validator]
-    public static void ValidateSufficientArmiesInOrigin(List<PromoteArmyToCavalry> promotions, World world)
+    public static void ValidateSufficientArmiesInOrigin(List<PromoteArmy> promotions, World world)
     {
         promotions
-            .Where(promotion => promotion.Quantity > promotion.Origin.Units.Armies)
-            .Each(promotion => promotion.Reject(RejectReason.InsufficientArmies));
+            .GroupBy(promotion => promotion.Origin)
+            .Where(group => group.Sum(promotion => promotion.Quantity) > group.Key.Units.Armies)
+            .Each(group => group.Each(promotion => promotion.Reject(RejectReason.InsufficientArmies, group)));
     }
 
     [Validator]
-    public static void ValidateCloseEnoughToOwnedHq(List<PromoteArmyToCavalry> promotions, World world)
+    public static void ValidateCloseEnoughToOwnedHq(List<PromoteArmy> promotions, World world)
     {
         promotions
             .Where(promotion => !promotion.Origin.ContainsHq)

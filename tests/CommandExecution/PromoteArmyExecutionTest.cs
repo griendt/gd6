@@ -3,7 +3,7 @@ using engine.Models;
 
 namespace tests.CommandExecution;
 
-public class PromoteArmyToCavalryExecutionTest : BaseTest
+public class PromoteArmyExecutionTest : BaseTest
 {
     [SetUp]
     public void SetUpOwners()
@@ -18,7 +18,13 @@ public class PromoteArmyToCavalryExecutionTest : BaseTest
     {
         T(1).Units.AddArmies(numArmiesBefore);
         
-        new PromoteArmyToCavalry { Issuer = Players.Player1, Origin = T(1), Quantity = numPromotions }.Process(World);
+        new PromoteArmy
+        {
+            Issuer = Players.Player1, 
+            Origin = T(1), 
+            UnitType = Unit.Cavalry,
+            Quantity = numPromotions,
+        }.Process(World);
 
         Assert.Multiple(() =>
         {

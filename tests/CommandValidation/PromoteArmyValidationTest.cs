@@ -1,8 +1,9 @@
 using engine.Engine.Commands;
+using engine.Models;
 
 namespace tests.CommandValidation;
 
-public class PromoteArmyToCavalryValidationTest : BaseTest
+public class PromoteArmyValidationTest : BaseTest
 {
     [SetUp]
     public void SetUpOwners()
@@ -15,7 +16,13 @@ public class PromoteArmyToCavalryValidationTest : BaseTest
     [Test]
     public void ItAcceptsPromotingIfOwnedAndHasAnArmy()
     {
-        List<PromoteArmyToCavalry> commands = [new() { Issuer = Players.Player1, Origin = T(1), Quantity = 1 }];
+        List<PromoteArmy> commands = [new()
+        {
+            Issuer = Players.Player1, 
+            Origin = T(1),
+            UnitType = Unit.Cavalry,
+            Quantity = 1,
+        }];
 
         CommandValidator.Validate(commands, World);
 
@@ -27,7 +34,13 @@ public class PromoteArmyToCavalryValidationTest : BaseTest
     {
         T(1).Owner = Players.Player2;
 
-        List<PromoteArmyToCavalry> commands = [new() { Issuer = Players.Player1, Origin = T(1), Quantity = 1 }];
+        List<PromoteArmy> commands = [new()
+        {
+            Issuer = Players.Player1, 
+            Origin = T(1), 
+            UnitType = Unit.Cavalry,
+            Quantity = 1,
+        }];
 
         CommandValidator.Validate(commands, World);
 
@@ -38,7 +51,13 @@ public class PromoteArmyToCavalryValidationTest : BaseTest
     [Test]
     public void ItRejectsPromotingIfNotEnoughArmiesAvailableToPromote()
     {
-        List<PromoteArmyToCavalry> commands = [new() { Issuer = Players.Player1, Origin = T(1), Quantity = 6 }];
+        List<PromoteArmy> commands = [new()
+        {
+            Issuer = Players.Player1,
+            Origin = T(1),
+            UnitType = Unit.Cavalry,
+            Quantity = 6,
+        }];
 
         CommandValidator.Validate(commands, World);
 
@@ -49,7 +68,13 @@ public class PromoteArmyToCavalryValidationTest : BaseTest
     [Test]
     public void ItRejectsPromotingNegativeAmount()
     {
-        List<PromoteArmyToCavalry> commands = [new() { Issuer = Players.Player1, Origin = T(1), Quantity = -3 }];
+        List<PromoteArmy> commands = [new()
+        {
+            Issuer = Players.Player1,
+            Origin = T(1),
+            UnitType = Unit.Cavalry,
+            Quantity = -3,
+        }];
 
         CommandValidator.Validate(commands, World);
 
@@ -65,7 +90,13 @@ public class PromoteArmyToCavalryValidationTest : BaseTest
         T(1 + distance).Owner = Players.Player1;
         T(1 + distance).Units.AddArmies(1);
         
-        List<PromoteArmyToCavalry> commands = [new() { Issuer = Players.Player1, Origin = T(1 + distance), Quantity = 1 }];
+        List<PromoteArmy> commands = [new()
+        {
+            Issuer = Players.Player1, 
+            Origin = T(1 + distance), 
+            UnitType = Unit.Cavalry,
+            Quantity = 1,
+        }];
 
         CommandValidator.Validate(commands, World);
 
@@ -81,7 +112,13 @@ public class PromoteArmyToCavalryValidationTest : BaseTest
         T(2).Owner = Players.Player2;
         T(2).Units.AddArmies(1);
         
-        List<PromoteArmyToCavalry> commands = [new() { Issuer = Players.Player2, Origin = T(2), Quantity = 1 }];
+        List<PromoteArmy> commands = [new()
+        {
+            Issuer = Players.Player2, 
+            Origin = T(2),
+            UnitType = Unit.Cavalry,
+            Quantity = 1,
+        }];
 
         CommandValidator.Validate(commands, World);
 

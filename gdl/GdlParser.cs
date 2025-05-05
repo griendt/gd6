@@ -222,10 +222,11 @@ public partial class GdlParser(World world)
         var armiesMatch = ArmiesRegex().Match(command[2]);
 
         if (cavalryMatch.Success) {
-            Commands.Add(new PromoteArmyToCavalry
+            Commands.Add(new PromoteArmy
             {
                 Issuer = _currentIssuer!, 
                 Origin = target, 
+                UnitType = Unit.Cavalry,
                 Quantity = int.Parse(cavalryMatch.Groups[1].Value),
             });
             return;

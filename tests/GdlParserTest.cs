@@ -247,12 +247,12 @@ public class GdlParserTest : BaseTest
         _parser.Parse($"Set {name}\nCon {territoryId} {quantity}C");
 
         Assert.That(_parser.Commands, Has.Count.EqualTo(1));
-        var command = _parser.Commands.First() as PromoteArmyToCavalry;
+        var command = _parser.Commands.First() as PromoteArmy;
 
         Assert.Multiple(() =>
         {
             Assert.That(command!.Issuer.Name, Is.EqualTo(name));
-            Assert.That(command, Is.InstanceOf(typeof(PromoteArmyToCavalry)));
+            Assert.That(command, Is.InstanceOf(typeof(PromoteArmy)));
             Assert.That(command!.Origin.Id, Is.EqualTo(territoryId));
             Assert.That(command.Quantity, Is.EqualTo(quantity));
         });

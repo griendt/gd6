@@ -22,10 +22,11 @@ public class ConstructionPhaseTest : BaseTest
             Origin = T(1),
             Quantity = 1,
         };
-        var promotion = new PromoteArmyToCavalry
+        var promotion = new PromoteArmy
         {
             Issuer = Players.Player1,
             Origin = T(1),
+            UnitType = Unit.Cavalry,
             Quantity = 1,
         };
 

@@ -281,6 +281,26 @@ public class GdlParserTest : BaseTest
         });
     }
 
+    [TestCase(1)]
+    [TestCase(3)]
+    [TestCase(12)]
+    public void ItParsesCreateMineOrder(int quantity)
+    {
+        var name = Players.Player1.Name;
+        var territoryId = World.Territories.First().Value.Id;
+        _parser.Parse($"Set {name}\nCon {territoryId} {quantity}M");
+
+        Assert.That(_parser.Commands.OfType<CreateMine>().ToList(), Has.Count.EqualTo(quantity));
+
+        foreach (var command in _parser.Commands.OfType<CreateMine>()) {
+            Assert.Multiple(() =>
+            {
+                Assert.That(command.Issuer.Name, Is.EqualTo(name));
+                Assert.That(command.Origin.Id, Is.EqualTo(territoryId));
+            });
+        }
+    }
+
     [Test]
     public void ItParsesMultipleConstructArmyOrders()
     {

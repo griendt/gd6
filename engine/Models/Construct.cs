@@ -6,4 +6,5 @@ public enum Construct
     Watchtower,
     Intelligence,
     Library,
+    Mine,
 }

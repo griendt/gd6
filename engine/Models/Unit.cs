@@ -19,7 +19,7 @@ internal static class UnitExtensions
     public static int Strength(this Unit unit) =>
         unit switch
         {
-            Unit.Heavy => 2,
+            Unit.Heavy => 1,
             _ => 1,
         };
 

@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.ComponentModel;
 using engine.Models;
 
 namespace engine.Engine.Commands;
@@ -12,12 +13,17 @@ public abstract class CreateConstructCommand : Command, IHasOrigin
 
     public sealed override Phase Phase() => Engine.Phase.Construction;
     
-    
     public override void Process(World world)
     {
         // TODO: add tests asserting that IP are deducted
         Issuer.InfluencePoints -= Cost(world);
-        world.Territories[Origin.Id].Constructs.Add(ConstructType());
+
+        if (this is CreateMine) {
+            Origin.Mines++;
+        }
+        else {
+            Origin.Constructs.Add(ConstructType());
+        }
     }
     
     [Validator]
@@ -33,6 +39,7 @@ public abstract class CreateConstructCommand : Command, IHasOrigin
     {
         commands
             .Where(command => command.Origin.Constructs.Count > 0)
+            .Where(command => command is not CreateMine)
             .Each(command => command.Reject(RejectReason.TargetAlreadyContainsConstruct));
     }
 
@@ -49,16 +56,19 @@ public abstract class CreateConstructCommand : Command, IHasOrigin
     public static void ValidateOnlyOneConstructPerTerritory(IEnumerable<CreateConstructCommand> commands, World world)
     {
         commands
+            .Where(command => command is not CreateMine)
             .GroupBy(command => command.Origin)
             .Where(group => group.Count() > 1)
             .Each(group => group.Each(command => command.Reject(RejectReason.BuildingMultipleConstructsInOneTerritory, group.ToList())));
     }
 
     [Validator]
+    [Description("Constructs may not be built on a Wasteland, with the exception" +
+                 "of CreateMine, which is formally a construct but is exempt from most construct rules.")]
     public static void ValidateTargetIsNotWasteland(IEnumerable<CreateConstructCommand> commands, World world)
     {
         commands
-            .Where(command => command.Origin.IsWasteland)
+            .Where(command => command is not CreateMine && command.Origin.IsWasteland)
             .Each(command => command.Reject(RejectReason.BuildingOnToxicWasteland));
     }
 }

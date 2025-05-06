@@ -38,6 +38,29 @@ public class CreateMultipleConstructsValidationTest : BaseTest
                 Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.InsufficientInfluencePoints));
             }
         });
+    }
+    
+    [TestCase(20, true)]
+    [TestCase(29, true)]
+    [TestCase(30, false)]
+    public void ItChecksForSufficientInfluencePointsWhenBuildingMines(int influencePoints, bool shouldBeRejected)
+    {
+        Players.Player1.InfluencePoints = influencePoints;
+        List<Command> commands =
+        [
+            new CreateWatchtower { Issuer = Players.Player1, Origin = T(1) },
+            new CreateMine { Issuer = Players.Player1, Origin = T(1) },
+            new CreateMine { Issuer = Players.Player1, Origin = T(1) },
+        ];
 
+        CommandValidator.Validate(commands, World);
+
+        commands.Each(command =>
+        {
+            Assert.That(command.IsRejected, Is.EqualTo(shouldBeRejected));
+            if (shouldBeRejected) {
+                Assert.That(command.Rejections.First().Reason, Is.EqualTo(RejectReason.InsufficientInfluencePoints));
+            }
+        });
     }
 }

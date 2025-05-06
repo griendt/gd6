@@ -52,6 +52,39 @@ public class MoveArmyInvasionTest : BaseTest
         });
     }
 
+    [TestCase(1, 1, 1, 1, 1, Description = "Invasion penalty goes first; defender suffers no losses")]
+    [TestCase(2, 1, 1, 1, 1, Description = "Invasion penalty goes first; defender suffers no losses")]
+    [TestCase(3, 1, 1, 0, 1, Description = "After invasion penalty, only the mine is destroyed; defending unit remains alive")]
+    [TestCase(4, 1, 1, 0, 0, Description = "All units are neutralized")]
+    [TestCase(8, 3, 8, 2, 3)]
+    public void ItTriggersMinesInInvasion(int numSent, int numDefenders, int numMines, int numExpectedMines, int numDefendersLeft)
+    {
+        T(1).Units.AddArmies(numSent);
+        T(2).Mines = numMines;
+        T(2).Units.AddArmies(numDefenders - 2);// Undo the +2 from the setup
+
+        var invasions = Enumerable.Range(1, numSent)
+            .Select(i => new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
+            .ToList();
+
+        new Invasion().Resolve(invasions, World);
+
+        invasions.Each(invasion => Assert.That(invasion.IsProcessed));
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(1).Units.Armies, Is.EqualTo(10));
+            Assert.That(T(1).Owner, Is.EqualTo(Players.Player1));
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(T(2).Units.Armies, Is.EqualTo(numDefendersLeft));
+            Assert.That(T(2).IsNeutral, Is.EqualTo(numDefendersLeft == 0));
+            Assert.That(T(2).Mines, Is.EqualTo(numExpectedMines));
+        });
+    }
+
     [TestCase(1, 2, 0, false)]
     [TestCase(2, 2, 0, false)]
     [TestCase(3, 2, 0, false)]
@@ -112,7 +145,7 @@ public class MoveArmyInvasionTest : BaseTest
         T(4).Owner = Players.Player3;
         T(4).Units.AddArmies(4);
         T(territoryIdWithIntelligence).Constructs.Add(Construct.Intelligence);
-        
+
         var invasions = Enumerable.Range(1, numSent)
             .Select(i => new MoveUnit { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
             .ToList();
@@ -207,7 +240,7 @@ public class MoveArmyInvasionTest : BaseTest
             );
         });
     }
-    
+
     [TestCase(3, 1, 2)]
     [TestCase(4, 0, 2)]
     [TestCase(5, 0, 1)]
@@ -215,7 +248,7 @@ public class MoveArmyInvasionTest : BaseTest
     public void ItKillsArmiesBeforeCavalries(int numSent, int numArmiesExpectedInTarget, int numCavalryExpectedInTarget)
     {
         T(2).Units.AddCavalries(2);
-        
+
         var invasions = Enumerable.Range(1, numSent)
             .Select(i => new MoveUnit { Issuer = Players.Player1, Origin = T(1), Path = [T(1), T(2)] })
             .ToList();

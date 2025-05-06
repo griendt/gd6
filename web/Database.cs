@@ -107,8 +107,9 @@ public class Gd6DbContext : DbContext
     {
         Territories.ToList().ForEach(territory =>
         {
-            var settler = world.Territories[territory.Id].HqSettler;
-            var owner = world.Territories[territory.Id].Owner;
+            var engineTerritory = world.Territories[territory.Id];
+            var settler = engineTerritory.HqSettler;
+            var owner = engineTerritory.Owner;
 
             if (owner != null) {
                 territory.Owner = Players.First(player => player.Id == owner.Id);
@@ -120,10 +121,11 @@ public class Gd6DbContext : DbContext
                 territory.Headquarter = hq;
             }
 
-            territory.Constructs = world.Territories[territory.Id].Constructs.Select(construct => new Construct { Name = Enum.GetName(typeof(engine.Models.Construct), construct)! }).ToList();
-            territory.Armies = world.Territories[territory.Id].Units.Armies;
-            territory.Cavalries = world.Territories[territory.Id].Units.Cavalries;
-            territory.Heavies = world.Territories[territory.Id].Units.Heavies;
+            territory.Constructs = engineTerritory.Constructs.Select(construct => new Construct { Name = Enum.GetName(typeof(engine.Models.Construct), construct)! }).ToList();
+            territory.Armies = engineTerritory.Units.Armies;
+            territory.Cavalries = engineTerritory.Units.Cavalries;
+            territory.Heavies = engineTerritory.Units.Heavies;
+            territory.Mines = engineTerritory.Mines;
         });
 
         Players.ToList().ForEach(player => player.InfluencePoints = world.Players.First(p => player.Id == p.Id).InfluencePoints);

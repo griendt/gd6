@@ -42,7 +42,10 @@
     <TerritoryHeaviesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
     <TerritoryHeaviesText Territory="Territory"/>
 }
-
+@if (Territory.Mines > 0) {
+    <TerritoryMinesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
+    <TerritoryMinesText Territory="Territory"/>
+}
 
 @code {
     [Parameter] public required Territory Territory { get; set; }

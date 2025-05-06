@@ -17,13 +17,15 @@ SetCoordinates 13 140,800;170,930;130,1000;160,1020;230,1000;330,990;320,880;230
 SetCoordinates 14 230,820;230,780;280,750;340,730;390,740;390,870;330,990;320,880
 SetCoordinates 15 400,600;440,660;450,720;500,800;550,750;460,540;420,550
 SetCoordinates 16 470,820;430,860;420,860;400,980;460,970;510,960;480,890;540,920;530,880
-AddPlayer Aluce #f00
-AddPlayer Psycho17 #0f0
-AddPlayer Brew #00f
+AddPlayer Psycho17 #000
+AddPlayer Andrea #608
+AddPlayer Dentist #0f0
+AddPlayer Raven #00f
+AddPlayer Brew #ff0
 InitEnd
 
 // Turn 1
-Set Aluce
+Set Andrea
 Con 1 Hq
 Con 1 1A
 Con 2 1A
@@ -33,7 +35,7 @@ Con 7 2A
 End
 
 // Turn 2
-Set Aluce
+Set Andrea
 Con 1 2A
 Set Psycho17
 Con 6 2A
@@ -53,7 +55,7 @@ End
 End
 
 // Turn 5
-Set Aluce
+Set Andrea
 Con 1 Tow
 Mov 1→3 1A
 Set Psycho17
@@ -68,7 +70,7 @@ End
 End
 End
 
-Set Aluce
+Set Andrea
 Con 2 Lib
 Con 3 Int
 Con 1 1C

@@ -16,6 +16,8 @@ It is possible -- even likely -- that players will submit _conflicting_ moves. T
       This includes the case where two players attack each other directly (`A→B` and `B→A`).
 2. **Invasion**: is _asymmetrical_ (there is an _attacker_ and a _defender_). A move is an *Invasion* when:
     - A player tries to move into a territory that is owned by another player.
+    
+Any other move is considered a **Distribution** (to already owned territories or expansions to new ones).
 
 !!! info "Resolution order"
     * Whenever possible, moves that *give no conflicts* are resolved before conflicting moves.
@@ -34,6 +36,15 @@ Each unit type has two statistics: health and speed. The table is as follows:
 | Army    | 1      | 2     |
 | Cavalry | 1      | 4     |
 | Heavy   | 2      | 1     |
+
+## Distribution
+
+In a Distribution, the units simply move from the origin to the target. However, if there are Landmines present in the target,
+and the target is not already owned by the player, then Landmines will trigger, one-by-one, dealing `1` damage each, until either there are no more units or Landmines left.
+
+For example, if a neutral territory contains `3` mines and a player sends `5` armies, then the mines kill three of them and only two enter the land.
+
+As another example, if the neutral territory contains `7` mines instead, then five of them will detonate, killing all the armies, and another `2` mines remain dormant.
 
 ## Skirmishes
 
@@ -56,10 +67,11 @@ A skirmish is resolved quite simply according to these rules:
 
 ## Invasion
 
-An invasion comes at the cost of a certain penalty: the attacker will suffer `2` damage before being able to deal any damage.
+An invasion is resolved by following these steps in order:
 
-After this initial penalty, the attacker and defender both suffer `1` damage simultaneously. 
-This repeats until at most one party has any units left.
+1. The attacker will suffer `2` damage as an invasion penalty before being able to deal any damage.
+2. If the defender has Landmines, then Landmines will explode one-by-one, dealing `1` damage each, until either there are no attackers or no Landmines left.
+3. The attacker and defender both suffer `1` damage simultaneously. Repeat this step until at most one party has any units left.
 
 * If the defending units are all defeated, the territory becomes neutral. If the target contains a Bivouac, it is destroyed.
 * If the invader still has units left, they will proceed to move as usual.

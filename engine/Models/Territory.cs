@@ -6,6 +6,7 @@ namespace engine.Models;
 public class Territory(World world)
 {
     public readonly HashSet<Construct> Constructs = [];
+    public int Mines = 0;
 
     // Purely for web
     public readonly List<(int, int)> Coordinates = [];

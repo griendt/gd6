@@ -23,12 +23,17 @@ public class Invasion : MoveResolver
                 break;
             }
 
+            while (!move.IsProcessed && target.Mines > 0) {
+                move.IncurDamage();
+                target.Mines--;
+            }
+
             while (!move.IsProcessed && !target.IsNeutral) {
                 Enumerable.Range(1, move.UnitType.Strength()).Each(_ => target.IncurDamage());
                 move.IncurDamage();
             }
         }
-        
+
         target.ResetDamage();
         moves.Each(move => move.ResetDamage());
     }

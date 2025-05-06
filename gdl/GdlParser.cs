@@ -221,6 +221,7 @@ public partial class GdlParser(World world)
         var cavalryMatch = CavalryRegex().Match(command[2]);
         var armiesMatch = ArmiesRegex().Match(command[2]);
         var heaviesMatch = HeaviesRegex().Match(command[2]);
+        var minesMatch = MinesRegex().Match(command[2]);
 
         if (cavalryMatch.Success) {
             Commands.Add(new PromoteArmy
@@ -241,6 +242,14 @@ public partial class GdlParser(World world)
                 UnitType = Unit.Heavy,
                 Quantity = int.Parse(heaviesMatch.Groups[1].Value),
             });
+            return;
+        }
+
+        if (minesMatch.Success) {
+            Enumerable
+                .Range(1, int.Parse(minesMatch.Groups[1].Value))
+                .Select(_ => new CreateMine { Issuer = _currentIssuer!, Origin = target })
+                .Each(createMine => Commands.Add(createMine));
             return;
         }
 
@@ -336,6 +345,9 @@ public partial class GdlParser(World world)
 
     [GeneratedRegex(@"^(\d+)H$")]
     private static partial Regex HeaviesRegex();
+
+    [GeneratedRegex(@"^(\d+)M$")]
+    private static partial Regex MinesRegex();
 
     [GeneratedRegex(@"^#[\da-fA-F]{3}$")]
     private static partial Regex ColorRegex();

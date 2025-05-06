@@ -14,9 +14,20 @@ public class Distribute : MoveResolver
                 continue;
             }
 
+            var target = move.Path.Second();
+
+            while (target.Mines > 0 && !move.IsProcessed && target.Owner != move.Issuer) {
+                move.IncurDamage();
+                target.Mines--;
+            }
+
+            if (move.IsProcessed) {
+                continue;
+            }
+
             move.Path.First().Units.Pop(move.UnitType);
-            move.Path.Second().Units.Add(move.UnitType);
-            move.Path.Second().Owner = move.Issuer;
+            target.Units.Add(move.UnitType);
+            target.Owner = move.Issuer;
             move.Path.RemoveAt(0);
 
             if (move.Path.Count < 2) {

@@ -34,8 +34,10 @@ public class Territory(World world)
         get => _owner;
         set
         {
+            if (_owner != value) {
+                Loyalty = 0;
+            }
             _owner = value;
-            Loyalty = 0;
         }
     }
 

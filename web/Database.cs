@@ -126,6 +126,7 @@ public class Gd6DbContext : DbContext
             territory.Cavalries = engineTerritory.Units.Cavalries;
             territory.Heavies = engineTerritory.Units.Heavies;
             territory.Mines = engineTerritory.Mines;
+            territory.Loyalty = engineTerritory.Loyalty;
         });
 
         Players.ToList().ForEach(player => player.InfluencePoints = world.Players.First(p => player.Id == p.Id).InfluencePoints);

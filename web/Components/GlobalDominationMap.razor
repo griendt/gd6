@@ -6,7 +6,9 @@
 <div class="container" style="max-width: @($"{_width}px") !important; max-height: @($"{_height}px") !important;">
     <h3>Map
         <button class="align-content-end btn btn-sm btn-outline-primary" @onclick="LoadTerritories">Refresh</button>
+        <button class="align-content-end btn btn-sm btn-outline-secondary" @onclick="() => _showLoyalty = !_showLoyalty">Toggle Loyalty</button>
     </h3>
+    <h5></h5>
     <h4>X: @_mouseX Y: @_mouseY</h4>
     <svg
         id="gd6-map"
@@ -68,6 +70,7 @@
                 StrokeWidth="@StrokeWidth(territory)"
                 StrokeColour="@TerritoryStrokeColour(territory)"
                 FillColour="@TerritoryFillColour(territory)"
+                ShowLoyalty="@_showLoyalty"
             />
         }
     </svg>
@@ -107,6 +110,7 @@
 
     private bool _isActiveTerritorySticky = false;
     private Territory? _activeTerritory = null;
+    private bool _showLoyalty = false;
 
     protected override async Task OnInitializedAsync()
     {

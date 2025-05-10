@@ -103,6 +103,14 @@ public class Territory(World world)
         }
 
         foreach (var unitType in UnitExtensions.DefenseOrder()) {
+            // If the unit has no health, it is destroyed immediately
+            if (unitType.Health() == 0) {
+                while (Units.OfType(unitType) > 0) {
+                    Units.Pop(unitType);
+                }
+                continue;
+            }
+            
             if (Units.OfType(unitType) > 0 && unitType.Health() <= _incurredDamage) {
                 Units.Pop(unitType);
                 _incurredDamage = 0;

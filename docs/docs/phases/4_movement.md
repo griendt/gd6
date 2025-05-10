@@ -34,9 +34,12 @@ Each unit type has two statistics: health and speed. The table is as follows:
 | Unit    | Health | Speed |
 |---------|--------|-------|
 | Army    | 1      | 2     |
-| Cavalry | 1      | 4     |
-| Heavy   | 2      | 1     |
-| Spy     | 0      | 1     |
+
+[//]: # (| Cavalry | 1      | 4     |)
+
+[//]: # (| Heavy   | 2      | 1     |)
+
+[//]: # (| Spy     | 0      | 1     |)
 
 ## Distribution
 
@@ -66,44 +69,65 @@ A skirmish is resolved quite simply according to these rules:
     It is possible that one player "wins" the skirmish and still has units left after the skirmish is resolved. 
     Then these units will proceed to move as usual. This can be an expansion or distribution (no further battle) or an Invasion.
 
-??? question "How do Spies work in a Skirmish?"
-    Spies have no health. This means they effectively cannot fight. In any conflict, such as *Skirmish*, they effectively do nothing except die immediately.
-    For example, if one player sends five Spies and the other player an Army, then all the Spies are killed and the Army survives!
+[//]: # ()
+[//]: # (??? question "How do Spies work in a Skirmish?")
+
+[//]: # (    Spies have no health. This means they effectively cannot fight. In any conflict, such as *Skirmish*, they effectively do nothing except die immediately.)
+
+[//]: # (    For example, if one player sends five Spies and the other player an Army, then all the Spies are killed and the Army survives!)
 
 ## Invasion
 
 An invasion is resolved by following these steps in order:
 
 1. The attacker will suffer `2` damage as an invasion penalty before being able to deal any damage.
-2. If the defender has Landmines, then Landmines will explode one-by-one, dealing `1` damage each, until either there are no attackers or no Landmines left.
+
+[//]: # (2. If the defender has Landmines, then Landmines will explode one-by-one, dealing `1` damage each, until either there are no attackers or no Landmines left.)
 3. The attacker and defender both suffer `1` damage simultaneously. Repeat this step until at most one party has any units left.
 
 * If the defending units are all defeated, the territory becomes neutral. If the target contains a Bivouac, it is destroyed.
 * If the invader still has units left, they will proceed to move as usual.
 * Some mechanics alter the way an Invasion is processed, such as a Watchtower, as described below.
 
-??? question "What if there are multiple unit types in the target territory?"
-    If there are multiple unit types in the target territory, there is no player-defined "priority" like there is in a Skirmish.
-    In this case, it is assumed that the defender's units are lined up in this predetermined order:
-    
-    1. Spy units;
-    2. Heavy units;
-    3. Army units;
-    4. Cavalry units.
-   
-    This makes Heavy units an excellent defensive choice (especially to protect your Cavalry), and spies a dangerous choice to leave too close to enemy lines.
+[//]: # ()
+[//]: # (??? question "What if there are multiple unit types in the target territory?")
 
-!!! example
-    Suppose an attacker is attacking with 3 Armies and 1 Heavy unit (in that order) and the defense contains 1 Heavy unit. 
-    Then the Invasion is resolved as follows:
-    
-    1. The attacker suffers two damage as invasion penalty, killing the first 2 Army units.
-    2. The last attacking Army is killed while damaging the Heavy unit.
-    3. The attacking Heavy unit and the wounded defending Heavy unit both suffer damage. The defender is now defeated. The attacker has a wounded Heavy unit left that occupies the target territory.
+[//]: # (    If there are multiple unit types in the target territory, there is no player-defined "priority" like there is in a Skirmish.)
 
-??? question "What happens to wounded units after battle resolution?"
-    It is possible that a Heavy unit gets `1` damage only. This means it will not be slain. In any future moves (even in the same Turn),
-    the unit will regain its full health. In other words, the sustained damage applies only for each Invasion or Skirmish individually.
+[//]: # (    In this case, it is assumed that the defender's units are lined up in this predetermined order:)
+
+[//]: # (    )
+[//]: # (    1. Spy units;)
+
+[//]: # (    2. Heavy units;)
+
+[//]: # (    3. Army units;)
+
+[//]: # (    4. Cavalry units.)
+
+[//]: # (   )
+[//]: # (    This makes Heavy units an excellent defensive choice &#40;especially to protect your Cavalry&#41;, and spies a dangerous choice to leave too close to enemy lines.)
+
+[//]: # ()
+[//]: # (!!! example)
+
+[//]: # (    Suppose an attacker is attacking with 3 Armies and 1 Heavy unit &#40;in that order&#41; and the defense contains 1 Heavy unit. )
+
+[//]: # (    Then the Invasion is resolved as follows:)
+
+[//]: # (    )
+[//]: # (    1. The attacker suffers two damage as invasion penalty, killing the first 2 Army units.)
+
+[//]: # (    2. The last attacking Army is killed while damaging the Heavy unit.)
+
+[//]: # (    3. The attacking Heavy unit and the wounded defending Heavy unit both suffer damage. The defender is now defeated. The attacker has a wounded Heavy unit left that occupies the target territory.)
+
+[//]: # ()
+[//]: # (??? question "What happens to wounded units after battle resolution?")
+
+[//]: # (    It is possible that a Heavy unit gets `1` damage only. This means it will not be slain. In any future moves &#40;even in the same Turn&#41;,)
+
+[//]: # (    the unit will regain its full health. In other words, the sustained damage applies only for each Invasion or Skirmish individually.)
 
 ### Watchtower
 
@@ -130,18 +154,30 @@ the attacker is inflicted `2` additional damage (in addition to the regular inva
     In that case, the Watchtower is left standing. In any future moves (even in the same Turn), 
     the Watchtower will regain its full integrity. In other words, the sustained damage applies only for each Invasion or Skirmish individually.
 
-### Spies
+[//]: # ()
+[//]: # (### Spies)
 
-If the attacker has a Spy unit on their territory, or on a territory adjacent to it, then the attacking units can be provided with military intelligence.
-This allows them to operate more efficiently. As a result, the initial penalty for invasion will no longer apply.
-Military intelligence does *not* cancel the Watchtower perks.
+[//]: # ()
+[//]: # (If the attacker has a Spy unit on their territory, or on a territory adjacent to it, then the attacking units can be provided with military intelligence.)
 
-??? example
-    Suppose an attacker sends `6` armies to a territory that contains a Watchtower and one defending army. 
-    Suppose also that the origin of the attack is adjacent to territory with a Spy, that is under control of the attacker.
-    Then the invasion proceeds as follows (and in this order):
+[//]: # (This allows them to operate more efficiently. As a result, the initial penalty for invasion will no longer apply.)
 
-    1. The attacker *does not* pay an initial penalty (intelligence effect);
-    2. The attacker *does* pay a penalty of `2` armies to destroy the Watchtower, and has `4` left to attack;
-    3. One attacking army dies to slay the defending unit. The target becomes neutral and the attacker now has `3` armies left.
-    4. These `3` armies occupy the target territory. The attack was very successful!
+[//]: # (Military intelligence does *not* cancel the Watchtower perks.)
+
+[//]: # ()
+[//]: # (??? example)
+
+[//]: # (    Suppose an attacker sends `6` armies to a territory that contains a Watchtower and one defending army. )
+
+[//]: # (    Suppose also that the origin of the attack is adjacent to territory with a Spy, that is under control of the attacker.)
+
+[//]: # (    Then the invasion proceeds as follows &#40;and in this order&#41;:)
+
+[//]: # ()
+[//]: # (    1. The attacker *does not* pay an initial penalty &#40;intelligence effect&#41;;)
+
+[//]: # (    2. The attacker *does* pay a penalty of `2` armies to destroy the Watchtower, and has `4` left to attack;)
+
+[//]: # (    3. One attacking army dies to slay the defending unit. The target becomes neutral and the attacker now has `3` armies left.)
+
+[//]: # (    4. These `3` armies occupy the target territory. The attack was very successful!)

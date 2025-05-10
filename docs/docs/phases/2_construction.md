@@ -55,42 +55,65 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
     These limitations are in place to ensure that players without HQs can still play and compete, but not at an advantage.
 
-## Promoting units
+[//]: # ()
+[//]: # (## Promoting units)
 
-There are several unit types that an *Army* type can promote into:
+[//]: # ()
+[//]: # (There are several unit types that an *Army* type can promote into:)
 
- * **Cavalry**: Costs `3` Influence Points;
- * **Heavy**: Costs `3` Influence Points;
- * **Spy**: Costs `30` Influence Points, and can only be promoted in a territory with a minimum Loyalty of `2`.
+[//]: # ()
+[//]: # ( * **Cavalry**: Costs `3` Influence Points;)
 
-These units have separate colours on the map (brown for Cavalry, yellow for Heavy). Spy units are not visible on the map.
+[//]: # ( * **Heavy**: Costs `3` Influence Points;)
 
-!!! info "Turn updates concerning Spies"
-    When an Army is promoted to a Spy, the amount of Armies is reduced, which is visible on the map.
-    Therefore, it is possible for players to notice that promotions have taken place.
-    Because of this, Spy promotions **will** be mentioned in Turn updates!
+[//]: # ( * **Spy**: Costs `30` Influence Points, and can only be promoted in a territory with a minimum Loyalty of `2`.)
 
-    However, it will **not** be mentioned where they are stationed, or where they are moving (unless they participate in combat).
-    This allows them to be stealthy and move in secrecy.
+[//]: # ()
+[//]: # (These units have separate colours on the map &#40;brown for Cavalry, yellow for Heavy&#41;. Spy units are not visible on the map.)
 
-!!! warning
-    * You may not promote units that were spawned in the same turn.
-    * Once promoted, units cannot be demoted or converted to other types.
+[//]: # ()
+[//]: # (!!! info "Turn updates concerning Spies")
 
-For a more in-depth explanation of how these units work compared to Armies, see the [Unit types](4_movement.md/#unit-types) section.
+[//]: # (    When an Army is promoted to a Spy, the amount of Armies is reduced, which is visible on the map.)
 
-## Landmines
+[//]: # (    Therefore, it is possible for players to notice that promotions have taken place.)
 
-At the expense of `5` Influence Points, you may lay a *Landmine* on any land territory that:
+[//]: # (    Because of this, Spy promotions **will** be mentioned in Turn updates!)
 
-* is currently under your control; **OR**
-* is adjacent to a territory you control and is not owned by anyone else.
+[//]: # ()
+[//]: # (    However, it will **not** be mentioned where they are stationed, or where they are moving &#40;unless they participate in combat&#41;.)
 
-Landmines will be completely invisible to the map, and I will not announce in Turn updates whether any Landmines were placed.
-Whenever any player attempts to claim ownership of a territory that contains a landmine, the landmine will explode and deal damage.
-See the [Movement Phase](4_movement.md) for more details.
+[//]: # (    This allows them to be stealthy and move in secrecy.)
 
-## Building other constructs
+[//]: # ()
+[//]: # (!!! warning)
+
+[//]: # (    * You may not promote units that were spawned in the same turn.)
+
+[//]: # (    * Once promoted, units cannot be demoted or converted to other types.)
+
+[//]: # ()
+[//]: # (For a more in-depth explanation of how these units work compared to Armies, see the [Unit types]&#40;4_movement.md/#unit-types&#41; section.)
+
+[//]: # ()
+[//]: # (## Landmines)
+
+[//]: # ()
+[//]: # (At the expense of `5` Influence Points, you may lay a *Landmine* on any land territory that:)
+
+[//]: # ()
+[//]: # (* is currently under your control; **OR**)
+
+[//]: # (* is adjacent to a territory you control and is not owned by anyone else.)
+
+[//]: # ()
+[//]: # (Landmines will be completely invisible to the map, and I will not announce in Turn updates whether any Landmines were placed.)
+
+[//]: # (Whenever any player attempts to claim ownership of a territory that contains a landmine, the landmine will explode and deal damage.)
+
+[//]: # (See the [Movement Phase]&#40;4_movement.md&#41; for more details.)
+
+## Building constructs
 
 Each of the below constructs can be built on a land territory that:
 

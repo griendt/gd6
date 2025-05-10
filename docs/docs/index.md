@@ -10,6 +10,14 @@ This edition aims to be several things, just like previous games:
 
 All players play their moves simultaneously, and in secret. Only the most devious can achieve domination.
 
+!!! note
+    New mechanics will be added to the game as it progresses. This has multiple reasons:
+    
+    1. It allows me to balance the mechanic to how I see fit, given the current state of the game;
+    2. It allows all players to be familiar with all the existing rules first, making it easier for new players to get into the game.
+
+    New mechanics _should_ never conflict with existing mechanics, only add new possibilities.
+
 ## Note for recurring players
 
 Many of the rules are the same or similar. But some things work fundamentally differently.

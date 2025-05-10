@@ -129,7 +129,7 @@ A Watchtower will give you an extra line of defense; see the [Watchtower rules](
 #### Bivouac
 
 At the expense of `30` Influence Points, plus an additional `10` Influence Points for each Bivouac under your control at the start of this Turn, you can build a Bivouac.
-A Bivouac will increase your influx of Armies; see the [Bivouac rules](/phases/1_natural/#bivouac).
+A Bivouac will increase your influx of Armies; see the [Bivouac rules](5_final.md).
 
 #### Library
 

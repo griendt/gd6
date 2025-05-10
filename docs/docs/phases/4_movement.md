@@ -43,19 +43,20 @@ Each unit type has two statistics: health and speed. The table is as follows:
 
 ## Distribution
 
-In a Distribution, the units simply move from the origin to the target. However, if there are Landmines present in the target,
-and the target is not already owned by the player, then Landmines will trigger, one-by-one, dealing `1` damage each, until either there are no more units or Landmines left.
+In a Distribution, the units simply move from the origin to the target.
 
-For example, if a neutral territory contains `3` mines and a player sends `5` armies, then the mines kill three of them and only two enter the land.
+[//]: # (However, if there are Landmines present in the target, and the target is not already owned by the player, then Landmines will trigger, one-by-one, dealing `1` damage each, until either there are no more units or Landmines left.)
 
-As another example, if the neutral territory contains `7` mines instead, then five of them will detonate, killing all the armies, and another `2` mines remain dormant.
+[//]: # (For example, if a neutral territory contains `3` mines and a player sends `5` armies, then the mines kill three of them and only two enter the land.)
+
+[//]: # (As another example, if the neutral territory contains `7` mines instead, then five of them will detonate, killing all the armies, and another `2` mines remain dormant.)
 
 ## Skirmishes
 
 A skirmish is resolved quite simply according to these rules:
 
 1. Damage is applied to whichever unit's movement had the highest priority (i.e. first stated in the move list).
-2. Each player's unit suffers one damage. If the unit has `0` health, it is killed immediately and instead the next unit suffers the damage instead.
+2. Each player's unit suffers one damage. If the unit has `0` health, it is killed immediately and the next unit suffers the damage instead.
 3. If there are still two or more players involved in the skirmish, repeat steps 1 and 2, until at most one player is left.
 
 ??? "Neutral resolution"

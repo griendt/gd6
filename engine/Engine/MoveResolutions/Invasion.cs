@@ -11,8 +11,8 @@ public class Invasion : MoveResolver
         var target = moves.First().Path.Second();
 
         var isIntelligencePresent =
-            origin.Constructs.Contains(Construct.Intelligence)
-            || origin.Neighbours().Any(neighbour => neighbour.Owner == moves.First().Issuer && neighbour.Constructs.Contains(Construct.Intelligence));
+            origin.Units.Spies > 0
+            || origin.Neighbours().Any(neighbour => neighbour.Owner == moves.First().Issuer && neighbour.Units.Spies > 0);
 
         if (!isIntelligencePresent) {
             Enumerable.Range(1, 2).Each(_ => moves.FirstOrDefault(move => !move.IsProcessed)?.IncurDamage());

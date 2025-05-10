@@ -27,4 +27,5 @@ public enum RejectReason
     PromotingNegativeQuantity,
     PromotingTooFarFromOwnedHq,
     InvalidPromotionUnitType,
+    PromotingInTooLowLoyaltyTerritory,
 }

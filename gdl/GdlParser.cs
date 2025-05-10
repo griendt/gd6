@@ -210,9 +210,6 @@ public partial class GdlParser(World world)
             case "Biv":
                 Commands.Add(new CreateBivouac { Issuer = _currentIssuer!, Origin = target });
                 return;
-            case "Int":
-                Commands.Add(new CreateIntelligence { Issuer = _currentIssuer!, Origin = target });
-                return;
             case "Lib":
                 Commands.Add(new CreateLibrary { Issuer = _currentIssuer!, Origin = target });
                 return;
@@ -221,6 +218,7 @@ public partial class GdlParser(World world)
         var cavalryMatch = CavalryRegex().Match(command[2]);
         var armiesMatch = ArmiesRegex().Match(command[2]);
         var heaviesMatch = HeaviesRegex().Match(command[2]);
+        var spiesMatch = SpiesRegex().Match(command[2]);
         var minesMatch = MinesRegex().Match(command[2]);
 
         if (cavalryMatch.Success) {
@@ -241,6 +239,17 @@ public partial class GdlParser(World world)
                 Origin = target,
                 UnitType = Unit.Heavy,
                 Quantity = int.Parse(heaviesMatch.Groups[1].Value),
+            });
+            return;
+        }
+
+        if (spiesMatch.Success) {
+            Commands.Add(new PromoteArmy
+            {
+                Issuer = _currentIssuer!,
+                Origin = target,
+                UnitType = Unit.Spy,
+                Quantity = int.Parse(spiesMatch.Groups[1].Value),
             });
             return;
         }
@@ -346,6 +355,9 @@ public partial class GdlParser(World world)
     [GeneratedRegex(@"^(\d+)H$")]
     private static partial Regex HeaviesRegex();
 
+    [GeneratedRegex(@"^(\d+)S$")]
+    private static partial Regex SpiesRegex();
+    
     [GeneratedRegex(@"^(\d+)M$")]
     private static partial Regex MinesRegex();
 

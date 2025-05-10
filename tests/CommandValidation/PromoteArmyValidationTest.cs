@@ -59,10 +59,13 @@ public class PromoteArmyValidationTest : BaseTest
     [TestCase(6, Unit.Cavalry, 2, false)]
     [TestCase(29, Unit.Cavalry, 10, true)]
     [TestCase(30, Unit.Cavalry, 10, false)]
+    [TestCase(29, Unit.Spy, 1, true)]
+    [TestCase(30, Unit.Spy, 1, false)]
     public void ItRejectsIfNotEnoughInfluencePoints(int numInfluencePoints, Unit promotionType, int quantity, bool shouldBeRejected)
     {
         Players.Player1.InfluencePoints = numInfluencePoints;
         T(1).Units.AddArmies(quantity);
+        T(1).Loyalty = promotionType.MinimumPromotionLoyalty() + 1;
         List<PromoteArmy> commands =
         [
             new()
@@ -144,6 +147,33 @@ public class PromoteArmyValidationTest : BaseTest
         Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.PromotingNegativeQuantity));
     }
 
+    [TestCase(0, true)]
+    [TestCase(1, true)]
+    [TestCase(2, false)]
+    public void ItRejectsPromotingToSpyInTooLowLoyalty(int loyalty, bool shouldBeRejected)
+    {
+        T(1).Loyalty = loyalty;
+        
+        List<PromoteArmy> commands =
+        [
+            new()
+            {
+                Issuer = Players.Player1,
+                Origin = T(1),
+                UnitType = Unit.Spy,
+                Quantity = 1,
+            },
+        ];
+
+        CommandValidator.Validate(commands, World);
+
+        Assert.That(commands[0].IsRejected, Is.EqualTo(shouldBeRejected));
+
+        if (shouldBeRejected) {
+            Assert.That(commands[0].Rejections[0].Reason, Is.EqualTo(RejectReason.PromotingInTooLowLoyaltyTerritory));
+        }
+    }
+    
     [TestCase(0, false)]
     [TestCase(1, false)]
     [TestCase(2, true)]

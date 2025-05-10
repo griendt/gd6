@@ -71,4 +71,12 @@ public class PromoteArmy : Command, IHasOrigin
             .Where(promotion => promotion.UnitType == Unit.Army)
             .Each(promotion => promotion.Reject(RejectReason.InvalidPromotionUnitType));
     }
+
+    [Validator]
+    public static void ValidateMinimumPromotionLoyalty(List<PromoteArmy> promotions, World world)
+    {
+        promotions
+            .Where(promotion => promotion.UnitType.MinimumPromotionLoyalty() > promotion.Origin.Loyalty)
+            .Each(promotion => promotion.Reject(RejectReason.PromotingInTooLowLoyaltyTerritory));
+    }
 }

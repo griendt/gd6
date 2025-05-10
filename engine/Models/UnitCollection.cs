@@ -8,6 +8,7 @@ public class UnitCollection
     public int Armies => OfType(Unit.Army);
     public int Cavalries => OfType(Unit.Cavalry);
     public int Heavies => OfType(Unit.Heavy);
+    public int Spies => OfType(Unit.Spy);
     public bool IsEmpty => _units.Values.Sum() <= 0;
 
     public int OfType(Unit unitType) => _units.GetValueOrDefault(unitType, 0);

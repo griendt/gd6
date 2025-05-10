@@ -144,7 +144,7 @@ public class MoveArmyInvasionTest : BaseTest
         T(3).Units.AddArmies(10);
         T(4).Owner = Players.Player3;
         T(4).Units.AddArmies(4);
-        T(territoryIdWithIntelligence).Constructs.Add(Construct.Intelligence);
+        T(territoryIdWithIntelligence).Units.Add(Unit.Spy);
 
         var invasions = Enumerable.Range(1, numSent)
             .Select(i => new MoveUnit { Issuer = Players.Player2, Origin = T(3), Path = [T(3), T(4)] })
@@ -176,7 +176,7 @@ public class MoveArmyInvasionTest : BaseTest
     [Test]
     public void ItDoesNotApplyIntelligenceBonusIfNotOwned()
     {
-        T(1).Constructs.Add(Construct.Intelligence);
+        T(1).Units.Add(Unit.Spy);
         T(3).Owner = Players.Player2;
         T(3).Units.AddArmies(10);
         T(4).Owner = Players.Player3;

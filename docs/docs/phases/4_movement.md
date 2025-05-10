@@ -36,6 +36,7 @@ Each unit type has two statistics: health and speed. The table is as follows:
 | Army    | 1      | 2     |
 | Cavalry | 1      | 4     |
 | Heavy   | 2      | 1     |
+| Spy     | 0      | 1     |
 
 ## Distribution
 
@@ -50,8 +51,8 @@ As another example, if the neutral territory contains `7` mines instead, then fi
 
 A skirmish is resolved quite simply according to these rules:
 
-1. Each player involved in the skirmish suffers one damage, meaning they lose one health.
-2. Damage is applied to whichever unit's movement had the highest priority (i.e. first stated in the move list).
+1. Damage is applied to whichever unit's movement had the highest priority (i.e. first stated in the move list).
+2. Each player's unit suffers one damage. If the unit has `0` health, it is killed immediately and instead the next unit suffers the damage instead.
 3. If there are still two or more players involved in the skirmish, repeat steps 1 and 2, until at most one player is left.
 
 ??? "Neutral resolution"
@@ -64,6 +65,10 @@ A skirmish is resolved quite simply according to these rules:
 ??? "Units remaining after skirmish"
     It is possible that one player "wins" the skirmish and still has units left after the skirmish is resolved. 
     Then these units will proceed to move as usual. This can be an expansion or distribution (no further battle) or an Invasion.
+
+??? question "How do Spies work in a Skirmish?"
+    Spies have no health. This means they effectively cannot fight. In any conflict, such as *Skirmish*, they effectively do nothing except die immediately.
+    For example, if one player sends five Spies and the other player an Army, then all the Spies are killed and the Army survives!
 
 ## Invasion
 
@@ -81,11 +86,12 @@ An invasion is resolved by following these steps in order:
     If there are multiple unit types in the target territory, there is no player-defined "priority" like there is in a Skirmish.
     In this case, it is assumed that the defender's units are lined up in this predetermined order:
     
-    1. Heavy units;
-    2. Army units;
-    3. Cavalry units.
+    1. Spy units;
+    2. Heavy units;
+    3. Army units;
+    4. Cavalry units.
    
-    This makes Heavy units an excellent defensive choice (especially to protect your Cavalry).
+    This makes Heavy units an excellent defensive choice (especially to protect your Cavalry), and spies a dangerous choice to leave too close to enemy lines.
 
 !!! example
     Suppose an attacker is attacking with 3 Armies and 1 Heavy unit (in that order) and the defense contains 1 Heavy unit. 
@@ -124,15 +130,15 @@ the attacker is inflicted `2` additional damage (in addition to the regular inva
     In that case, the Watchtower is left standing. In any future moves (even in the same Turn), 
     the Watchtower will regain its full integrity. In other words, the sustained damage applies only for each Invasion or Skirmish individually.
 
-### Intelligence
+### Spies
 
-If the attacker has a Military Intelligence Center on their territory, or on a territory adjacent to that, then the attacking units can be provided with military intelligence.
+If the attacker has a Spy unit on their territory, or on a territory adjacent to it, then the attacking units can be provided with military intelligence.
 This allows them to operate more efficiently. As a result, the initial penalty for invasion will no longer apply.
 Military intelligence does *not* cancel the Watchtower perks.
 
 ??? example
     Suppose an attacker sends `6` armies to a territory that contains a Watchtower and one defending army. 
-    Suppose also that the origin of the attack is adjacent to a Military Intelligence Center that is under control of the attacker.
+    Suppose also that the origin of the attack is adjacent to territory with a Spy, that is under control of the attacker.
     Then the invasion proceeds as follows (and in this order):
 
     1. The attacker *does not* pay an initial penalty (intelligence effect);

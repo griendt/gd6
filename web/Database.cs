@@ -17,7 +17,7 @@ public class Gd6DbContext : DbContext
     public DbSet<HeadQuarter> HeadQuarters { get; set; }
     public DbSet<Boundary> Boundaries { get; set; }
 
-    private static string DbPath => "/files/gd6.db";
+    private static string DbPath => "/home/alex/projects/gd6/files/gd6.db";
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>
         options
@@ -125,6 +125,7 @@ public class Gd6DbContext : DbContext
             territory.Armies = engineTerritory.Units.Armies;
             territory.Cavalries = engineTerritory.Units.Cavalries;
             territory.Heavies = engineTerritory.Units.Heavies;
+            territory.Spies = engineTerritory.Units.Spies;
             territory.Mines = engineTerritory.Mines;
             territory.Loyalty = engineTerritory.Loyalty;
         });

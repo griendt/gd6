@@ -57,15 +57,18 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 
 ## Promoting units
 
-At the expense of `3` Influence Points, you may promote an *Army* unit to a *Cavalry* or a *Heavy* unit.
+There are several unit types that an *Army* type can promote into:
+ * **Cavalry**: Costs `3` Influence Points;
+ * **Heavy**: Costs `3` Influence Points;
+ * **Spy**: Costs `30` Influence Points, and can only be promoted in a territory with a minimum Loyalty of `2`.
 
-These units have separate colours on the map (brown for Cavalry, yellow for Heavy).
+These units have separate colours on the map (brown for Cavalry, yellow for Heavy, blue for Spy).
 
 !!! warning
     * You may not promote units that were spawned in the same turn.
     * Once promoted, units cannot be demoted or converted to other types.
 
-For a more in-depth explanation of how Cavalry and Heavy units work compared to Armies, see the [Unit types](4_movement.md/#unit-types) section.
+For a more in-depth explanation of how these units work compared to Armies, see the [Unit types](4_movement.md/#unit-types) section.
 
 ## Landmines
 
@@ -99,9 +102,3 @@ A Bivouac will increase your influx of Armies; see the [Bivouac rules](/phases/1
 
 At the expense of `10` Influence Points, plus an additional `10` Influence Points for each Library under your control at the start of this Turn, you can build a Library.
 A Library will give you an IP bonus; see the [Final Phase](/phases/5_final/).
-
-#### Military Intelligence Center
-
-At the expense of `20` Influence Points, you can build a Military Intelligence Center.
-An intelligence center gives armies in nearby regions an offensive boost by supplying them with military intelligence.
-See the [Intelligence rules](/phases/4_movement/#intellience) for details.

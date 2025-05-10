@@ -43,6 +43,10 @@
     <TerritoryHeaviesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
     <TerritoryHeaviesText Territory="Territory"/>
 }
+@if (Territory.Spies > 0) {
+    <TerritorySpiesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
+    <TerritorySpiesText Territory="Territory"/>
+}
 @if (Territory.Mines > 0) {
     <TerritoryMinesText Territory="Territory" Stroke="#000" StrokeWidth="4px"/>
     <TerritoryMinesText Territory="Territory"/>

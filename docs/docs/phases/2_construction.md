@@ -58,11 +58,20 @@ Furthermore, if you already own the land next to your *HQ* and have some units s
 ## Promoting units
 
 There are several unit types that an *Army* type can promote into:
+
  * **Cavalry**: Costs `3` Influence Points;
  * **Heavy**: Costs `3` Influence Points;
  * **Spy**: Costs `30` Influence Points, and can only be promoted in a territory with a minimum Loyalty of `2`.
 
-These units have separate colours on the map (brown for Cavalry, yellow for Heavy, blue for Spy).
+These units have separate colours on the map (brown for Cavalry, yellow for Heavy). Spy units are not visible on the map.
+
+!!! info "Turn updates concerning Spies"
+    When an Army is promoted to a Spy, the amount of Armies is reduced, which is visible on the map.
+    Therefore, it is possible for players to notice that promotions have taken place.
+    Because of this, Spy promotions **will** be mentioned in Turn updates!
+
+    However, it will **not** be mentioned where they are stationed, or where they are moving (unless they participate in combat).
+    This allows them to be stealthy and move in secrecy.
 
 !!! warning
     * You may not promote units that were spawned in the same turn.
@@ -77,7 +86,8 @@ At the expense of `5` Influence Points, you may lay a *Landmine* on any land ter
 * is currently under your control; **OR**
 * is adjacent to a territory you control and is not owned by anyone else.
 
-Landmines will be completely invisible to the map. Whenever any player attempts to claim ownership of a territory that contains a landmine, the landmine will explode and deal damage.
+Landmines will be completely invisible to the map, and I will not announce in Turn updates whether any Landmines were placed.
+Whenever any player attempts to claim ownership of a territory that contains a landmine, the landmine will explode and deal damage.
 See the [Movement Phase](4_movement.md) for more details.
 
 ## Building other constructs

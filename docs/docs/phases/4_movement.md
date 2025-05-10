@@ -44,6 +44,7 @@ Each unit type has two statistics: health and speed. The table is as follows:
 ## Distribution
 
 In a Distribution, the units simply move from the origin to the target.
+If the target did not yet belong to you, then you will gain ownership of it immediately after the move.
 
 [//]: # (However, if there are Landmines present in the target, and the target is not already owned by the player, then Landmines will trigger, one-by-one, dealing `1` damage each, until either there are no more units or Landmines left.)
 

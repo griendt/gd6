@@ -17,7 +17,7 @@ public class Gd6DbContext : DbContext
     public DbSet<HeadQuarter> HeadQuarters { get; set; }
     public DbSet<Boundary> Boundaries { get; set; }
 
-    private static string DbPath => "/home/alex/projects/gd6/gd6.db";
+    private static string DbPath => "/files/gd6.db";
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) =>
         options

@@ -5,7 +5,7 @@ using web;
 
 var world = new World();
 var parser = new GdlParser(world);
-var gdl = File.ReadAllText("/home/alex/projects/gd6/gdl/gd6.gdl");
+var gdl = File.ReadAllText("/files/gd6.gdl");
 var db = new Gd6DbContext();
 
 // Mutates world, so must be done before creating a new Game entry in the database.

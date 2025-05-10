@@ -19,9 +19,9 @@ SetCoordinates 15 400,600;440,660;450,720;500,800;550,750;460,540;420,550
 SetCoordinates 16 470,820;430,860;420,860;400,980;460,970;510,960;480,890;540,920;530,880
 AddPlayer Andrea #608
 AddPlayer Dentist #f00
-
-AddPlayer Psycho17 #000
-AddPlayer Raven #00f
+AddPlayer Raven #888
+AddPlayer Psycho17 #00f
+AddPlayer Nael #000
 AddPlayer Brew #ff0
 InitEnd
 

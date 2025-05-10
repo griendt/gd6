@@ -7,17 +7,18 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["frontend/frontend.csproj", "frontend/"]
-RUN dotnet restore "frontend/frontend.csproj"
+COPY ["web/web.csproj", "web/"]
+COPY ["engine/engine.csproj", "engine/"]
+RUN dotnet restore "web/web.csproj"
 COPY . .
-WORKDIR "/src/frontend"
+WORKDIR "/src/web"
 RUN dotnet build "web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "frontend.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "frontend.dll"]
+ENTRYPOINT ["dotnet", "web.dll"]

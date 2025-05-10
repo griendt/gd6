@@ -5,7 +5,7 @@ Each player has their own, secret *Inventory*. Items in this *Inventory* can be 
 It is possible to purchase an item for *Influence Points*, which are obtained in the [Final Phase](5_final.md).
 
 !!! warning
-Items that are purchased **cannot** be used in the same Turn! So be careful and plan ahead!
+    Items that are purchased **cannot** be used in the same Turn! So be careful and plan ahead!
 
 ## Crop Supply
 

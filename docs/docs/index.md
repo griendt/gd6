@@ -10,11 +10,15 @@ This edition aims to be several things, just like previous games:
 
 All players play their moves simultaneously, and in secret. Only the most devious can achieve domination.
 
-## How to read this rulebook?
-In principle, reading only the text that is immediately visible is important. Examples, edge cases, complex scenarios, and so on will be inside collapsible boxes like the one below. You should read these only if you are particularly interested or have questions about the main rules. Otherwise, skip them to not overload your brain.
-??? "A box full of secrets"
-    It's a surprise!
+## Note for recurring players
 
-Especially experienced GD players should read through only the main text and pay closer attention to sections with warnings like these:
-??? warning "Warning"
+Many of the rules are the same or similar. But some things work fundamentally differently.
+Big changes will be marked in warning boxes like these:
+
+!!! warning "Warning"
     404 Headquarter Not Found
+
+Edge cases, some examples and other info that is usually not critical will be folded in by default, to reduce clutter:
+
+??? tip "Extra info"
+    Tuuuuurn

@@ -25,7 +25,7 @@ public class Territory
     public int Mines { get; set; }
     public int Loyalty { get; set; }
 
-    public (int X, int Y) Centroid
+    public (long X, long Y) Centroid
     {
         get
         {
@@ -33,6 +33,7 @@ public class Territory
             // This avoids overflow errors when working with many coordinates with large numbers in them.
             var offsetX = Coordinates.First().X;
             var offsetY = Coordinates.First().Y;
+            
             var cs = Coordinates
                 .Select(coordinate => new Coordinate { X = coordinate.X - offsetX, Y = coordinate.Y - offsetY })
                 .ToList();
@@ -55,7 +56,7 @@ public class Territory
         }
     }
 
-    public int SignedArea => Enumerable
+    public long SignedArea => Enumerable
         .Range(0, Coordinates.Count)
         .Select(i => Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y)
         .Sum() / 2;
@@ -72,8 +73,8 @@ public class Territory
 
 public class Coordinate
 {
-    public int X { get; init; }
-    public int Y { get; init; }
+    public long X { get; init; }
+    public long Y { get; init; }
 }
 
 public class Construct

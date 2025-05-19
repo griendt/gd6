@@ -29,21 +29,29 @@ public class Territory
     {
         get
         {
+            // Optimisation so that we can work with relatively small numbers.
+            // This avoids overflow errors when working with many coordinates with large numbers in them.
+            var offsetX = Coordinates.First().X;
+            var offsetY = Coordinates.First().Y;
+            var cs = Coordinates
+                .Select(coordinate => new Coordinate { X = coordinate.X - offsetX, Y = coordinate.Y - offsetY })
+                .ToList();
+            
             var centroidX = Enumerable
-                .Range(0, Coordinates.Count)
+                .Range(0, cs.Count)
                 .Select(i =>
-                    (Coordinates[i].X + Coordinates[(i + 1) % Coordinates.Count].X) *
-                    (Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y))
+                    (cs[i].X + cs[(i + 1) % cs.Count].X) *
+                    (cs[i].X * cs[(i + 1) % cs.Count].Y - cs[(i + 1) % cs.Count].X * cs[i].Y))
                 .Sum() / (6 * SignedArea);
 
             var centroidY = Enumerable
-                .Range(0, Coordinates.Count)
+                .Range(0, cs.Count)
                 .Select(i =>
-                    (Coordinates[i].Y + Coordinates[(i + 1) % Coordinates.Count].Y) *
-                    (Coordinates[i].X * Coordinates[(i + 1) % Coordinates.Count].Y - Coordinates[(i + 1) % Coordinates.Count].X * Coordinates[i].Y))
+                    (cs[i].Y + cs[(i + 1) % cs.Count].Y) *
+                    (cs[i].X * cs[(i + 1) % cs.Count].Y - cs[(i + 1) % cs.Count].X * cs[i].Y))
                 .Sum() / (6 * SignedArea);
 
-            return (centroidX, centroidY);
+            return (centroidX + offsetX, centroidY + offsetY);
         }
     }
 

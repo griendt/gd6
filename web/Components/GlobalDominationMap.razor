@@ -5,12 +5,10 @@
 
 
 <div class="container" style="max-width: @($"{_width}px") !important; max-height: @($"{_height}px") !important;">
-    <h3 align="right">Map
+    <div align="right">Map
         <button class="align-content-end btn btn-sm btn-outline-primary" @onclick="LoadTerritories">Refresh</button>
         <button class="align-content-end btn btn-sm btn-outline-secondary" @onclick="() => _showLoyalty = !_showLoyalty">Toggle Loyalty</button>
-    </h3>
-    <h5></h5>
-    @* <h4>X: @_mouseX Y: @_mouseY</h4> *@
+    </div>
     <svg
         id="gd6-map"
         xmlns="http://www.w3.org/2000/svg"
@@ -53,13 +51,32 @@
             fill="#aaf2"
         />
         @foreach (var territory in _territories) {
-            @foreach (var waterBoundedTerritory in territory.BoundariesOverWater().Where(other => other.Id > territory.Id)) {
+            @foreach (var waterBoundedTerritory in territory
+                          .BoundariesOverWater()
+                          .Where(other => other.Id > territory.Id)
+                          .Where(other => Math.Abs(other.Centroid.X - territory.Centroid.X) < _width / 2)
+                     ) {
                 <line
                     stroke="#fff8"
                     stroke-width="15px"
                     stroke-dasharray="3,8"
                     x1="@territory.Centroid.X" y1="@territory.Centroid.Y"
                     x2="@waterBoundedTerritory.Centroid.X" y2="@waterBoundedTerritory.Centroid.Y">
+                </line>
+            }
+
+            @foreach (var waterBoundedTerritoryAcrossMapEdge in territory
+                          .BoundariesOverWater()
+                          .Where(other => Math.Abs(other.Centroid.X - territory.Centroid.X) >= _width / 2)
+            ) {
+                <line
+                    stroke="#fff8"
+                    stroke-width="15px"
+                    stroke-dasharray="3,8"
+                    x1="@territory.Centroid.X" y1="@territory.Centroid.Y"
+                    x2="@(territory.Centroid.X < waterBoundedTerritoryAcrossMapEdge.Centroid.X ? waterBoundedTerritoryAcrossMapEdge.Centroid.X - _width : waterBoundedTerritoryAcrossMapEdge.Centroid.X + _width)"
+                    y2="@waterBoundedTerritoryAcrossMapEdge.Centroid.Y"
+                    >
                 </line>
             }
         }
@@ -107,10 +124,10 @@
                 <TerritoryMinesText Territory="territory"/>
             }
 
-            @if (true) { //_showLoyalty && territory.Loyalty > 0) {
+            @if (_showLoyalty && territory.Loyalty > 0) {
                 <svg
                     x="@(territory.Centroid.X - 50)"
-                    y="@(territory.Centroid.Y - 50)"
+                    y="@(territory.Centroid.Y - 60)"
                     fill="#08f"
                     width="16px"
                     height="16px"
@@ -126,30 +143,16 @@
                 <text>
                     <text
                         x="@(territory.Centroid.X - 34)"
-                        y="@(territory.Centroid.Y - 56)"
+                        y="@(territory.Centroid.Y - 66)"
                         text-anchor="start"
                         font-family="Segoe UI"
-                        font-size="28"
+                        font-size="32"
                         font-weight="800"
                         dominant-baseline="hanging"
-                        style="filter: drop-shadow(0 0 2px #000);"
+                        stroke="#000"
+                        stroke-width="1px"
                         fill="#08f">
                         @territory.Loyalty
-                    </text>
-                </text>
-                
-                <text>
-                    <text
-                        x="@(territory.Centroid.X - 34)"
-                        y="@(territory.Centroid.Y - 86)"
-                        text-anchor="start"
-                        font-family="Segoe UI"
-                        font-size="28"
-                        font-weight="800"
-                        dominant-baseline="hanging"
-                        style="filter: drop-shadow(0 0 2px #000);"
-                        fill="#f11">
-                        @territory.Boundaries.Select(b => b.ToTerritory.Boundaries).SelectMany(b => b).Select(t => t.ToTerritory.Id).ToImmutableHashSet().Count
                     </text>
                 </text>
             }}

@@ -82,20 +82,20 @@ AddPlayer Maren #0ff
 AddPlayer Nael #ff0
 
 InitEnd
-
-// Turn 1
-Set Andrea
-Con 6 Hq
-Set Dentist
-Con 11 Hq
-Set Raven
-Con 21 Hq
-Set Psycho17
-Con 28 Hq
-Set EyeOn
-Con 40 Hq
-Set Nael
-Con 33 Hq
-Set Maren
-Con 47 Hq
-End
+//
+//// Turn 1
+//Set Andrea
+//Con 6 Hq
+//Set Dentist
+//Con 11 Hq
+//Set Raven
+//Con 21 Hq
+//Set Psycho17
+//Con 28 Hq
+//Set EyeOn
+//Con 40 Hq
+//Set Nael
+//Con 33 Hq
+//Set Maren
+//Con 47 Hq
+//End

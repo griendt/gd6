@@ -5,21 +5,12 @@
 
 
 <div class="container" style="max-width: @($"{_width}px") !important; max-height: @($"{_height}px") !important;">
-    <div class="p-2">
-    @*     $1$ <button class="text-sm-center align-content-end btn btn-outline-primary" @onclick="LoadTerritories">Refresh</button> #1# *@
-    @*     $1$ <button #1# *@
-    @*     $1$     class="align-content-end btn btn-sm m-1 btn-outline-secondary" #1# *@
-    @*     $1$     @onclick="() => _showLoyalty = !_showLoyalty"> #1# *@
-    @*     $1$     <div style="font-size: 12px !important">Toggle Loyalty</div> #1# *@
-    @*     $1$ </button> #1# *@
-    </div>
+    <div class="p-2"></div>
     <svg
         id="gd6-map"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 @_width @_height"
-        opacity="@_opacity"
-        @onmousemove="SetMouseXy"
-        @onmouseleave="UnSticky">
+        opacity="@_opacity">
         <defs>
             <filter id="lineBlur" x="0" y="0">
                 <feFlood flood-color="#444"/>
@@ -87,8 +78,6 @@
         @foreach (var territory in TerritoriesSorted) {
             <TerritorySvg
                 Territory="territory"
-                OnClick="() => SetActive(territory, true)"
-                OnMouseEnter="() => SetActive(territory, false)"
                 StrokeWidth="@StrokeWidth(territory)"
                 StrokeColour="@TerritoryStrokeColour(territory)"
                 FillColour="@TerritoryFillColour(territory)"
@@ -164,13 +153,6 @@
 
 </div>
 
-<script>
-    function getMapBaseXY() {
-        const position = document.getElementById("gd6-map").getBoundingClientRect();
-        return [position.left, position.top];
-    }
-</script>
-
 @code {
     #region styling
 
@@ -212,30 +194,4 @@
         .Where(t => t != _activeTerritory)
         .Concat(_activeTerritory == null ? [] : [_activeTerritory])
         .ToList();
-
-    private void SetActive(Territory territory, bool sticky)
-    {
-        if (sticky || !_isActiveTerritorySticky) {
-            _activeTerritory = territory;
-        }
-
-        _isActiveTerritorySticky |= sticky;
-
-        StateHasChanged();
-    }
-
-    private void UnSticky() => _isActiveTerritorySticky = false;
-
-    private async Task SetMouseXy(MouseEventArgs eventArgs)
-    {
-        await Callback();
-        return;
-
-        async Task Callback()
-        {
-            var result = await JsInterop.InvokeAsync<List<float>>("getMapBaseXY");
-            _mouseX = (int)(eventArgs.ClientX - result[0]);
-            _mouseY = (int)(eventArgs.ClientY - result[1]);
-        }
-    }
 }

@@ -78,6 +78,10 @@ public class Turn
             .OfType<CreateHq>()
             .Tap(createHqs => ValidateAndProcess(createHqs, true));
 
+        if (_abort) {
+            return;
+        }
+        
         commands
             .OfType<PromoteArmy>()
             .Tap(promotions => ValidateAndProcess(promotions));
@@ -112,6 +116,7 @@ public class Turn
 
     private void ProcessMovementPhase(List<Command> commands)
     {
+        var x = 3;
         var validMoves = commands
             .OfType<MoveUnit>()
             .Tap(moveArmies => CommandValidator.Validate(moveArmies, World))

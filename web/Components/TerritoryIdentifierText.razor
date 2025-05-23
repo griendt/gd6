@@ -10,7 +10,8 @@
     fill="@Fill"
     stroke="@Stroke"
     stroke-width="@StrokeWidth"
-
+    font-style="italic"
+    filter="url(#textShadow)"
     style="user-select: none; pointer-events: none"
 >
     @Territory.Identifier
@@ -19,7 +20,7 @@
 @code {
     [Parameter] public required Territory Territory { get; set; }
 
-    [Parameter] public string Fill { get; set; } = "var(--md-code-hl-constant-color)";
+    [Parameter] public string Fill { get; set; } = "var(--bs-warning)";
     [Parameter] public string Stroke { get; set; } = "#000";
     [Parameter] public string StrokeWidth { get; set; } = "0";
 }

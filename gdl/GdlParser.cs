@@ -159,7 +159,7 @@ public partial class GdlParser(World world)
             throw new UnknownTerritoryException();
         }
 
-        territory.Identifier = command[2];
+        territory.Identifier = string.Join(' ', command.Skip(2));
     }
 
     private void CreateTerritoryCoordinates(string[] command)

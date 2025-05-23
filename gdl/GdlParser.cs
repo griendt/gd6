@@ -70,6 +70,7 @@ public partial class GdlParser(World world)
                     "SetNumTerritories" => CreateTerritories,
                     "SetCoordinates" => CreateTerritoryCoordinates,
                     "SetBoundaries" => CreateTerritoryBoundaries,
+                    "SetIdentifier" => SetTerritoryIdentifier,
                     _ => throw new UnknownCommandType(),
                 };
 
@@ -141,6 +142,24 @@ public partial class GdlParser(World world)
 
             world.AddBorder(world.Territories[territoryIds[0]], world.Territories[territoryIds[1]]);
         }
+    }
+
+    private void SetTerritoryIdentifier(string[] command)
+    {
+        int territoryId;
+
+        try {
+            territoryId = int.Parse(command[1]);
+        }
+        catch (FormatException) {
+            throw new UnknownTerritoryException();
+        }
+
+        if (!world.Territories.TryGetValue(territoryId, out var territory)) {
+            throw new UnknownTerritoryException();
+        }
+
+        territory.Identifier = command[2];
     }
 
     private void CreateTerritoryCoordinates(string[] command)

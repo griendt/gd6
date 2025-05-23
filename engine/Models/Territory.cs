@@ -10,6 +10,7 @@ public class Territory(World world)
 
     // Purely for web
     public readonly List<(int, int)> Coordinates = [];
+    public string Identifier = "";
     public readonly UnitCollection Units = new();
 
     private int _incurredDamage;

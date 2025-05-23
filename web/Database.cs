@@ -80,7 +80,7 @@ public class Gd6DbContext : DbContext
             .ForEach(territory => Territories.Add(new Territory
             {
                 Id = territory.Id,
-                Identifier = $"{territory.Id}",
+                Identifier = string.IsNullOrEmpty(territory.Identifier) ? $"{territory.Id}" : territory.Identifier,
                 Coordinates = territory.Coordinates.Select(xy => new Coordinate { X = xy.Item1, Y = xy.Item2 }).ToList(),
                 Headquarter = null,
             }));
